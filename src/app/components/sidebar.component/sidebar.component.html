@@ -1,15 +1,12 @@
 <!-- Overlay oscuro para móviles (se muestra solo si isOpen es true) -->
 @if (isOpen) {
-  <div 
-    class="fixed inset-0 bg-black/20 z-40 md:hidden backdrop-blur-sm transition-opacity"
-    (click)="onClose()">
-  </div>
+  <div class="absolute inset-0 bg-black/20 z-40 md:hidden backdrop-blur-sm" (click)="onClose()"></div>
 }
 
 <!-- Contenedor principal del Sidebar -->
 <!-- En móviles: se desliza desde la izquierda. En PC (md): siempre visible y estático -->
 <aside 
-  class="shrink-0 fixed top-16 left-0 bottom-0 w-64 bg-white border-r-2 border-blue-100 shadow-md z-50 transform transition-transform duration-300 ease-in-out md:translate-x-0 md:static md:z-0 flex flex-col md:h-full"
+  class="absolute inset-y-0 left-0 w-64 bg-white border-r-2 border-blue-100 shadow-md z-50 transform transition-transform duration-300 md:relative md:h-full md:translate-x-0 flex flex-col shrink-0"
   [class.-translate-x-full]="!isOpen"
   [class.translate-x-0]="isOpen"
 >

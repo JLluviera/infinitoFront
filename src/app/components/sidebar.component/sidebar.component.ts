@@ -5,7 +5,8 @@ import { CommonModule } from '@angular/common';
   selector: 'app-sidebar',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './sidebar.component.html'
+  templateUrl: './sidebar.component.html',
+  host: { class: 'contents' }
 })
 export class SidebarComponent {
   // Recibe el estado desde el layout principal (para móviles)
