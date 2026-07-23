@@ -1,32 +1,35 @@
-<header class="bg-white border-b-2 border-blue-600 shadow-sm transition-all z-10 relative">
+<header class="bg-white border-b border-gray-100 shadow-sm z-10 relative">
   <div class="container mx-auto px-4 h-16 flex items-center justify-between">
     
     <!-- Logo / Marca -->
-    <div class="flex items-center gap-2 cursor-pointer">
-      <img src="images/images.png" alt="Logo" class="h-10 w-auto">
-      <span class="text-2xl font-bold text-blue-600">Infinito Viajes</span>
-      
+    <div class="flex items-center gap-3 cursor-pointer">
+      <img src="images/images.png" alt="Logo" class="h-8 w-auto">
+      <!-- Tipografía más moderna: texto oscuro con el acento en color celeste "viaje" -->
+      <span class="text-xl font-extrabold text-slate-800 tracking-tight">
+        Infinito <span class="text-sky-500">Viajes</span>
+      </span>
     </div>
 
-    <!-- Navegación de Escritorio (Oculta en móviles) -->
-    <nav class="hidden md:flex items-center gap-6">      
-      <!-- Botón principal en azul -->
-      <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md font-medium transition-colors">
+    <!-- Contenedor Derecho: Botón + Menú Hamburguesa -->
+    <div class="flex items-center gap-3">
+      
+      <!-- Botón Ingresar: Ahora fuera del nav oculto, siempre visible. Diseño más suave (pill) -->
+      <button class="bg-sky-50 text-sky-600 hover:bg-sky-500 hover:text-white border border-sky-100 px-5 py-2 rounded-full text-sm font-bold transition-all shadow-sm">
         Ingresar
       </button>
-    </nav>
 
-    <!-- Botón de Sidebar (Visible solo en móviles y tablets pequeñas) -->
-    <button 
-      class="md:hidden p-2 text-blue-600 hover:text-orange-500 focus:outline-none transition-colors rounded-md hover:bg-blue-50"
-      (click)="onToggleSidebar()"
-      aria-label="Alternar menú lateral"
-    >
-      <!-- Ícono de Hamburguesa en SVG -->
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-    </button>
+      <!-- Botón de Sidebar (Visible solo en móviles y tablets pequeñas) -->
+      <button 
+        class="md:hidden p-2 text-slate-500 hover:text-orange-500 focus:outline-none transition-colors rounded-lg hover:bg-slate-50"
+        (click)="onToggleSidebar()"
+        aria-label="Alternar menú lateral"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      
+    </div>
     
   </div>
-</header>
+</header> 
