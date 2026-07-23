@@ -1,26 +1,25 @@
-<header class="bg-white border-b border-gray-100 shadow-sm z-10 relative">
+<header class="bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800 shadow-sm z-10 relative transition-colors duration-300">
   <div class="container mx-auto px-4 h-16 flex items-center justify-between">
     
     <!-- Logo / Marca -->
     <div class="flex items-center gap-3 cursor-pointer">
       <img src="images/images.png" alt="Logo" class="h-8 w-auto">
-      <!-- Tipografía más moderna: texto oscuro con el acento en color celeste "viaje" -->
-      <span class="text-xl font-extrabold text-slate-800 tracking-tight">
-        Infinito <span class="text-sky-500">Viajes</span>
+      <span class="text-xl font-extrabold text-slate-800 dark:text-white tracking-tight transition-colors">
+        Infinito <span class="text-sky-500 dark:text-sky-400">Viajes</span>
       </span>
     </div>
 
     <!-- Contenedor Derecho: Botón + Menú Hamburguesa -->
     <div class="flex items-center gap-3">
       
-      <!-- Botón Ingresar: Ahora fuera del nav oculto, siempre visible. Diseño más suave (pill) -->
-      <button class="bg-sky-50 text-sky-600 hover:bg-sky-500 hover:text-white border border-sky-100 px-5 py-2 rounded-full text-sm font-bold transition-all shadow-sm">
+      <!-- Botón Ingresar adaptado al modo oscuro -->
+      <button class="bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 hover:bg-sky-500 dark:hover:bg-sky-500 hover:text-white dark:hover:text-white border border-sky-100 dark:border-sky-500/20 px-5 py-2 rounded-full text-sm font-bold transition-all shadow-sm">
         Ingresar
       </button>
 
-      <!-- Botón de Sidebar (Visible solo en móviles y tablets pequeñas) -->
+      <!-- Botón de Sidebar -->
       <button 
-        class="md:hidden p-2 text-slate-500 hover:text-orange-500 focus:outline-none transition-colors rounded-lg hover:bg-slate-50"
+        class="md:hidden p-2 text-slate-500 dark:text-slate-400 hover:text-orange-500 dark:hover:text-orange-400 focus:outline-none transition-colors rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800"
         (click)="onToggleSidebar()"
         aria-label="Alternar menú lateral"
       >
@@ -32,4 +31,4 @@
     </div>
     
   </div>
-</header> 
+</header>

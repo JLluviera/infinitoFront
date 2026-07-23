@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output, Renderer2, inject } from '@angular/core';
+import { CommonModule, DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,6 +9,11 @@ import { CommonModule } from '@angular/common';
   host: { class: 'contents' }
 })
 export class SidebarComponent {
+  private document = inject(DOCUMENT);
+  private renderer = inject(Renderer2);
+
+  isDarkMode = false; 
+
   // Recibe el estado desde el layout principal (para móviles)
   @Input() isOpen: boolean = false;
   
@@ -17,5 +22,15 @@ export class SidebarComponent {
 
   onClose(): void {
     this.closeSidebar.emit();
+  }
+
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+
+    if (this.isDarkMode) {
+      this.renderer.addClass(this.document.body, 'dark');
+    } else {
+      this.renderer.removeClass(this.document.body, 'dark');
+    }
   }
 }
