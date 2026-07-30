@@ -1,3 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
-
+/* Modifica tu archivo style.css para que quede así: */
 @import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
