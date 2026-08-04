@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ClientesService } from '../../services/clientes.service';
+import { ClientesService } from '../../services/clientes.service/clientes.service';
 import { Cliente } from '../../models/cliente.model';
 @Component({
   selector: 'app-lista-clientes',
