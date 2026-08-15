@@ -1,0 +1,56 @@
+<h2>Crear nuevo destino</h2>
+
+<form (ngSubmit)="onSubmit()">
+
+  <div>
+    <label  for="nombre">Nombre</label>
+    <input class="Formulario"
+      id="nombre"
+      type="text"
+      [(ngModel)]="nuevoDestino.nombre"
+      name="nombre"
+      required
+    >
+  </div>
+
+  <div>
+    <label for="ciudad">Ciudad</label>
+    <input class="Formulario"
+      id="ciudad"
+      type="text"
+      [(ngModel)]="nuevoDestino.ciudad"
+      name="ciudad"
+      required
+    >
+  </div>
+
+  <div>
+    <label for="pais">País</label>
+    <input class="Formulario"
+      id="pais"
+      type="text"
+      [(ngModel)]="nuevoDestino.pais"
+      name="pais"
+      required
+    >
+  </div>
+
+  <div>
+    <label for="descripcion">Descripción</label>
+    <textarea class="Formulario"
+      id="descripcion"
+      [(ngModel)]="nuevoDestino.descripcion"
+      name="descripcion"
+      required
+    ></textarea>
+  </div>
+
+  <button class="botonForm" type="submit">
+    Guardar
+  </button>
+
+  <button class="botonForm" type="button" (click)="onCerrar()">
+    Cancelar
+  </button>
+
+</form>

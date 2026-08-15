@@ -1,4 +1,19 @@
 <h2>Destinos</h2>
+<button
+  class="btn-primario"
+  (click)="mostrarFormulario = true">
+  Crear destino
+</button>
+
+@if (mostrarFormulario) {
+  <app-destino-formulario
+    (guardar)="crearDestino($event)"
+    (cerrar)="mostrarFormulario = false">
+  </app-destino-formulario>
+}
+
+<hr>
+
 <button class="btn-primario"(click)="obtenerDestinos()">Mostrar lista de destinos</button>
 
 @for (destino of destinos; track destino.id) {

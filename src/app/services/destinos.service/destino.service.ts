@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from '../../config/api-config.token';
 import { Observable } from 'rxjs';
-import { Destino } from '../../models/destino.model';
+import { Destino,CrearDestino } from '../../models/destino.model';
 
 @Injectable({
   providedIn: 'root',
@@ -22,9 +22,9 @@ export class DestinoService {
     return this.http.get<Destino>(`${this.endpoint}/${id}`);
   }
 
-  crearDestino(destino: Destino): Observable<Destino> {
-    return this.http.post<Destino>(this.endpoint, destino);
-  }
+  crearDestino(nuevoDestino: CrearDestino): Observable<Destino> {
+  return this.http.post<Destino>(this.endpoint, nuevoDestino);
+}
 
   editarDestino(id: number, destino: Destino): Observable<Destino> {
     return this.http.put<Destino>(`${this.endpoint}/${id}`, destino);

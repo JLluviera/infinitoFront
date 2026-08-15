@@ -5,3 +5,9 @@ export interface Destino{
     ciudad: string;
     descripcion: string;
 }
+export interface CrearDestino {
+  nombre: string;
+  ciudad: string;
+  pais: string;
+  descripcion: string;
+}

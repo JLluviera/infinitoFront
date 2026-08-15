@@ -31,7 +31,7 @@ export const routes: Routes = [
       // Ruta por defecto
       {
         path: '',
-        redirectTo: 'destinos',
+        redirectTo: '',
         pathMatch: 'full'
       }
     ]
