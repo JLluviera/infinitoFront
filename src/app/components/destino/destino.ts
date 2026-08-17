@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Destino,CrearDestino } from '../../models/destino.model';
 import { DestinoService } from '../../services/destinos.service/destino.service';
 import { CommonModule } from '@angular/common';
@@ -16,6 +16,7 @@ export class DestinoComponent  {
 
   destinos: Destino[] = [];
   mostrarFormulario = false;
+  destinoEditando: Destino | null = null;
 
   obtenerDestinos(): void {
     this.destinoService.obtenerDestinos().subscribe({
@@ -33,8 +34,6 @@ export class DestinoComponent  {
   this.destinoService.eliminarDestino(id).subscribe({
     next: () => {
       console.log('Destino eliminado correctamente');
-
-      // Volvemos a cargar la lista
       this.obtenerDestinos();
     },
     error: (error) => {
@@ -53,5 +52,31 @@ crearDestino(destino: CrearDestino): void {
         console.error('Error al crear destino:', error);
       }
     });
+  }
+  editarDestino(destino: Destino): void {
+    this.destinoEditando = destino;
+    this.mostrarFormulario = true;
+  }
+
+  guardarDestino(datos: CrearDestino): void {
+  if (this.destinoEditando) {
+    // Modo edición
+    this.destinoService.editarDestino(this.destinoEditando.id, datos).subscribe({
+      next: () => this.finalizarFormulario(),
+      error: (err) => console.error(err)
+    });
+  } else {
+    // Modo creación
+    this.destinoService.crearDestino(datos).subscribe({
+      next: () => this.finalizarFormulario(),
+      error: (err) => console.error(err)
+    });
+  }
+}
+
+  private finalizarFormulario(): void {
+    this.mostrarFormulario = false;
+    this.destinoEditando = null;
+    this.obtenerDestinos();
   }
 }

@@ -1,13 +1,13 @@
 export interface Destino{
     id: number;
     nombre:string;
-    pais: string;
+    idPais: number;
     ciudad: string;
     descripcion: string;
 }
 export interface CrearDestino {
   nombre: string;
   ciudad: string;
-  pais: string;
+  idPais: number;
   descripcion: string;
 }

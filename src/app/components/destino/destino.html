@@ -7,8 +7,10 @@
 
 @if (mostrarFormulario) {
   <app-destino-formulario
-    (guardar)="crearDestino($event)"
+    [destinoEditar]="destinoEditando"
+    (guardar)="guardarDestino($event)"
     (cerrar)="mostrarFormulario = false">
+
   </app-destino-formulario>
 }
 
@@ -20,9 +22,10 @@
   <div>
     <h2 style="font-size: larger;">{{ destino.nombre }}</h2>
     <p>Ciudad: {{ destino.ciudad }}</p>
-    <p>País: {{ destino.pais }}</p>
+    <p>País: {{ destino.idPais }}</p>
     <p>Descripcion: {{ destino.descripcion }}</p>
     <button class="btn-borrar"(click)="eliminarDestino(destino.id)">Eliminar</button>
+    <button class="btn-primario"(click)="editarDestino(destino)">Editar</button>
     <hr>
     <br>
   </div>

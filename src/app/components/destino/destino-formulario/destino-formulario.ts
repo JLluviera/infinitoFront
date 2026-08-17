@@ -1,4 +1,4 @@
-import { Component,EventEmitter, Output } from '@angular/core';
+import { Component,EventEmitter, Output,Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Destino,CrearDestino } from '../../../models/destino.model';
@@ -16,12 +16,22 @@ export class DestinoFormulario {
   
   // Evento para avisar al padre que el usuario canceló
   @Output() cerrar = new EventEmitter<void>();
+  @Input() set destinoEditar(destino: Destino | null) {
+    if (destino) {
+      this.nuevoDestino = {
+       nombre: destino.nombre,
+        ciudad: destino.ciudad,
+       idPais: destino.idPais,
+       descripcion: destino.descripcion
+      };
+    }
+} 
 
   // Objeto donde se guardarán los campos del formulario
   nuevoDestino: CrearDestino = {
   nombre: '',
   ciudad: '',
-  pais: '',
+  idPais:0,
   descripcion: ''
 };
 

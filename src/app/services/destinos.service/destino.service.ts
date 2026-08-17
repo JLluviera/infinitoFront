@@ -26,7 +26,7 @@ export class DestinoService {
   return this.http.post<Destino>(this.endpoint, nuevoDestino);
 }
 
-  editarDestino(id: number, destino: Destino): Observable<Destino> {
+  editarDestino(id: number, destino: CrearDestino): Observable<Destino> {
     return this.http.put<Destino>(`${this.endpoint}/${id}`, destino);
   }
 
