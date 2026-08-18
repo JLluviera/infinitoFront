@@ -1,0 +1,90 @@
+<div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl shadow-xs overflow-hidden transition-colors duration-300">
+  
+  <!-- Cabecera de la sección opcional -->
+  <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+    <div>
+      <h3 class="text-base font-bold text-slate-800 dark:text-white tracking-tight">Listado de Países</h3>
+      <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Gestión y destinos asociados registrados en el sistema</p>
+    </div>
+  </div>
+
+  <!-- Contenedor responsive con scroll horizontal -->
+  <div class="overflow-x-auto">
+    <app-boton-agregar-pais></app-boton-agregar-pais>
+    <table class="w-full text-left border-collapse">
+      
+      <!-- Table Header -->
+      <thead>
+        <tr class="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700/80 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+          <th scope="col" class="px-6 py-3.5"># ID</th>
+          <th scope="col" class="px-6 py-3.5">Nombre del País</th>
+          <th scope="col" class="px-6 py-3.5">Código</th>
+          <th scope="col" class="px-6 py-3.5">Destinos Disponibles</th>
+          <th scope="col" class="px-6 py-3.5 text-right">Acciones</th>
+        </tr>
+      </thead>
+
+      <!-- Table Body -->
+      <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60 text-sm text-slate-700 dark:text-slate-300">
+        
+        <!-- Usamos el async pipe con @for y alternamos colores con let isEven = $even -->
+        @for (pais of (paises$ | async); track pais.id; let isEven = $even) {
+          <tr 
+            class="transition-colors hover:bg-sky-50/50 dark:hover:bg-slate-800/50 cursor-pointer"
+            [class.bg-slate-50_50]="isEven"
+            [class.dark:bg-slate-900]="isEven"
+            [class.bg-white]="!isEven"
+            [class.dark:bg-slate-800_30]="!isEven">
+            
+            <!-- ID -->
+            <td class="px-6 py-4 whitespace-nowrap font-bold text-slate-900 dark:text-white">
+              {{ pais.id }}
+            </td>
+
+            <!-- Nombre -->
+            <td class="px-6 py-4 whitespace-nowrap font-medium text-slate-800 dark:text-slate-200">
+              {{ pais.nombre }}
+            </td>
+
+            <!-- Código de País -->
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                {{ pais.codigoPais }}
+              </span>
+            </td>
+
+            <!-- Lista anidada de Destinos (Recorremos el array secundario) -->
+            <td class="px-6 py-4">
+              <div class="flex flex-wrap gap-1.5 max-w-xs">
+                @for (destino of pais.destinos; track destino.id) {
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-100 dark:border-sky-500/20">
+                    {{ destino.nombre }}
+                  </span>
+                } @empty {
+                  <span class="text-xs text-slate-400 dark:text-slate-500 italic">Sin destinos cargados</span>
+                }
+              </div>
+            </td>
+
+            <!-- Botones de Acción por fila -->
+            <td class="px-6 py-4 whitespace-nowrap text-right space-x-2">
+              <button 
+                class="bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 hover:bg-sky-500 dark:hover:bg-sky-500 hover:text-white dark:hover:text-white border border-sky-100 dark:border-sky-500/20 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-2xs cursor-pointer">
+                Editar
+              </button>
+            </td>
+
+          </tr>
+        } @empty {
+          <!-- Mensaje cuando la tabla está vacía o cargando -->
+          <tr>
+            <td colspan="5" class="px-6 py-12 text-center text-slate-400 dark:text-slate-500">
+              No se encontraron países registrados o cargando información...
+            </td>
+          </tr>
+        }
+
+      </tbody>
+    </table>
+  </div>
+</div>

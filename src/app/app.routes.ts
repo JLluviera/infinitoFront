@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login.component/login.component';
 import { LayoutComponent } from './pages/layout.component/layout.component';
 import { DestinoComponent } from './components/destino/destino';
+import { PaisListadoComponent } from './components/pais/pais.listado.component/pais.listado.component';
 
 import { authGuard } from './services/auth.service/auth.guard';
 
@@ -26,6 +27,12 @@ export const routes: Routes = [
       {
         path: 'destinos',
         component: DestinoComponent
+      },
+
+      // Paises
+      {
+        path: 'paises',
+        component: PaisListadoComponent
       },
 
       // Ruta por defecto
