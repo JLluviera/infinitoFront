@@ -1,0 +1,14 @@
+<h2>Destinos</h2>
+<button class="btn-primario"(click)="obtenerDestinos()">Mostrar lista de destinos</button>
+
+@for (destino of destinos; track destino.id) {
+  <div>
+    <h2 style="font-size: larger;">{{ destino.nombre }}</h2>
+    <p>Ciudad: {{ destino.ciudad }}</p>
+    <p>País: {{ destino.pais }}</p>
+    <p>Descripcion: {{ destino.descripcion }}</p>
+    <button class="btn-borrar"(click)="eliminarDestino(destino.id)">Eliminar</button>
+    <hr>
+    <br>
+  </div>
+}

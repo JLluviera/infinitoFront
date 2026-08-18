@@ -1,0 +1,47 @@
+.btn-primario {
+  background-color: #2563eb; /* Un azul moderno */
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px; /* Bordes redondeados */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out; /* Efecto suave */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+.btn-primario:hover {
+  background-color: #1d4ed8; /* Azul más oscuro al pasar el mouse */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra un poco más grande */
+  transform: translateY(-2px); /* Se levanta un poquito */
+}
+
+.btn-primario:active {
+  transform: translateY(0); /* Efecto de "hundirse" al hacer clic */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn-borrar {
+  background-color: #eb255a; /* Un azul moderno */
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px; /* Bordes redondeados */
+  cursor: pointer;
+  transition: all 0.2s ease-in-out; /* Efecto suave */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+.btn-borrar:hover {
+  background-color: #c90000; /* Azul más oscuro al pasar el mouse */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra un poco más grande */
+  transform: translateY(-2px); /* Se levanta un poquito */
+}
+
+.btn-borrar:active {
+  transform: translateY(0); /* Efecto de "hundirse" al hacer clic */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
