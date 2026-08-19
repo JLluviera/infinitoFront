@@ -1,0 +1,106 @@
+<!-- Botón que dispara el modal (Estilo basado en tu paleta "Sky") -->
+<button 
+  (click)="abrirModal()"
+  class="bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 hover:bg-sky-500 dark:hover:bg-sky-500 hover:text-white dark:hover:text-white border border-sky-100 dark:border-sky-500/20 px-4 py-2 rounded-full text-sm font-bold transition-all shadow-2xs flex items-center gap-2 cursor-pointer"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+  </svg>
+  <span>Agregar País</span>
+</button>
+
+<!-- Nueva sintaxis de control de flujo de Angular (v17+) -->
+@if (isOpen()) {
+  <!-- Overlay del modal con fondo oscuro y efecto blur -->
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity">
+    
+    <!-- Contenedor principal del modal -->
+    <div 
+      class="bg-white dark:bg-slate-900 w-full max-w-md rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col transform transition-all"
+      (click)="$event.stopPropagation()"
+    >
+      
+      <!-- Cabecera del modal -->
+      <div class="px-6 py-4 border-b border-gray-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-slate-900">
+        <h3 class="text-lg font-extrabold text-slate-800 dark:text-white tracking-tight">
+          Nuevo <span class="text-sky-500 dark:text-sky-400">País</span>
+        </h3>
+        <button 
+          (click)="cerrarModal()" 
+          class="text-slate-400 hover:text-rose-500 dark:hover:text-rose-400 transition-colors p-1 rounded-full hover:bg-rose-50 dark:hover:bg-slate-800 focus:outline-none"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Cuerpo del modal (Formulario) -->
+      <form [formGroup]="paisForm" (ngSubmit)="submitForm()">
+        <div class="p-6 space-y-5">
+          
+          <!-- Input: Nombre del País -->
+          <div>
+            <label for="nombre" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+              Nombre del País
+            </label>
+            <input 
+              type="text" 
+              id="nombre" 
+              formControlName="nombre" 
+              placeholder="Ej. Uruguay"
+              class="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500/50 dark:focus:ring-sky-400/50 focus:border-sky-500 dark:focus:border-sky-400 transition-colors"
+              [class.border-rose-500]="paisForm.get('nombre')?.invalid && paisForm.get('nombre')?.touched"
+            >
+            @if (paisForm.get('nombre')?.invalid && paisForm.get('nombre')?.touched) {
+              <span class="text-xs text-rose-500 mt-1.5 block">El nombre es requerido.</span>
+            }
+          </div>
+
+          <!-- Input: Código del País -->
+          <div>
+            <label for="codigo" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+              Código del País
+            </label>
+            <input 
+              type="text" 
+              id="codigo" 
+              formControlName="codigo" 
+              placeholder="Ej. UY, ARG, ESP"
+              class="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500/50 dark:focus:ring-sky-400/50 focus:border-sky-500 dark:focus:border-sky-400 transition-colors uppercase"
+              [class.border-rose-500]="paisForm.get('codigo')?.invalid && paisForm.get('codigo')?.touched"
+            >
+            @if (paisForm.get('codigo')?.invalid && paisForm.get('codigo')?.touched) {
+              <span class="text-xs text-rose-500 mt-1.5 block">Ingrese un código válido.</span>
+            }
+          </div>
+
+        </div>
+
+        <!-- Pie del modal (Botones de acción) -->
+        <div class="px-6 py-4 border-t border-gray-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex justify-end gap-3">
+          
+          <button 
+            type="button" 
+            (click)="cerrarModal()"
+            class="px-4 py-2 rounded-full text-sm font-bold text-slate-600 dark:text-slate-300 bg-slate-200/50 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none"
+          >
+            Cancelar
+          </button>
+          
+          <button 
+            type="submit"
+            [disabled]="paisForm.invalid"
+            class="px-5 py-2 rounded-full text-sm font-bold text-white bg-sky-500 hover:bg-sky-600 dark:bg-sky-500 dark:hover:bg-sky-400 transition-colors shadow-md shadow-sky-500/20 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            Guardar País
+          </button>
+          
+        </div>
+      </form>
+    </div>
+  </div>
+}

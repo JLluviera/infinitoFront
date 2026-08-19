@@ -5,6 +5,7 @@ import { Destino,CrearDestino } from '../../../models/destino.model';
 
 @Component({
   selector: 'app-destino-formulario',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './destino-formulario.html',
   styleUrl: './destino-formulario.css',
@@ -47,5 +48,6 @@ export class DestinoFormulario {
   onCerrar() {
     this.cerrar.emit();
   }
+  
 }
 

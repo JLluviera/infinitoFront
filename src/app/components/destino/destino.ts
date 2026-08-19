@@ -3,6 +3,7 @@ import { Destino,CrearDestino } from '../../models/destino.model';
 import { DestinoService } from '../../services/destinos.service/destino.service';
 import { CommonModule } from '@angular/common';
 import { DestinoFormulario } from './destino-formulario/destino-formulario';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-destino',
@@ -13,6 +14,7 @@ import { DestinoFormulario } from './destino-formulario/destino-formulario';
 export class DestinoComponent  {
 
   private destinoService = inject(DestinoService);
+  private cdr = inject(ChangeDetectorRef);
 
   destinos: Destino[] = [];
   mostrarFormulario = false;
@@ -23,6 +25,7 @@ export class DestinoComponent  {
       
       next: (destinos) => {
         this.destinos = destinos;
+        this.cdr.detectChanges();
       },
       error: (error) => {
         console.error('Error al obtener destinos:', error);
