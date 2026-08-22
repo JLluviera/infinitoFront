@@ -3,9 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PaisCrear } from '../../../models/paisCrear.model';
 import { PaisesService } from '../../../services/paises.service/paises.service';
-import { Observable } from 'rxjs';
-
-import { Pais } from '../../../models/pais.model';
 
 @Component({
   selector: 'app-boton-agregar-pais',
@@ -13,28 +10,19 @@ import { Pais } from '../../../models/pais.model';
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './pais.boton-agregar.component.html'
 })
-export class paisBotonAgregarComponent {
+export class PaisBotonAgregarComponent {
   private paisesService = inject(PaisesService);
-  // Manejo del estado del modal con Signals (Angular v16+)
+  private fb = inject(FormBuilder);
+
+  // Opcional: Si quieres notificar al padre para que recargue la lista de países tras guardar
+  @Output() paisCreado = new EventEmitter<void>();
+
   isOpen = signal<boolean>(false);
   
-  paisForm: FormGroup;
-
-  // Emite los datos al componente padre. La lógica de la API la manejas allí.
-  onGuardar(): any {
-    const pais: PaisCrear = {
-      Nombre: this.paisForm.get('nombre')?.value,
-      CodigoPais: this.paisForm.get('codigo')?.value
-    };
-    return this.paisesService.postPais(pais);
-  };
-
-  constructor(private fb: FormBuilder) {
-    this.paisForm = this.fb.group({
-      nombre: ['', [Validators.required, Validators.minLength(2)]],
-      codigo: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(5)]]
-    });
-  }
+  paisForm: FormGroup = this.fb.group({
+    nombre: ['', [Validators.required, Validators.minLength(2)]],
+    codigo: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(5)]]
+  });
 
   abrirModal() {
     this.isOpen.set(true);
@@ -46,14 +34,27 @@ export class paisBotonAgregarComponent {
   }
 
   submitForm() {
-    if (this.paisForm.valid) {
-      var result = this.onGuardar;
-      if(result instanceof Observable) {
-        console.log('Creado correctamente');
-      this.cerrarModal();
-    } else {
-      // Marca todos los campos como tocados para mostrar errores si los hay
+    if (this.paisForm.invalid) {
+      // Si el formulario no es válido, marca los campos para mostrar los errores visuales
       this.paisForm.markAllAsTouched();
+      return;
     }
+
+    const pais: PaisCrear = {
+      Nombre: this.paisForm.get('nombre')?.value,
+      CodigoPais: this.paisForm.get('codigo')?.value
+    };
+
+    // Nos suscribimos al servicio para gatillar la petición POST
+    this.paisesService.postPais(pais).subscribe({
+      next: (response) => {
+        console.log('Creado correctamente', response);
+        this.cerrarModal();
+        this.paisCreado.emit(); // Notifica al componente padre
+      },
+      error: (error) => {
+        console.error('Error al crear el país:', error);
+      }
+    });
   }
-}}
+}

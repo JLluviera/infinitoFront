@@ -29,4 +29,7 @@ export class PaisesService {
   postPais(pais: PaisCrear): Observable<Pais> {
     return this.http.post<Pais>(`${this.apiUrl}/api/Paises`, pais);
   }
+  deletePais(id:number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/api/Paises/${id}`);
+  }
 }

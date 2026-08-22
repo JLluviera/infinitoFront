@@ -6,3 +6,7 @@ export interface Pais {
     codigoPais: string;
     destinos: Destino[];
 }
+export interface PaisCrear {
+    Nombre: string;
+    CodigoPais: String;
+}
