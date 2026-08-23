@@ -43,7 +43,7 @@
 
             <!-- Nombre -->
             <td class="px-6 py-4 whitespace-nowrap font-medium text-slate-800 dark:text-slate-200">
-              {{ pais.nombre }}
+              {{ pais.nombrePais}}
             </td>
 
             <!-- Código de País -->
@@ -74,7 +74,7 @@
               </button>
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-right space-x-2">
-              <button (click)="eliminarPais(pais.id, pais.nombre)"
+              <button (click)="eliminarPais(pais.id, pais.nombrePais)"
                 class="bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 hover:bg-sky-500 dark:hover:bg-sky-500 hover:text-white dark:hover:text-white border border-sky-100 dark:border-sky-500/20 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-2xs cursor-pointer">
                 Borrar
               </button>

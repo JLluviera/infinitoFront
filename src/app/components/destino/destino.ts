@@ -45,10 +45,12 @@ export class DestinoComponent  {
   });
 }
 crearDestino(destino: CrearDestino): void {
+  
     this.destinoService.crearDestino(destino).subscribe({
       next: (destinoCreado) => {
         console.log('Destino creado correctamente:', destinoCreado);
         this.mostrarFormulario = false;
+        
         this.obtenerDestinos();
       },
       error: (error) => {
@@ -70,6 +72,7 @@ crearDestino(destino: CrearDestino): void {
     });
   } else {
     // Modo creación
+    
     this.destinoService.crearDestino(datos).subscribe({
       next: () => this.finalizarFormulario(),
       error: (err) => console.error(err)

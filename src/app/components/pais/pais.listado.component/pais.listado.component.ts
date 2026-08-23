@@ -21,8 +21,7 @@ export class PaisListadoComponent {
     this.paises$ = this.paisesService.getPaises();
   }
   eliminarPais(id: number, nombre: string): void {
-    // Dispara el mensaje emergente de confirmación na
-    // tivo del navegador
+    // Dispara el mensaje emergente de confirmación nativo del navegador
     const confirmado = confirm(`¿Está seguro que quiere eliminar el país "${nombre}"?`);
 
     if (confirmado) {
@@ -36,5 +35,4 @@ export class PaisListadoComponent {
         }
       });
     }
-}
-}
+}}

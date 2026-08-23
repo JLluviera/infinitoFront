@@ -2,11 +2,11 @@ import { Destino } from "./destino.model";
 
 export interface Pais {
     id: number;
-    nombre: string;
+    nombrePais: string;
     codigoPais: string;
-    destinos: Destino[];
+    destinos?: Destino[] |null;
 }
 export interface PaisCrear {
-    Nombre: string;
-    CodigoPais: String;
+    nombrePais: string;
+    CodigoPais: string;
 }
