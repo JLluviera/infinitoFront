@@ -32,4 +32,7 @@ export class PaisesService {
   deletePais(id:number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/api/Paises/${id}`);
   }
+  editPais(pais:Pais): Observable<Pais> {
+    return this.http.put<Pais>(`${this.apiUrl}/api/Paises/${pais.id}`,pais);
+  }
 }
