@@ -3,7 +3,6 @@ import { PaisesService } from '../../../services/paises.service/paises.service';
 import { CommonModule } from '@angular/common';
 import { OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { Pais } from '../../../models/pais.model';
 import { PaisBotonAgregarComponent } from "../pais.boton-agregar.component/pais.boton-agregar.component";
 
@@ -16,6 +15,7 @@ import { PaisBotonAgregarComponent } from "../pais.boton-agregar.component/pais.
 })
 export class PaisListadoComponent {
   paises$: Observable<Pais[]>;
+  mostrarFormulario = false;
 
   constructor(private paisesService: PaisesService) {
     this.paises$ = this.paisesService.getPaises();

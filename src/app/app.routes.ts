@@ -4,6 +4,7 @@ import { LoginComponent } from './pages/login.component/login.component';
 import { LayoutComponent } from './pages/layout.component/layout.component';
 import { DestinoComponent } from './components/destino/destino';
 import { PaisListadoComponent } from './components/pais/pais.listado.component/pais.listado.component';
+import { ExcursionComponent } from './components/excursion/excursion';
 
 import { authGuard } from './services/auth.service/auth.guard';
 
@@ -33,6 +34,11 @@ export const routes: Routes = [
       {
         path: 'paises',
         component: PaisListadoComponent
+      },
+      //Excursiones
+      {
+        path: 'excursiones',
+        component: ExcursionComponent
       },
 
       // Ruta por defecto

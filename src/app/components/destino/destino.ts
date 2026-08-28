@@ -17,7 +17,7 @@ export class DestinoComponent  {
   private cdr = inject(ChangeDetectorRef);
 
   destinos: Destino[] = [];
-  mostrarFormulario = false;
+  mostrarFormulario:boolean = false;
   destinoEditando: Destino | null = null;
 
   obtenerDestinos(): void {
