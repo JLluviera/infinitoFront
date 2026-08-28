@@ -29,34 +29,27 @@ export class ExcursionComponent {
     this.excursiones$ = this.excursionService.obtenerExcursiones();
   }
 
-  // eliminarExcursion(id: number, nombre: string): void {
+  eliminarExcursion(id: number, nombre: string): void {
 
-  //   const confirmado = confirm(
-  //     `¿Está seguro que quiere eliminar la excursión "${nombre}"?`
-  //   );
+    const confirmado = confirm(
+      `¿Está seguro que quiere eliminar la excursión "${nombre}"?`
+    );
 
-  //   if (!confirmado) {
-  //     return;
-  //   }
+    if (!confirmado) {
+      return;
+    }
 
-  //   this.excursionService.borrarExcursion(id).subscribe({
+    this.excursionService.borrarExcursion(id).subscribe({
 
-  //     next: () => {
+      next: () => {
+        console.log('✅ Excursión eliminada correctamente');
+        this.recargarExcursiones();
+      },
 
-  //       console.log('Excursión eliminada correctamente');
+      error: (error) => {
+        console.error('❌ Error al eliminar excursión:', error);
+      }
 
-  //       this.obtenerExcursiones();
-
-  //     },
-
-  //     error: (error:any) => {
-
-  //       console.error('Error al eliminar excursión:', error);
-
-  //     }
-
-  //   });
-
-  // }
-
+    });
+  }
 }
