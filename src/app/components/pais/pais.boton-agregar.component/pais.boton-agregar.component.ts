@@ -18,7 +18,7 @@ export class PaisBotonAgregarComponent {
   @Output() paisCreado = new EventEmitter<void>();
 
   isOpen = signal<boolean>(false);
-  
+
   paisForm: FormGroup = this.fb.group({
     nombre: ['', [Validators.required, Validators.minLength(2)]],
     codigo: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(5)]]

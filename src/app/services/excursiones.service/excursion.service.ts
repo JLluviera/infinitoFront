@@ -23,8 +23,8 @@ export class ExcursionService {
   crearExcursion(nuevaExcursion:CrearExcursion):Observable<Excursion>{
     return this.http.post<Excursion>(this.endpoint, nuevaExcursion);
   }
-  editarExcursion(id: number, excursion: CrearExcursion): Observable<Excursion> {
-      return this.http.put<Excursion>(`${this.endpoint}/${id}`, excursion);
+  editarExcursion(id: number, excursion: CrearExcursion): Observable<string> {
+      return this.http.put<string>(`${this.endpoint}/${id}`, excursion);
   }
   borrarExcursion(id:number) : Observable<void> {
     return this.http.delete<void>(`${this.endpoint}/${id}`);
