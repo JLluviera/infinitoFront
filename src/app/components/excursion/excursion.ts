@@ -56,10 +56,12 @@ export class ExcursionComponent {
   cerrarEdicion(): void {
     this.mostrarEdicion = false;
     this.excursionSeleccionada = null;
+    this.recargarExcursiones();
   }
   finalizarEdicion(): void {
-    this.recargarExcursiones();
     this.mostrarEdicion = false;
     this.excursionSeleccionada = null;
+    this.mostrarEdicion = false;
+    this.recargarExcursiones();
   }
 }

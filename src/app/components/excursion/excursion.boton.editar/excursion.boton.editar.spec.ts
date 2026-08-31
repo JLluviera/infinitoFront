@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExcursionBotonEditar } from './excursion.boton.editar';
+import { ExcursionBotonEditarComponent } from './excursion.boton.editar';
 
 describe('ExcursionBotonEditar', () => {
-  let component: ExcursionBotonEditar;
-  let fixture: ComponentFixture<ExcursionBotonEditar>;
+  let component: ExcursionBotonEditarComponent;
+  let fixture: ComponentFixture<ExcursionBotonEditarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ExcursionBotonEditar],
+      imports: [ExcursionBotonEditarComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ExcursionBotonEditar);
+    fixture = TestBed.createComponent(ExcursionBotonEditarComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
