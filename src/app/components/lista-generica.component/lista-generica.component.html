@@ -1,0 +1,107 @@
+<div class="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl shadow-xs overflow-hidden transition-colors duration-300">
+  
+  <!-- Cabecera dinámica -->
+  @if (titulo() || subtitulo()) {
+    <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+      <div>
+        <h3 class="text-base font-bold text-slate-800 dark:text-white tracking-tight">{{ titulo() }}</h3>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{{ subtitulo() }}</p>
+      </div>
+    </div>
+  }
+
+  <div class="overflow-x-auto">
+    
+    <!-- Aquí se inyectará el botón de agregar (ej: app-boton-agregar-pais) -->
+    <ng-content select="[toolbar]"></ng-content>
+
+    <table class="w-full text-left border-collapse">
+      
+      <!-- Header dinámico -->
+      <thead>
+        <tr class="bg-slate-50 dark:bg-slate-800/70 border-b border-slate-200 dark:border-slate-700/80 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-300">
+          @for (col of columnas(); track col.field) {
+            <th scope="col" class="px-6 py-3.5">{{ col.header }}</th>
+          }
+          <th scope="col" class="px-6 py-3.5 text-right">Acciones</th>
+        </tr>
+      </thead>
+
+      <!-- Body dinámico -->
+      <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60 text-sm text-slate-700 dark:text-slate-300">
+        
+        @for (row of data(); track $index; let isEven = $even) {
+          <tr 
+            class="transition-colors hover:bg-sky-50/50 dark:hover:bg-slate-800/50 cursor-pointer"
+            [class.bg-slate-50_50]="isEven"
+            [class.dark:bg-slate-900]="isEven"
+            [class.bg-white]="!isEven"
+            [class.dark:bg-slate-800_30]="!isEven">
+            
+            <!-- Celdas dinámicas -->
+            @for (col of columnas(); track col.field) {
+            <td class="px-6 py-4 whitespace-nowrap">
+                @switch (col.tipo) {
+                
+                @case ('id') {
+                    <span class="font-bold text-slate-900 dark:text-white">
+                    {{ row[col.field] }}
+                    </span>
+                }
+
+                @case ('img') {
+                    <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                    {{ row[col.field] }}
+                    </span>
+                }
+
+                @case ('chip') {
+                    <div class="flex flex-wrap gap-1.5 max-w-xs whitespace-normal">
+                    <!-- Usamos $any() para decirle a Angular que confíe en que es un array -->
+                    @for (item of $any(row[col.field]); track $index) {
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-100 dark:border-sky-500/20">
+                        {{ item.nombre || item }}
+                        </span>
+                    } @empty {
+                        <span class="text-xs text-slate-400 dark:text-slate-500 italic">Sin datos</span>
+                    }
+                    </div>
+                }
+
+                @default {
+                    <span class="font-medium text-slate-800 dark:text-slate-200">
+                    {{ row[col.field] }}
+                    </span>
+                }
+                
+                }
+            </td>
+            }
+
+            <!-- Botones de Acción -->
+            <td class="px-6 py-4 whitespace-nowrap text-right space-x-2">
+              <button 
+                (click)="onEdit.emit(row)"
+                class="bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 hover:bg-sky-500 dark:hover:bg-sky-500 hover:text-white dark:hover:text-white border border-sky-100 dark:border-sky-500/20 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-2xs cursor-pointer">
+                Editar
+              </button>
+              <button 
+                (click)="onDelete.emit(row)"
+                class="bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 hover:bg-sky-500 dark:hover:bg-sky-500 hover:text-white dark:hover:text-white border border-sky-100 dark:border-sky-500/20 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-2xs cursor-pointer">
+                Borrar
+              </button>
+            </td>
+
+          </tr>
+        } @empty {
+          <tr>
+            <td [colSpan]="columnas().length + 1" class="px-6 py-12 text-center text-slate-400 dark:text-slate-500">
+              No se encontraron registros...
+            </td>
+          </tr>
+        }
+
+      </tbody>
+    </table>
+  </div>
+</div>
