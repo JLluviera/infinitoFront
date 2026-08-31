@@ -20,14 +20,14 @@ export class ExcursionService {
   obtenerExcursionPorId(id: number): Observable<Excursion> {
     return this.http.get<Excursion>(`${this.endpoint}/${id}`);
   }
-  crearExcursion(nuevaExcursion: CrearExcursion): Observable<Excursion> {
-    return this.http.post<Excursion>(this.endpoint, nuevaExcursion);
+  crearExcursion(nuevaExcursion: CrearExcursion): Observable<string> {
+    return this.http.post(this.endpoint, nuevaExcursion,{responseType:'text'});
   }
   editarExcursion(id: number,excursion: CrearExcursion): Observable<string> {
     return this.http.put(`${this.endpoint}/${id}`, excursion,{ responseType: 'text' });
   }
-  
-  borrarExcursion(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.endpoint}/${id}`);
+
+  borrarExcursion(id: number): Observable<string> {
+    return this.http.delete(`${this.endpoint}/${id}`,{ responseType: 'text' });
   }
 }

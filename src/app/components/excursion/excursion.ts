@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 import { Excursion } from '../../models/excursion.model';
 import { ExcursionService } from '../../services/excursiones.service/excursion.service';
 import { ExcursionBotonEditarComponent } from './excursion.boton.editar/excursion.boton.editar';
+import { ExcursionBotonAgregarComponent } from './excursion.boton.agregar.component/excursion.boton.agregar.component';
 
 @Component({
   selector: 'app-excursion',
   standalone: true,
-  imports: [CommonModule, ExcursionBotonEditarComponent],
+  imports: [CommonModule, ExcursionBotonEditarComponent,ExcursionBotonAgregarComponent],
   templateUrl: './excursion.html',
   styleUrl: './excursion.css'
 })
@@ -38,6 +39,7 @@ export class ExcursionComponent {
     this.excursionService.borrarExcursion(id).subscribe({
 
       next: () => {
+        this.recargarExcursiones();
         console.log('✅ Excursión eliminada correctamente');
         this.recargarExcursiones();
       },

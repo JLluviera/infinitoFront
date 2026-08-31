@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Excursion, CrearExcursion } from '../../../models/excursion.model';
 import { ExcursionService } from '../../../services/excursiones.service/excursion.service';
+import { ExcursionBotonAgregarComponent } from "../excursion.boton.agregar.component/excursion.boton.agregar.component";
 
 @Component({
   selector: 'app-excursion-boton-editar',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ExcursionBotonAgregarComponent],
   templateUrl: './excursion.boton.editar.html',
   styleUrl: './excursion.boton.editar.css'
 
@@ -154,7 +155,7 @@ export class ExcursionBotonEditarComponent implements OnChanges {
             response
           );
 
-          // this.cerrarModal();
+          this.cerrarModal();
 
           this.excursionEditada.emit();
 
