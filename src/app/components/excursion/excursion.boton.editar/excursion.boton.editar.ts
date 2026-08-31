@@ -1,13 +1,13 @@
-import {Component,EventEmitter,Input,Output,inject,signal,OnChanges,SimpleChanges} from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject, signal, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormBuilder,FormGroup,ReactiveFormsModule,Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Excursion, CrearExcursion } from '../../../models/excursion.model';
 import { ExcursionService } from '../../../services/excursiones.service/excursion.service';
 
 @Component({
   selector: 'app-excursion-boton-editar',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './excursion.boton.editar.html',
   styleUrl: './excursion.boton.editar.css'
 
@@ -27,13 +27,13 @@ export class ExcursionBotonEditarComponent implements OnChanges {
 
 
   isOpen = signal<boolean>(false);
-ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges): void {
 
-  if (changes['excursion'] && this.excursion) {
-    this.abrirModal();
+    if (changes['excursion'] && this.excursion) {
+      this.abrirModal();
+    }
+
   }
-
-}
 
   excursionForm: FormGroup = this.fb.group({
 
@@ -154,7 +154,7 @@ ngOnChanges(changes: SimpleChanges): void {
             response
           );
 
-          this.cerrarModal();
+          // this.cerrarModal();
 
           this.excursionEditada.emit();
 
