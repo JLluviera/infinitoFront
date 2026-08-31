@@ -17,15 +17,12 @@
 
 <button class="btn-primario"(click)="obtenerDestinos()">Mostrar lista de destinos</button>
 
-@for (destino of destinos; track destino.id) {
-  <div>
-    <h2 style="font-size: larger;">{{ destino.nombre }}</h2>
-    <p>Ciudad: {{ destino.ciudad }}</p>
-    <p>País: {{ destino.idPais }}</p>
-    <p>Descripcion: {{ destino.descripcion }}</p>
-    <button class="btn-borrar"(click)="eliminarDestino(destino.id)">Eliminar</button>
-    <button class="btn-primario"(click)="editarDestino(destino)">Editar</button>
-    <hr>
-    <br>
-  </div>
-}
+
+<app-lista-generica
+  titulo="Listado de Destinos"
+  subtitulo="Destinos disponibles en la base de datos"
+  [data]="destinos()"
+  [columnas]="columnas"
+  (onEdit)="editarDestino($event)"
+  (onDelete)="borrarPorId($event)" 
+></app-lista-generica>

@@ -1,13 +1,14 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Destino,CrearDestino } from '../../models/destino.model';
 import { DestinoService } from '../../services/destinos.service/destino.service';
 import { CommonModule } from '@angular/common';
 import { DestinoFormulario } from './destino-formulario/destino-formulario';
 import { ChangeDetectorRef } from '@angular/core';
+import { ListaGenericaComponent, ColumnaTabla } from '../lista-generica.component/lista-generica.component'
 
 @Component({
   selector: 'app-destino',
-  imports: [CommonModule,DestinoFormulario],
+  imports: [ListaGenericaComponent , CommonModule,DestinoFormulario],
   templateUrl: './destino.html',
   styleUrl: './destino.css',
 })
@@ -16,15 +17,25 @@ export class DestinoComponent  {
   private destinoService = inject(DestinoService);
   private cdr = inject(ChangeDetectorRef);
 
-  destinos: Destino[] = [];
+  destinos = signal<Destino[]>([]);
+  cargando = signal<boolean>(false);
+
   mostrarFormulario:boolean = false;
   destinoEditando: Destino | null = null;
+
+  columnas: ColumnaTabla<Destino>[] = [
+    { header: 'ID', field: 'id', tipo: 'id' },
+    { header: 'Nombre', field: 'nombre', tipo: 'texto' },
+    { header: 'Ciudad', field: 'ciudad', tipo: 'texto' },
+    { header: 'Id Pais', field: 'idPais', tipo: 'id' },
+    { header : 'Descripcion', field: 'descripcion', tipo: 'texto' },
+  ]
 
   obtenerDestinos(): void {
     this.destinoService.obtenerDestinos().subscribe({
       
       next: (destinos) => {
-        this.destinos = destinos;
+        this.destinos.set(destinos);
         this.cdr.detectChanges();
       },
       error: (error) => {
@@ -33,8 +44,8 @@ export class DestinoComponent  {
     });
   }
 
-  eliminarDestino(id: number): void {
-  this.destinoService.eliminarDestino(id).subscribe({
+  eliminarDestino(destino: Destino): void {
+  this.destinoService.eliminarDestino(destino.id).subscribe({
     next: () => {
       console.log('Destino eliminado correctamente');
       this.obtenerDestinos();
@@ -84,5 +95,9 @@ crearDestino(destino: CrearDestino): void {
     this.mostrarFormulario = false;
     this.destinoEditando = null;
     this.obtenerDestinos();
+  }
+
+  borrarPorId(destino: Destino){
+    console.log("Borrando");
   }
 }
