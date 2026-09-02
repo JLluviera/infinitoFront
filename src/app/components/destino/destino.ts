@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal,OnInit } from '@angular/core';
 import { Destino,CrearDestino } from '../../models/destino.model';
 import { DestinoService } from '../../services/destinos.service/destino.service';
 import { CommonModule } from '@angular/common';
@@ -12,7 +12,7 @@ import { ListaGenericaComponent, ColumnaTabla } from '../lista-generica.componen
   templateUrl: './destino.html',
   styleUrl: './destino.css',
 })
-export class DestinoComponent  {
+export class DestinoComponent implements OnInit  {
 
   private destinoService = inject(DestinoService);
   private cdr = inject(ChangeDetectorRef);
@@ -30,7 +30,9 @@ export class DestinoComponent  {
     { header: 'Id Pais', field: 'idPais', tipo: 'id' },
     { header : 'Descripcion', field: 'descripcion', tipo: 'texto' },
   ]
-
+ngOnInit(): void {
+  this.obtenerDestinos();
+}
   obtenerDestinos(): void {
     this.destinoService.obtenerDestinos().subscribe({
       
@@ -97,7 +99,29 @@ crearDestino(destino: CrearDestino): void {
     this.obtenerDestinos();
   }
 
-  borrarPorId(destino: Destino){
-    console.log("Borrando");
+  borrarPorId(destino: Destino): void {
+
+  const confirmado = confirm(
+    `¿Está seguro que quiere eliminar el destino "${destino.nombre}"?`
+  );
+
+  if (!confirmado) {
+    return;
   }
+
+  this.destinoService.eliminarDestino(destino.id).subscribe({
+
+    next: () => {
+      console.log('✅ Destino eliminado correctamente');
+
+      this.obtenerDestinos();
+    },
+
+    error: (error) => {
+      console.error('❌ Error al eliminar destino:', error);
+    }
+
+  });
+
+}
 }

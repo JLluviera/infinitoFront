@@ -33,7 +33,6 @@ export class ExcursionBotonEditarComponent implements OnChanges {
     if (changes['excursion'] && this.excursion) {
       this.abrirModal();
     }
-
   }
 
   excursionForm: FormGroup = this.fb.group({
@@ -74,9 +73,7 @@ export class ExcursionBotonEditarComponent implements OnChanges {
         Validators.min(1)
       ]
     ]
-
   });
-
 
   abrirModal(): void {
 
@@ -101,7 +98,6 @@ export class ExcursionBotonEditarComponent implements OnChanges {
     this.isOpen.set(true);
   }
 
-
   cerrarModal(): void {
 
     this.isOpen.set(false);
@@ -116,7 +112,6 @@ export class ExcursionBotonEditarComponent implements OnChanges {
 
     this.cerrar.emit();
   }
-
 
   submitForm(): void {
     if (!this.excursion) {
@@ -144,33 +139,31 @@ export class ExcursionBotonEditarComponent implements OnChanges {
       destinoId: this.excursionForm.get('destinoId')?.value
 
     };
-    this.excursionService
-      .editarExcursion(this.excursion.id, excursionModificada)
-      .subscribe({
+    this.excursionService.editarExcursion(this.excursion.id, excursionModificada).subscribe({
 
-        next: (response) => {
+      next: (response) => {
 
-          console.log(
-            '✅ EXCURSIÓN ACTUALIZADA:',
-            response
-          );
+        console.log(
+          '✅ EXCURSIÓN ACTUALIZADA:',
+          response
+        );
 
-          this.cerrarModal();
+        this.cerrarModal();
 
-          this.excursionEditada.emit();
+        this.excursionEditada.emit();
 
-        },
+      },
 
-        error: (error) => {
+      error: (error) => {
 
-          console.error(
-            '❌ ERROR AL EDITAR EXCURSIÓN:',
-            error
-          );
+        console.error(
+          '❌ ERROR AL EDITAR EXCURSIÓN:',
+          error
+        );
 
-        }
+      }
 
-      });
+    });
 
   }
 

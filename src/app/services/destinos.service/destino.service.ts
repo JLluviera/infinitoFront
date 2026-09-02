@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from '../../config/api-config.token';
 import { Observable } from 'rxjs';
-import { Destino,CrearDestino } from '../../models/destino.model';
+import { Destino, CrearDestino } from '../../models/destino.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,14 +23,15 @@ export class DestinoService {
   }
 
   crearDestino(nuevoDestino: CrearDestino): Observable<Destino> {
-  return this.http.post<Destino>(this.endpoint, nuevoDestino);
-}
-
-  editarDestino(id: number, destino: CrearDestino): Observable<Destino> {
-    return this.http.put<Destino>(`${this.endpoint}/${id}`, destino);
+    return this.http.post<Destino>(this.endpoint, nuevoDestino);
   }
 
-  eliminarDestino(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.endpoint}/${id}`);
+  editarDestino(id: number, destino: CrearDestino): Observable<string> {
+    return this.http.put(`${this.endpoint}/${id}`, destino, { responseType: 'text' }
+    );
+  }
+
+  eliminarDestino(id: number): Observable<string> {
+    return this.http.delete(`${this.endpoint}/${id}`,{responseType:'text'});
   }
 }

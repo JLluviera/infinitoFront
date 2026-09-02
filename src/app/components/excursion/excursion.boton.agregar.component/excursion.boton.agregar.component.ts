@@ -23,14 +23,10 @@ import { ExcursionService } from '../../../services/excursiones.service/excursio
 @Component({
   selector: 'app-excursion-boton-agregar',
   standalone: true,
-
-  imports: [
-    CommonModule,
-    ReactiveFormsModule
-  ],
-
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './excursion.boton.agregar.component.html'
 })
+
 export class ExcursionBotonAgregarComponent {
 
   private excursionService = inject(ExcursionService);
@@ -75,7 +71,6 @@ export class ExcursionBotonAgregarComponent {
       ]
     ],
 
-
     destinoId: [
       0,
       [
@@ -86,13 +81,11 @@ export class ExcursionBotonAgregarComponent {
 
   });
 
-
   abrirModal(): void {
 
     this.isOpen.set(true);
 
   }
-
 
   cerrarModal(): void {
 
@@ -135,7 +128,7 @@ export class ExcursionBotonAgregarComponent {
 
     this.excursionService.crearExcursion(excursion).subscribe({
 
-      next: (response:any) => {
+      next: (response: any) => {
 
         console.log(
           'Excursión creada correctamente:',
@@ -148,17 +141,13 @@ export class ExcursionBotonAgregarComponent {
 
       },
 
-      error: (error:any) => {
+      error: (error: any) => {
 
         console.error(
           'Error al crear excursión:',
           error
         );
-
       }
-
     });
-
   }
-
 }

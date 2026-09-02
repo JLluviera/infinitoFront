@@ -9,7 +9,7 @@ import { ExcursionBotonAgregarComponent } from './excursion.boton.agregar.compon
 @Component({
   selector: 'app-excursion',
   standalone: true,
-  imports: [CommonModule, ExcursionBotonEditarComponent,ExcursionBotonAgregarComponent],
+  imports: [CommonModule, ExcursionBotonEditarComponent, ExcursionBotonAgregarComponent],
   templateUrl: './excursion.html',
   styleUrl: './excursion.css'
 })
@@ -39,7 +39,6 @@ export class ExcursionComponent {
     this.excursionService.borrarExcursion(id).subscribe({
 
       next: () => {
-        this.recargarExcursiones();
         console.log('✅ Excursión eliminada correctamente');
         this.recargarExcursiones();
       },
