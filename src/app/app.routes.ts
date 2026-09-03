@@ -5,6 +5,7 @@ import { LayoutComponent } from './pages/layout.component/layout.component';
 import { DestinoComponent } from './components/destino/destino';
 import { PaisListadoComponent } from './components/pais/pais.listado.component/pais.listado.component';
 import { ExcursionComponent } from './components/excursion/excursion';
+import { VerExcursionComponent } from './pages/excursion/ver-excursion.component/ver-excursion.component';
 
 import { authGuard } from './services/auth.service/auth.guard';
 
@@ -38,13 +39,19 @@ export const routes: Routes = [
       //Excursiones
       {
         path: 'excursiones',
-        component: ExcursionComponent
+        component: ExcursionComponent,
+
       },
 
+      {
+        path: 'excursiones/detalle/:id',
+        component: VerExcursionComponent
+      },
+        
       // Ruta por defecto
       {
         path: '',
-        redirectTo: '',
+        redirectTo: 'excursiones',
         pathMatch: 'full'
       }
     ]

@@ -4,4 +4,5 @@ export interface PaqueteModel {
     NombrePaquete: string;
     Descripcion: string;
     Precio: number;
+    Senia: number;
 }
