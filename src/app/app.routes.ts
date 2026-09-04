@@ -60,6 +60,6 @@ export const routes: Routes = [
   // Cualquier ruta que no exista
   {
     path: '**',
-    redirectTo: 'login'
+    redirectTo: 'excursiones'
   }
 ];

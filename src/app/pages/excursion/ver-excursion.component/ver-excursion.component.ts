@@ -1,7 +1,8 @@
-import { Component, input, signal, effect } from '@angular/core';
+import { Component, input, signal, effect, inject } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { Excursion } from '../../../models/excursion.model';
+import { ExcursionService } from '../../../services/excursiones.service/excursion.service';
 
 @Component({
   selector: 'app-ver-excursion',
@@ -13,6 +14,8 @@ export class VerExcursionComponent {
   // Recibe el 'id' automáticamente desde la ruta
   idExcursion = input.required<string>({ alias: 'id' });
 
+  private router = inject(Router);
+  excursionService = inject(ExcursionService);
   excursion = signal<Excursion | null>(null);
   cargando = signal<boolean>(true);
   error = signal<string | null>(null);
@@ -23,6 +26,11 @@ export class VerExcursionComponent {
       if (id) {
         this.obtenerDetalleExcursion(id);
       }
+      else {
+        this.error.set('ID de excursión no proporcionado');
+        this.cargando.set(false);
+        this.router.navigate(['/excursiones']);
+      }
     });
   }
 
@@ -30,24 +38,16 @@ export class VerExcursionComponent {
     this.cargando.set(true);
     this.error.set(null);
 
-    // Mock temporal para probar el componente (Sustituir por tu servicio API)
-    setTimeout(() => {
-      this.excursion.set({
-        id: 100,
-        nombre: 'Travesía por los Lagos y Montañas',
-        cantDias: 5,
-        cantLugares: 18,
-        fechaSalida: '2026-11-20',
-        destinoId: 402,
-        destino: {
-          id: 402,
-          nombre: 'Bariloche',
-          idPais: 1,
-          ciudad: 'San Carlos de Bariloche',
-          descripcion: 'Bariloche es una ciudad ubicada en la región de la Patagonia, Argentina. Es famosa por sus paisajes montañosos, lagos cristalinos y su arquitectura de estilo alpino. La ciudad es un destino turístico popular para actividades al aire libre como el senderismo, el esquí y la pesca.'
-        },
-      });
-      this.cargando.set(false);
-    }, 400);
+    this.excursionService.obtenerExcursionPorId(Number(id)).subscribe({
+      next: (excursion) => {
+        this.excursion.set(excursion);
+        this.cargando.set(false);
+      },
+      error: (err) => {
+        this.error.set('Error al obtener el detalle de la excursión');
+        this.cargando.set(false);
+      }
+    })    
+    
   }
 }
