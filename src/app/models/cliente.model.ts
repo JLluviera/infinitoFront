@@ -3,7 +3,13 @@ export interface Cliente {
     nombre: string;
     apellido: string;
     ci: number;
-    correo: string;
     telefono: string;
-    direccion: string;
+    fechaNacimiento:string;
+}
+export interface CrearCliente {
+    nombre: string;
+    apellido: string;
+    ci: number;
+    telefono: string;
+    fechaNacimiento:string;
 }

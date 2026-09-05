@@ -11,14 +11,12 @@ import { ExcursionBotonAgregarComponent } from "../excursion.boton.agregar.compo
   imports: [CommonModule, ReactiveFormsModule, ExcursionBotonAgregarComponent],
   templateUrl: './excursion.boton.editar.html',
   styleUrl: './excursion.boton.editar.css'
-
 })
 export class ExcursionBotonEditarComponent implements OnChanges {
 
   private excursionService = inject(ExcursionService);
 
   private fb = inject(FormBuilder);
-
 
   @Input() excursion: Excursion | null = null;
 

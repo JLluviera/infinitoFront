@@ -121,7 +121,7 @@
 
       <!-- Acciones Inferiores -->
       <footer class="p-6 md:p-8 bg-slate-50/60 dark:bg-slate-800/40 border-t border-slate-200/60 dark:border-slate-700/60 flex flex-wrap gap-3 justify-end items-center">
-        <button type="button" 
+        <button (click)="editarExcursion()" type="button" 
                 class="w-full sm:w-auto px-6 py-2.5 bg-sky-500 hover:bg-sky-600 active:bg-sky-700 text-white font-bold text-sm rounded-full shadow-2xs transition-all cursor-pointer flex items-center justify-center gap-2 focus:ring-2 focus:ring-sky-500/50 outline-none">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
@@ -132,5 +132,14 @@
 
     </main>
   }
+  @if (mostrarEdicion() && excursion(); as item) {
+
+  <app-excursion-boton-editar
+    [excursion]="item"
+    (excursionEditada)="finalizarEdicion()"
+    (cerrar)="cerrarEdicion()">
+  </app-excursion-boton-editar>
+
+}
 
 </div>

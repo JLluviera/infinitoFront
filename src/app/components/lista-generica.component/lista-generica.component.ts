@@ -17,7 +17,7 @@ export interface ColumnaTabla<T> {
   styleUrl: './lista-generica.component.css',
 })
 
-export class ListaGenericaComponent<T> {
+export class ListaGenericaComponent<T> {//
 
   data = input.required<T[]>();
   columnas = input.required<ColumnaTabla<T>[]>();

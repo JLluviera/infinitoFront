@@ -3,17 +3,18 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { Excursion } from '../../../models/excursion.model';
 import { ExcursionService } from '../../../services/excursiones.service/excursion.service';
+import { ExcursionBotonEditarComponent } from '../../../components/excursion/excursion.boton.editar/excursion.boton.editar';
 
 @Component({
   selector: 'app-ver-excursion',
   standalone: true,
-  imports: [CommonModule, DatePipe, RouterLink],
+  imports: [CommonModule, DatePipe, RouterLink, ExcursionBotonEditarComponent],
   templateUrl: './ver-excursion.component.html'
 })
 export class VerExcursionComponent {
   // Recibe el 'id' automáticamente desde la ruta
   idExcursion = input.required<string>({ alias: 'id' });
-
+  mostrarEdicion=signal(false)
   private router = inject(Router);
   excursionService = inject(ExcursionService);
   excursion = signal<Excursion | null>(null);
@@ -50,4 +51,20 @@ export class VerExcursionComponent {
     })    
     
   }
+  editarExcursion(): void {
+  this.mostrarEdicion.set(true);
+}
+cerrarEdicion(): void {
+  this.mostrarEdicion.set(false);
+}
+
+finalizarEdicion(): void {
+  this.mostrarEdicion.set(false);
+
+  const id = this.idExcursion();
+
+  if (id) {
+    this.obtenerDetalleExcursion(id);
+  }
+}
 }
