@@ -5,18 +5,20 @@ import { ClientesService } from '../../services/clientes.service/clientes.servic
 import { ClienteBotonAgregarComponent } from './cliente.boton.agregar/cliente.boton.agregar';
 import { ColumnaTabla, ListaGenericaComponent, } from '../lista-generica.component/lista-generica.component';
 import { ModalGenericoComponent } from '../modal-generico/modal-generico';
+import { ClienteBotonEditarComponent } from './cliente.boton.editar/cliente.boton.editar';
+imports: [CommonModule, ListaGenericaComponent, ClienteBotonAgregarComponent, ClienteBotonEditarComponent]
 
 @Component({
   selector: 'app-cliente',
   standalone: true,
-  imports: [CommonModule, ListaGenericaComponent, ModalGenericoComponent, ClienteBotonAgregarComponent],
+  imports: [CommonModule, ListaGenericaComponent, ModalGenericoComponent, ClienteBotonAgregarComponent,ClienteBotonEditarComponent],
   templateUrl: './cliente.html',
   styleUrl: './cliente.css'
 })
 export class ClienteComponent {
   mostrarModal: boolean = false;
   clientes = signal<Cliente[]>([]);
-
+  clienteSeleccionado: Cliente | null = null; mostrarEdicion = false;
   columnas: ColumnaTabla<Cliente>[] = [
     { header: 'ID', field: 'id', tipo: 'id' },
     { header: 'Nombre', field: 'nombre', tipo: 'texto' },
@@ -55,4 +57,56 @@ export class ClienteComponent {
     this.mostrarModal = false;
   }
 
+  editarCliente(cliente: Cliente): void {
+
+  this.clienteSeleccionado = cliente;
+  this.mostrarEdicion = true;
+
+}
+cerrarEdicion(): void {
+
+  this.mostrarEdicion = false;
+  this.clienteSeleccionado = null;
+
+}
+finalizarEdicion(): void {
+
+  this.mostrarEdicion = false;
+  this.clienteSeleccionado = null;
+
+  this.obtenerClientes();
+
+}
+eliminarCliente(id: number): void {
+
+  const confirmado = confirm(
+    '¿Está seguro que desea eliminar este cliente?'
+  );
+
+  if (!confirmado) {
+    return;
+  }
+
+  this.clienteService.borrarCliente(id).subscribe({
+
+    next: () => {
+
+      console.log('✅ Cliente eliminado correctamente');
+
+      this.obtenerClientes();
+
+    },
+
+    error: (error) => {
+
+      console.error(
+        '❌ Error al eliminar cliente:',
+        error
+      );
+
+    }
+
+  });
+
+}
 }

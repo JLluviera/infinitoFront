@@ -8,11 +8,7 @@ import { ModalGenericoComponent } from '../../modal-generico/modal-generico';
 @Component({
   selector: 'app-cliente-boton-agregar',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    ModalGenericoComponent
-  ],
+  imports: [CommonModule,ReactiveFormsModule,ModalGenericoComponent],
   templateUrl: './cliente.boton.agregar.html',
   styleUrl: './cliente.boton.agregar.css'
 })

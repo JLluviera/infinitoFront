@@ -18,5 +18,4 @@ export class ModalGenericoComponent {
   cerrarModal(): void {
     this.cerrar.emit();
   }
-
 }
