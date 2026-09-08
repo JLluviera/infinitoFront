@@ -1,3 +1,9 @@
+@if (hasConfirmAlert()) {
+      <div 
+        class="fixed inset-0 bg-slate-950/40 dark:bg-slate-950/60 backdrop-blur-[2px] z-[90] pointer-events-auto transition-opacity duration-300 ease-out starting:opacity-0 opacity-100">
+      </div>
+    }
+
 <!-- Contenedor fijo que no bloquea clics excepto en los propios mensajes -->
     <div class="fixed top-4 left-0 right-0 z-100 flex flex-col items-center gap-3 pointer-events-none px-4">
       

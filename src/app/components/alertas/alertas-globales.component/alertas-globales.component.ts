@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AlertService, Alerta } from '../../../services/alert.service/alert-service';
 
@@ -15,6 +15,11 @@ import { AlertService, Alerta } from '../../../services/alert.service/alert-serv
 })
 export class AlertasGlobalesComponent {
   alertService = inject(AlertService);
+
+// Signal derivado: Evalúa en tiempo real si existe al menos una alerta del tipo 'confirm'
+  hasConfirmAlert = computed(() => 
+    this.alertService.alerts().some(alert => alert.tipo === 'confirmacion')
+  );
 
   resolveConfirm(alert: Alerta, result: boolean) {
     if (alert.resolve) {
