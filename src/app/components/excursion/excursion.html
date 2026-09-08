@@ -1,0 +1,21 @@
+<app-excursion-boton-agregar (excursionCreada)="recargarExcursiones()">
+
+</app-excursion-boton-agregar>
+
+
+<app-lista-generica
+  titulo="Listado de Excursiones"
+  subtitulo="Excursiones disponibles en la base de datos"
+  [data]="excursiones()"
+  [rutaDetalle]="'/excursiones/detalle'"
+  [campoId]="'id'"
+  [columnas]="columnas"
+  (onEdit)="editarExcursion($event)"
+  (onDelete)="eliminarExcursion($event.id, $event.nombre)">
+</app-lista-generica>
+<!-- Modal de edición -->
+@if (mostrarEdicion && excursionSeleccionada) {
+<app-excursion-boton-editar [excursion]="excursionSeleccionada" (excursionEditada)="finalizarEdicion()"
+    (cerrar)="cerrarEdicion()">
+</app-excursion-boton-editar>
+}

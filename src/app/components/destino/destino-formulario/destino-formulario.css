@@ -1,0 +1,25 @@
+.botonForm{
+color:rgb(0, 0, 0);
+background-color: #179aff;
+border-radius: 6px;
+margin-right: 10px
+}
+
+.botonForm {
+  transition-duration: 0.4s;
+}
+
+.botonForm:hover {
+  background-color: #0800ff; 
+  color: white;
+  border-radius: 6px;
+}
+.Formulario{
+    padding: 5px 40px 5px 15px;
+    border: 1px solid rgba(0, 0, 0, 0.25) !important;
+    border-radius: 25px;
+    width: 100%;
+    background-color: #179aff;
+}
+
+

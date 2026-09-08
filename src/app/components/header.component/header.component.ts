@@ -1,6 +1,7 @@
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service/auth.service';
+import { Signal } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,9 @@ export class HeaderComponent {
   // Emite un evento hacia el componente padre para abrir o cerrar el sidebar
   @Output() toggleSidebar = new EventEmitter<void>();
 
-  private authService = inject(AuthService)
+  private authService = inject(AuthService);
+  public username = this.authService.getUsername();
+
 
   onToggleSidebar(): void {
     this.toggleSidebar.emit();

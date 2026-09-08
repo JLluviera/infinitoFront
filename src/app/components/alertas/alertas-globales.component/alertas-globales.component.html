@@ -1,0 +1,40 @@
+@if (hasConfirmAlert()) {
+      <div 
+        class="fixed inset-0 bg-slate-950/40 dark:bg-slate-950/60 backdrop-blur-[2px] z-[90] pointer-events-auto transition-opacity duration-300 ease-out starting:opacity-0 opacity-100">
+      </div>
+    }
+
+<!-- Contenedor fijo que no bloquea clics excepto en los propios mensajes -->
+    <div class="fixed top-4 left-0 right-0 z-100 flex flex-col items-center gap-3 pointer-events-none px-4">
+      
+      @for (alert of alertService.alerts(); track alert.id) {
+        <div class="relative pointer-events-auto w-full max-w-md p-4 rounded-xl shadow-xl border transition-all duration-300 ease-out starting:opacity-0 starting:-translate-y-4 opacity-100 translate-y-0"          [ngClass]="getAlertStyle(alert.tipo)">
+          
+          @if (alert.titulo) {
+            <h3 class="font-bold mb-1 text-base">{{ alert.titulo }}</h3>
+          }
+          <p class="text-sm opacity-90">{{ alert.mensaje }}</p>
+
+          <!-- Botones de Confirmación -->
+          @if (alert.tipo === 'confirmacion') {
+            <div class="mt-4 flex justify-end gap-2">
+              <button 
+                (click)="resolveConfirm(alert, false)" 
+                class="px-4 py-2 text-sm font-medium rounded-lg bg-gray-200 text-gray-800 dark:bg-slate-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-slate-600 transition-colors">
+                Cancelar
+              </button>
+              <button 
+                (click)="resolveConfirm(alert, true)" 
+                class="px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors">
+                Confirmar
+              </button>
+            </div>
+          } @else {
+             <!-- Botón cerrar (X) para alertas normales -->
+             <button (click)="alertService.removeAlert(alert.id)" class="absolute top-3 right-3 opacity-60 hover:opacity-100">
+               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+             </button>
+          }
+        </div>
+      }
+    </div>

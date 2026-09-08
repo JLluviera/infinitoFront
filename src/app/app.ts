@@ -9,6 +9,6 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet],
   templateUrl: './app.html'
 })
-export class AppComponent {
+export class App {
   // Esta variable es la que conecta el botón del Header con el Sidebar
 }
