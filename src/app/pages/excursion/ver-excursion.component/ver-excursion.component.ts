@@ -36,7 +36,7 @@ export class VerExcursionComponent {
         this.router.navigate(['/excursiones']);
       }
 
-      this.lanzarAlertasDePrueba();
+      // this.lanzarAlertasDePrueba();
     });
   }
 
@@ -73,58 +73,58 @@ finalizarEdicion(): void {
   }
 }
 
-async lanzarAlertasDePrueba() {
-    // 1. Alerta de Información (desaparece en 4 segundos)
-    this.alertas.showAlert(
-      'Bienvenido al sistema de gestión de Infinito Viajes.', 
-      'info', 
-      '¡Hola de nuevo!', 
-      4000
-    );
+// async lanzarAlertasDePrueba() {
+//     // 1. Alerta de Información (desaparece en 4 segundos)
+//     this.alertas.showAlert(
+//       'Bienvenido al sistema de gestión de Infinito Viajes.', 
+//       'info', 
+//       '¡Hola de nuevo!', 
+//       4000
+//     );
 
-    // 2. Alerta de Éxito (aparece al segundo, desaparece en 5s)
-    setTimeout(() => {
-      this.alertas.showAlert(
-        'El paquete turístico a Bariloche se actualizó correctamente.', 
-        'exito', 
-        'Guardado con éxito', 
-        5000
-      );
-    }, 1000);
+//     // 2. Alerta de Éxito (aparece al segundo, desaparece en 5s)
+//     setTimeout(() => {
+//       this.alertas.showAlert(
+//         'El paquete turístico a Bariloche se actualizó correctamente.', 
+//         'exito', 
+//         'Guardado con éxito', 
+//         5000
+//       );
+//     }, 1000);
 
-    // 3. Alerta de Advertencia (Aparece a los 2s. Duración 0 = NO se cierra sola, el usuario debe cerrarla de la "X")
-    setTimeout(() => {
-      this.alertas.showAlert(
-        'Hay 3 reservas pendientes de pago que vencen hoy.', 
-        'advertencia', 
-        'Atención requerida', 
-        0 
-      );
-    }, 2000);
+//     // 3. Alerta de Advertencia (Aparece a los 2s. Duración 0 = NO se cierra sola, el usuario debe cerrarla de la "X")
+//     setTimeout(() => {
+//       this.alertas.showAlert(
+//         'Hay 3 reservas pendientes de pago que vencen hoy.', 
+//         'advertencia', 
+//         'Atención requerida', 
+//         0 
+//       );
+//     }, 2000);
 
-    // 4. Alerta de Error (aparece a los 3s)
-    setTimeout(() => {
-      this.alertas.showAlert(
-        'No se pudo conectar con el proveedor de vuelos. Intenta de nuevo.', 
-        'error', 
-        'Error de sincronización', 
-        6000
-      );
-    }, 3000);
+//     // 4. Alerta de Error (aparece a los 3s)
+//     setTimeout(() => {
+//       this.alertas.showAlert(
+//         'No se pudo conectar con el proveedor de vuelos. Intenta de nuevo.', 
+//         'error', 
+//         'Error de sincronización', 
+//         6000
+//       );
+//     }, 3000);
 
-    // 5. Cuadro de Confirmación (aparece a los 4s y frena el código hasta que el usuario decida)
-    setTimeout(async () => {
-      const confirmado = await this.alertas.confirm(
-        '¿Estás seguro de que deseas cancelar la reserva #8472? Esta acción no se puede deshacer.',
-        'Cancelar Reserva'
-      );
+//     // 5. Cuadro de Confirmación (aparece a los 4s y frena el código hasta que el usuario decida)
+//     setTimeout(async () => {
+//       const confirmado = await this.alertas.confirm(
+//         '¿Estás seguro de que deseas cancelar la reserva #8472? Esta acción no se puede deshacer.',
+//         'Cancelar Reserva'
+//       );
 
-      // Evaluamos la respuesta del usuario
-      if (confirmado) {
-        this.alertas.showAlert('La reserva ha sido cancelada.', 'exito', 'Operación completada', 3000);
-      } else {
-        this.alertas.showAlert('Operación abortada, la reserva sigue intacta.', 'info', 'Acción cancelada', 3000);
-      }
-    }, 4500);
-  }
+//       // Evaluamos la respuesta del usuario
+//       if (confirmado) {
+//         this.alertas.showAlert('La reserva ha sido cancelada.', 'exito', 'Operación completada', 3000);
+//       } else {
+//         this.alertas.showAlert('Operación abortada, la reserva sigue intacta.', 'info', 'Acción cancelada', 3000);
+//       }
+//     }, 4500);
+//   }
 }

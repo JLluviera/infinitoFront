@@ -4,11 +4,8 @@ import { API_URL } from '../../config/api-config.token';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service/auth.service';
-import { PaisCrear } from '../../models/paisCrear.model';
-
+import { PaisCrear, } from '../../models/paisCrear.model';
 import { Pais } from '../../models/pais.model';
-import { Destino } from '../../models/destino.model';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -22,17 +19,17 @@ export class PaisesService {
     return this.http.get<Pais[]>(`${this.apiUrl}/api/Paises`);
   }
 
-  getPaisPorId(id:number): Observable<Pais> {
+  getPaisPorId(id: number): Observable<Pais> {
     return this.http.get<Pais>(`${this.apiUrl}/api/Paises/${id}`);
   }
 
-  postPais(pais: PaisCrear): Observable<Pais> {
-    return this.http.post<Pais>(`${this.apiUrl}/api/Paises`, pais);
+  postPais(pais: PaisCrear): Observable<string> {
+    return this.http.post(`${this.apiUrl}/api/Paises`, pais, { responseType: 'text' });
   }
-  deletePais(id:number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/api/Paises/${id}`);
+  deletePais(id: number): Observable<string> {
+    return this.http.delete(`${this.apiUrl}/api/Paises/${id}`, { responseType: 'text' });
   }
-  editPais(pais:Pais): Observable<Pais> {
-    return this.http.put<Pais>(`${this.apiUrl}/api/Paises/${pais.id}`,pais);
+  editPais(id: number, pais: PaisCrear): Observable<Pais> {
+    return this.http.put<Pais>(`${this.apiUrl}/api/Paises/${id}`, pais);
   }
 }

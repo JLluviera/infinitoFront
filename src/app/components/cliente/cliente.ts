@@ -6,7 +6,6 @@ import { ClienteBotonAgregarComponent } from './cliente.boton.agregar/cliente.bo
 import { ColumnaTabla, ListaGenericaComponent, } from '../lista-generica.component/lista-generica.component';
 import { ModalGenericoComponent } from '../modal-generico/modal-generico';
 import { ClienteBotonEditarComponent } from './cliente.boton.editar/cliente.boton.editar';
-imports: [CommonModule, ListaGenericaComponent, ClienteBotonAgregarComponent, ClienteBotonEditarComponent]
 
 @Component({
   selector: 'app-cliente',

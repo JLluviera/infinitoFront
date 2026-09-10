@@ -1,12 +1,13 @@
-import { Component,EventEmitter, Output,Input } from '@angular/core';
+import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Destino,CrearDestino } from '../../../models/destino.model';
+import { Destino, CrearDestino } from '../../../models/destino.model';
+import { ModalGenericoComponent } from '../../modal-generico/modal-generico';
 
 @Component({
   selector: 'app-destino-formulario',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,ModalGenericoComponent],
   templateUrl: './destino-formulario.html',
   styleUrl: './destino-formulario.css',
 })
@@ -17,16 +18,38 @@ export class DestinoFormulario {
   
   // Evento para avisar al padre que el usuario canceló
   @Output() cerrar = new EventEmitter<void>();
-  @Input() set destinoEditar(destino: Destino | null) {
-    if (destino) {
-      this.nuevoDestino = {
-       nombre: destino.nombre,
-        ciudad: destino.ciudad,
-       idPais: destino.idPais,
-       descripcion: destino.descripcion
-      };
-    }
-} 
+ private _destinoEditar: Destino | null = null;
+
+@Input()
+set destinoEditar(destino: Destino | null) {
+
+  this._destinoEditar = destino;
+
+  if (destino) {
+
+    this.nuevoDestino = {
+      nombre: destino.nombre,
+      ciudad: destino.ciudad,
+      idPais: destino.idPais,
+      descripcion: destino.descripcion
+    };
+
+  } else {
+
+    this.nuevoDestino = {
+      nombre: '',
+      ciudad: '',
+      idPais: 0,
+      descripcion: ''
+    };
+
+  }
+
+}
+
+get destinoEditar(): Destino | null {
+  return this._destinoEditar;
+}
 
   // Objeto donde se guardarán los campos del formulario
   nuevoDestino: CrearDestino = {

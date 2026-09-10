@@ -22,9 +22,9 @@ export class DestinoService {
     return this.http.get<Destino>(`${this.endpoint}/${id}`);
   }
 
-  crearDestino(nuevoDestino: CrearDestino): Observable<Destino> {
-    return this.http.post<Destino>(this.endpoint, nuevoDestino);
-  }
+  crearDestino(nuevoDestino: CrearDestino): Observable<string> {
+      return this.http.post(this.endpoint, nuevoDestino, { responseType: 'text' });
+    }
 
   editarDestino(id: number, destino: CrearDestino): Observable<string> {
     return this.http.put(`${this.endpoint}/${id}`, destino, { responseType: 'text' }

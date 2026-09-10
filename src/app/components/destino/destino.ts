@@ -4,11 +4,12 @@ import { DestinoService } from '../../services/destinos.service/destino.service'
 import { CommonModule } from '@angular/common';
 import { DestinoFormulario } from './destino-formulario/destino-formulario';
 import { ChangeDetectorRef } from '@angular/core';
-import { ListaGenericaComponent, ColumnaTabla } from '../lista-generica.component/lista-generica.component'
+import { ListaGenericaComponent, ColumnaTabla} from '../lista-generica.component/lista-generica.component'
+import { ModalGenericoComponent } from '../modal-generico/modal-generico';
 
 @Component({
   selector: 'app-destino',
-  imports: [ListaGenericaComponent , CommonModule,DestinoFormulario],
+  imports: [ListaGenericaComponent , CommonModule,DestinoFormulario, ModalGenericoComponent],
   templateUrl: './destino.html',
   styleUrl: './destino.css',
 })

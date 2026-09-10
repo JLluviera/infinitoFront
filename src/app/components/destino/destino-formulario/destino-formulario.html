@@ -1,56 +1,132 @@
-<h2>Crear nuevo destino</h2>
+<app-modal-generico
+  [titulo]="destinoEditar ? 'Editar destino' : 'Nuevo destino'"
+  [subtitulo]="destinoEditar
+    ? 'Modifique los datos del destino'
+    : 'Complete los datos del destino'"
+  (cerrar)="onCerrar()">
 
-<form (ngSubmit)="onSubmit()">
 
-  <div>
-    <label  for="nombre">Nombre</label>
-    <input class="Formulario"
-      id="nombre"
-      type="text"
-      [(ngModel)]="nuevoDestino.nombre"
-      name="nombre"
-      required
-    >
-  </div>
+  <form
+    (ngSubmit)="onSubmit()"
+    class="space-y-4">
 
-  <div>
-    <label for="ciudad">Ciudad</label>
-    <input class="Formulario"
-      id="ciudad"
-      type="text"
-      [(ngModel)]="nuevoDestino.ciudad"
-      name="ciudad"
-      required
-    >
-  </div>
 
-  <div>
-    <label for="pais">País</label>
-    <input class="Formulario"
-      id="pais"
-      type="text"
-      [(ngModel)]="nuevoDestino.idPais"
-      name="pais"
-      required
-    >
-  </div>
+    <!-- Nombre -->
+    <div>
 
-  <div>
-    <label for="descripcion">Descripción</label>
-    <textarea class="Formulario"
-      id="descripcion"
-      [(ngModel)]="nuevoDestino.descripcion"
-      name="descripcion"
-      required
-    ></textarea>
-  </div>
+      <label
+        for="nombre"
+        class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
 
-  <button class="botonForm" type="submit" (click)="onCerrar()">
-    Guardar
-  </button>
+        Nombre
 
-  <button class="botonForm" type="button" (click)="onCerrar()">
-    Cancelar
-  </button>
+      </label>
 
-</form>
+      <input
+        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
+        id="nombre"
+        type="text"
+        [(ngModel)]="nuevoDestino.nombre"
+        name="nombre"
+        required
+      >
+
+    </div>
+
+
+    <!-- Ciudad -->
+    <div>
+
+      <label
+        for="ciudad"
+        class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+
+        Ciudad
+
+      </label>
+
+      <input
+        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
+        id="ciudad"
+        type="text"
+        [(ngModel)]="nuevoDestino.ciudad"
+        name="ciudad"
+        required
+      >
+
+    </div>
+
+
+    <!-- País -->
+    <div>
+
+      <label
+        for="pais"
+        class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+
+        País
+
+      </label>
+
+      <input
+        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
+        id="pais"
+        type="number"
+        [(ngModel)]="nuevoDestino.idPais"
+        name="pais"
+        min="1"
+        required
+      >
+
+    </div>
+
+
+    <!-- Descripción -->
+    <div>
+
+      <label
+        for="descripcion"
+        class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+
+        Descripción
+
+      </label>
+
+      <textarea
+        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
+        id="descripcion"
+        [(ngModel)]="nuevoDestino.descripcion"
+        name="descripcion"
+        rows="4"
+        required
+      ></textarea>
+
+    </div>
+
+
+    <!-- Botones -->
+    <div class="flex justify-end gap-3 pt-4">
+
+      <button
+        class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+        type="button"
+        (click)="onCerrar()">
+
+        Cancelar
+
+      </button>
+
+
+      <button
+        class="px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-semibold transition-colors"
+        type="submit">
+
+        {{ destinoEditar ? 'Guardar cambios' : 'Guardar destino' }}
+
+      </button>
+
+    </div>
+
+  </form>
+
+</app-modal-generico>
