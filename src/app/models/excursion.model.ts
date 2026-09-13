@@ -16,8 +16,6 @@ export interface Excursion {
   destinoId: number;
 
   destino?: Destino;
-
-  paquetes?: Paquete[];
 }
 
 export interface CrearExcursion {
