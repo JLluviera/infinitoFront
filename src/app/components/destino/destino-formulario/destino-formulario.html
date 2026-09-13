@@ -1,22 +1,15 @@
-<app-modal-generico
-  [titulo]="destinoEditar ? 'Editar destino' : 'Nuevo destino'"
-  [subtitulo]="destinoEditar
+<app-modal-generico [titulo]="destinoEditar ? 'Editar destino' : 'Nuevo destino'" [subtitulo]="destinoEditar
     ? 'Modifique los datos del destino'
-    : 'Complete los datos del destino'"
-  (cerrar)="onCerrar()">
+    : 'Complete los datos del destino'" (cerrar)="onCerrar()">
 
 
-  <form
-    (ngSubmit)="onSubmit()"
-    class="space-y-4">
+  <form (ngSubmit)="onSubmit()" class="space-y-4">
 
 
     <!-- Nombre -->
     <div>
 
-      <label
-        for="nombre"
-        class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+      <label for="nombre" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
 
         Nombre
 
@@ -24,12 +17,7 @@
 
       <input
         class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
-        id="nombre"
-        type="text"
-        [(ngModel)]="nuevoDestino.nombre"
-        name="nombre"
-        required
-      >
+        id="nombre" type="text" [(ngModel)]="nuevoDestino.nombre" name="nombre" required>
 
     </div>
 
@@ -37,9 +25,7 @@
     <!-- Ciudad -->
     <div>
 
-      <label
-        for="ciudad"
-        class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+      <label for="ciudad" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
 
         Ciudad
 
@@ -47,12 +33,7 @@
 
       <input
         class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
-        id="ciudad"
-        type="text"
-        [(ngModel)]="nuevoDestino.ciudad"
-        name="ciudad"
-        required
-      >
+        id="ciudad" type="text" [(ngModel)]="nuevoDestino.ciudad" name="ciudad" required>
 
     </div>
 
@@ -60,23 +41,28 @@
     <!-- País -->
     <div>
 
-      <label
-        for="pais"
-        class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+      <label for="pais" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
 
         País
 
       </label>
 
-      <input
-        class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
-        id="pais"
-        type="number"
-        [(ngModel)]="nuevoDestino.idPais"
-        name="pais"
-        min="1"
-        required
-      >
+      <select id="pais" [(ngModel)]="nuevoDestino.idPais" name="pais" required
+        class="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 text-slate-900 dark:text-white">
+
+        <option [ngValue]="0">
+          Seleccione un país
+        </option>
+
+        @for (pais of paises; track pais.id) {
+
+        <option [ngValue]="pais.id">
+          {{ pais.nombrePais }}
+        </option>
+
+        }
+
+      </select>
 
     </div>
 
@@ -84,9 +70,7 @@
     <!-- Descripción -->
     <div>
 
-      <label
-        for="descripcion"
-        class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+      <label for="descripcion" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
 
         Descripción
 
@@ -94,12 +78,7 @@
 
       <textarea
         class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
-        id="descripcion"
-        [(ngModel)]="nuevoDestino.descripcion"
-        name="descripcion"
-        rows="4"
-        required
-      ></textarea>
+        id="descripcion" [(ngModel)]="nuevoDestino.descripcion" name="descripcion" rows="4" required></textarea>
 
     </div>
 
@@ -109,16 +88,14 @@
 
       <button
         class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-        type="button"
-        (click)="onCerrar()">
+        type="button" (click)="onCerrar()">
 
         Cancelar
 
       </button>
 
 
-      <button
-        class="px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-semibold transition-colors"
+      <button class="px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-semibold transition-colors"
         type="submit">
 
         {{ destinoEditar ? 'Guardar cambios' : 'Guardar destino' }}

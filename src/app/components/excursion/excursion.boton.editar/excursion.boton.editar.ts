@@ -4,7 +4,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Excursion, CrearExcursion } from '../../../models/excursion.model';
 import { ExcursionService } from '../../../services/excursiones.service/excursion.service';
 import { ExcursionBotonAgregarComponent } from "../excursion.boton.agregar.component/excursion.boton.agregar.component";
-
+import { Destino } from '../../../models/destino.model';
+import { DestinoService } from '../../../services/destinos.service/destino.service';
 @Component({
   selector: 'app-excursion-boton-editar',
   standalone: true,
@@ -15,7 +16,11 @@ import { ExcursionBotonAgregarComponent } from "../excursion.boton.agregar.compo
 export class ExcursionBotonEditarComponent implements OnChanges {
 
   private excursionService = inject(ExcursionService);
-
+  private destinoService = inject(DestinoService);
+  destinos: Destino[] = [];
+  constructor() {
+    this.obtenerDestinos();
+  }
   private fb = inject(FormBuilder);
 
   @Input() excursion: Excursion | null = null;
@@ -24,6 +29,16 @@ export class ExcursionBotonEditarComponent implements OnChanges {
 
   @Output() cerrar = new EventEmitter<void>();
 
+  obtenerDestinos(): void {
+    this.destinoService.obtenerDestinos().subscribe({
+      next: (destinos) => {
+        this.destinos = destinos;
+      },
+      error: (error) => {
+        console.error('❌ Error al obtener destinos:', error);
+      }
+    });
+  }
 
   isOpen = signal<boolean>(false);
   ngOnChanges(changes: SimpleChanges): void {

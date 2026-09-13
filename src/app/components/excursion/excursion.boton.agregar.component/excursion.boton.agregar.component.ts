@@ -1,24 +1,10 @@
-import {
-  Component,
-  EventEmitter,
-  Output,
-  inject,
-  signal
-} from '@angular/core';
-
+import { Component, EventEmitter, Output, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
-
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CrearExcursion } from '../../../models/excursion.model';
-
 import { ExcursionService } from '../../../services/excursiones.service/excursion.service';
-
+import { Destino } from '../../../models/destino.model';
+import { DestinoService } from '../../../services/destinos.service/destino.service';
 
 @Component({
   selector: 'app-excursion-boton-agregar',
@@ -30,9 +16,24 @@ import { ExcursionService } from '../../../services/excursiones.service/excursio
 export class ExcursionBotonAgregarComponent {
 
   private excursionService = inject(ExcursionService);
+  private destinoService = inject(DestinoService);
+  destinos: Destino[] = [];
 
+  constructor() {
+    this.obtenerDestinos();
+  }
   private fb = inject(FormBuilder);
 
+  obtenerDestinos(): void {
+    this.destinoService.obtenerDestinos().subscribe({
+      next: (destinos) => {
+        this.destinos = destinos;
+      },
+      error: (error) => {
+        console.error('❌ Error al obtener destinos:', error);
+      }
+    });
+  }
 
   @Output() excursionCreada = new EventEmitter<void>();
 
