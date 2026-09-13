@@ -5,11 +5,12 @@ import { CrearExcursion } from '../../../models/excursion.model';
 import { ExcursionService } from '../../../services/excursiones.service/excursion.service';
 import { Destino } from '../../../models/destino.model';
 import { DestinoService } from '../../../services/destinos.service/destino.service';
+import { SelectGenericoComponent } from '../../select-generico/select-generico';
 
 @Component({
   selector: 'app-excursion-boton-agregar',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,SelectGenericoComponent],
   templateUrl: './excursion.boton.agregar.component.html'
 })
 

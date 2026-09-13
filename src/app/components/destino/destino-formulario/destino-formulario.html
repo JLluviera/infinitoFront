@@ -46,24 +46,13 @@
         País
 
       </label>
-
-      <select id="pais" [(ngModel)]="nuevoDestino.idPais" name="pais" required
-        class="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-lg px-4 py-2.5 text-slate-900 dark:text-white">
-
-        <option [ngValue]="0">
-          Seleccione un país
-        </option>
-
-        @for (pais of paises; track pais.id) {
-
-        <option [ngValue]="pais.id">
-          {{ pais.nombrePais }}
-        </option>
-
-        }
-
-      </select>
-
+        <app-select-generico
+        [items]="paises"
+        valor="id"
+        texto="nombrePais"
+        [(ngModel)]="nuevoDestino.idPais"
+        name="pais">
+        </app-select-generico>
     </div>
 
 

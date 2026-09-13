@@ -5,11 +5,12 @@ import { Destino, CrearDestino } from '../../../models/destino.model';
 import { ModalGenericoComponent } from '../../modal-generico/modal-generico';
 import { Pais } from '../../../models/pais.model';
 import { PaisesService } from '../../../services/paises.service/paises.service';
+import { SelectGenericoComponent } from '../../select-generico/select-generico';
 
 @Component({
   selector: 'app-destino-formulario',
   standalone: true,
-  imports: [CommonModule, FormsModule, ModalGenericoComponent],
+  imports: [CommonModule, FormsModule, ModalGenericoComponent,SelectGenericoComponent],
   templateUrl: './destino-formulario.html',
   styleUrl: './destino-formulario.css',
 })

@@ -6,10 +6,12 @@ import { ExcursionService } from '../../../services/excursiones.service/excursio
 import { ExcursionBotonAgregarComponent } from "../excursion.boton.agregar.component/excursion.boton.agregar.component";
 import { Destino } from '../../../models/destino.model';
 import { DestinoService } from '../../../services/destinos.service/destino.service';
+import { SelectGenericoComponent } from '../../select-generico/select-generico';
+
 @Component({
   selector: 'app-excursion-boton-editar',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ExcursionBotonAgregarComponent],
+  imports: [CommonModule, ReactiveFormsModule, ExcursionBotonAgregarComponent,SelectGenericoComponent],
   templateUrl: './excursion.boton.editar.html',
   styleUrl: './excursion.boton.editar.css'
 })
