@@ -15,7 +15,7 @@ import { Excursion } from '../../../models/excursion.model';
 import { ExcursionService } from '../../../services/excursiones.service/excursion.service';
 
 @Component({
-  selector: 'app-crear-reserva.component',
+  selector: 'app-crear-reserva',
   imports: [CommonModule, ReactiveFormsModule, SelectGenericoComponent],
   templateUrl: './crear-reserva.component.html',
   styleUrl: './crear-reserva.component.css',
