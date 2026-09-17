@@ -9,6 +9,7 @@ import { VerExcursionComponent } from './pages/excursion/ver-excursion.component
 import { ClienteComponent } from './components/cliente/cliente';
 
 import { authGuard } from './services/auth.service/auth.guard';
+import { CrearReservaComponent } from './components/reservas/crear-reserva.component/crear-reserva.component';
 
 export const routes: Routes = [
 
@@ -52,7 +53,11 @@ export const routes: Routes = [
         path: 'clientes',
         component: ClienteComponent
       },
-
+      // Reservas
+      {
+        path:'reserva',
+        component: CrearReservaComponent
+      },
       // Ruta por defecto
       {
         path: '',

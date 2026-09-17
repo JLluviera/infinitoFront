@@ -9,8 +9,10 @@ import { CommonModule } from '@angular/common';
 import { SelectGenericoComponent } from '../../select-generico/select-generico';
 import { Paquete } from '../../paquete/paquete';
 import { Cliente } from '../../../models/cliente.model';
-import { debounce, debounceTime, distinctUntilChanged, Observable, Subscription } from 'rxjs';
+import { debounce, debounceTime, distinctUntilChanged, Observable, single, Subscription } from 'rxjs';
 import { PaquetesService } from '../../../services/paquetes.service';
+import { Excursion } from '../../../models/excursion.model';
+import { ExcursionService } from '../../../services/excursiones.service/excursion.service';
 
 @Component({
   selector: 'app-crear-reserva.component',
@@ -22,19 +24,30 @@ export class CrearReservaComponent implements OnInit, OnDestroy {
   private reservaService = inject(ReservasService);
   private clienteService = inject(ClientesService);
   private paqueteService = inject(PaquetesService);
+  private excursionService = inject(ExcursionService);
   private alertas = inject(AlertService);
   private router = inject(Router);
   private formBuilder = inject(FormBuilder);
 
   idExcursion = input<number>();
 
+  excursiones = signal<Excursion[]>([]);
+
   paquetes = signal<Paquete[]>([]);
+
+  cargando = signal<boolean>(false);
 
   reservaForm!: FormGroup;
 
   private formSubscription?: Subscription;
   
   ngOnInit(): void {
+    this.excursionService.obtenerExcursiones().subscribe({
+      next: (Response: any) => {
+        this.excursiones.set(Response)
+      } 
+    })
+
     const valorIdExcursion = this.idExcursion();
 
     this.reservaForm = this.formBuilder.group({
@@ -72,46 +85,72 @@ export class CrearReservaComponent implements OnInit, OnDestroy {
         debounceTime(400),
         distinctUntilChanged()
       ).subscribe((valorManual) => {
-        if(valorManual && valorManual > 0 && controlExcursion.enable()){
-          this.cargarPaquetes(valorManual);
+        console.log('1. Cambio detectado en el select. Valor:', valorManual);
+        
+        const idNumerico = Number(valorManual);
+        
+        if(idNumerico && idNumerico > 0){
+          this.cargarPaquetes(idNumerico);
+        }else {
+          console.warn('2. El valor no es mayor a 0 o no es un número válido:', idNumerico);
         }
       })
     }
 
   }
 
-
   submitForm(): void {
+    this.cargando.set(true);
+
+    const valores = this.reservaForm.getRawValue();
+
+    console.log(valores)
 
     if(this.reservaForm.invalid){
-      this.reservaForm.markAsTouched();
+      this.reservaForm.markAllAsTouched();
       this.alertas.showAlert("Debe completar todos los campos", "error", "Formulario inválido", 5000);
+      this.cargando.set(false);
 
       return
     };
 
-    const cliente: Observable<Cliente> = this.clienteService.obtenerClientePorId((this.reservaForm.get('ciClientePagador')?.value));
+    // Usamos getRawValue() para obtener todos los valores
+  const ciCliente = valores.ciClientePagador;
 
-    if(!cliente){
-      this.alertas.showAlert("No se encontró cliente con esa CI", "error", 'C.I incorrecta', 5000)
-      return
-    }
-
-    const valores = this.reservaForm.getRawValue();
-
-
-    const reserva: ReservaCrearModel = {
-      IdClientePagador: valores.ciClientePagador,
-      IdExcursion: valores.idExcursion,
-      IdPaquete: valores.idPaquete
-    }
-
-    this.reservaService.postReserva(reserva).subscribe({
-      next: (Response: any) => {
-        this.router.navigate(['/reservas']);
+  // 2. Buscamos el cliente (Nos suscribimos al Observable)
+  this.clienteService.obtenerClientePorCi(ciCliente).subscribe({
+    next: (clienteObtenido) => {
+      
+      // Si el backend devuelve null/undefined o vacío
+      if (!clienteObtenido) {
+        this.alertas.showAlert("No se encontró cliente con esa CI", "error", 'C.I incorrecta', 5000);
+        this.cargando.set(false);
+        return; 
       }
-    })
 
+      // 3. SI EL CLIENTE EXISTE, armamos el objeto de la reserva
+      // Fíjate que cambié valores.idExcursion por valores.idExcursionForm
+      const reserva: ReservaCrearModel = {
+        CiClientePagador: valores.ciClientePagador,
+        IdExcursion: valores.idExcursionForm, 
+        IdPaquete: valores.idPaquete
+      };
+
+      // 4. Guardamos la reserva (Segunda suscripción)
+      this.reservaService.postReserva(reserva).subscribe({
+        next: (Response: any) => {
+          this.cargando.set(false);
+          this.router.navigate(['/reservas']);
+        },
+        error: (err) => {
+          this.cargando.set(false);
+          this.alertas.showAlert("Hubo un problema al crear la reserva", "error", "Error", 5000);
+        }
+      });
+
+    },
+    error: (err) =>{this.cargando.set(false);}
+  });
   }
 
   ngOnDestroy(): void {
@@ -119,9 +158,26 @@ export class CrearReservaComponent implements OnInit, OnDestroy {
   }
 
   cargarPaquetes(idExcursion: number){
+    this.cargando.set(true);
+    console.log('3. Llamando al servicio con ID:', idExcursion);
+
+    this.reservaForm.get('idExcursionForm')?.setValue(idExcursion);
+
     this.paqueteService.getPaquetesDeExcursion(idExcursion).subscribe({
       next: (Response: any) => 
-        { this.paquetes.set(Response)}
+        { 
+          console.log('4. Paquetes recibidos desde la API:', Response);
+          this.paquetes.set(Response)
+          this.cargando.set(false);
+        },
+        error: (err) => {
+          console.error('ERROR al cargar los paquetes:', err);
+          this.cargando.set(false);
+        }
     })
+  }
+
+  onSeleccionPaquete(idPaquete: number){
+    this.reservaForm.get('idPaquete')?.setValue(idPaquete);
   }
 }

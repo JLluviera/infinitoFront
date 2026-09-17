@@ -1,5 +1,5 @@
 export interface ReservaCrearModel {
-    IdClientePagador: number;
+    CiClientePagador: number;
 
     IdExcursion: number;
 

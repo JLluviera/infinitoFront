@@ -28,7 +28,12 @@ export class ClientesService {
   editarCliente(id: number, cliente: CrearCliente): Observable<string> {
     return this.http.put(`${this.endpoint}/${id}`, cliente, { responseType: 'text' });
   }
+
   borrarCliente(id: number): Observable<string> {
     return this.http.delete(`${this.endpoint}/${id}`, { responseType: 'text' });
+  }
+
+  obtenerClientePorCi(ci: number) : Observable<Cliente> {
+    return this.http.get<Cliente>(`${this.endpoint}/ci/${ci}`);
   }
 }

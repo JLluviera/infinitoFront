@@ -14,6 +14,6 @@ export class PaquetesService {
   private readonly endpoint = `${this.apiUrl}/api/Paquete`;
 
   getPaquetesDeExcursion(idExcursion: number) : Observable<Paquete[]> {
-    return this.http.get<Paquete[]>(`${this.apiUrl}/excursion/${idExcursion}`);
+    return this.http.get<Paquete[]>(`${this.endpoint}/excursion/${idExcursion}`);
   }
 }
