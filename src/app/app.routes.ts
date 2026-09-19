@@ -11,6 +11,7 @@ import { ClienteComponent } from './components/cliente/cliente';
 import { authGuard } from './services/auth.service/auth.guard';
 import { CrearReservaComponent } from './components/reservas/crear-reserva.component/crear-reserva.component';
 import { ModalCrearReservaComponent } from './components/reservas/modalCrearReserva.component/modal-crear-reserva.component/modal-crear-reserva.component';
+import { TransaccionComponent } from './components/transaccion/transaccion';
 
 export const routes: Routes = [
 
@@ -56,8 +57,13 @@ export const routes: Routes = [
       },
       // Reservas
       {
-        path:'reserva',
+        path: 'reserva',
         component: ModalCrearReservaComponent
+      },
+      // Transaccion
+      {
+        path: 'transacciones',
+        component: TransaccionComponent
       },
       // Ruta por defecto
       {

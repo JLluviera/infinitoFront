@@ -1,0 +1,279 @@
+<!-- Botón para abrir el modal -->
+<button
+  type="button"
+  (click)="abrirModal()"
+  class="px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-semibold transition-colors"
+>
+  + Nueva Transacción
+</button>
+
+
+@if (mostrarModal()) {
+
+  <app-modal-generico
+    titulo="Nueva Transacción"
+    subtitulo="Complete los datos de la transacción"
+    (cerrar)="cerrarModal()"
+  >
+
+    <form
+      [formGroup]="transaccionForm"
+      (ngSubmit)="guardar()"
+    >
+
+      <!-- Monto -->
+      <div class="mb-4">
+
+        <label
+          for="monto"
+          class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1"
+        >
+          Monto
+        </label>
+
+        <input
+          id="monto"
+          type="number"
+          min="1"
+          formControlName="monto"
+          placeholder="Ingrese el monto"
+          class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
+        >
+
+        @if (
+          transaccionForm.get('monto')?.touched &&
+          transaccionForm.get('monto')?.invalid
+        ) {
+          <p class="text-red-500 text-xs mt-1">
+            El monto debe ser mayor a 0.
+          </p>
+        }
+
+      </div>
+
+
+      <!-- Fecha -->
+      <div class="mb-4">
+
+        <label
+          for="fechaCreacion"
+          class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1"
+        >
+          Fecha
+        </label>
+
+        <input
+          id="fechaCreacion"
+          type="date"
+          formControlName="fechaCreacion"
+          class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
+        >
+
+      </div>
+
+
+      <!-- Forma de pago -->
+      <div class="mb-4">
+
+        <label
+          for="formaDePago"
+          class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1"
+        >
+          Forma de pago
+        </label>
+
+        <select
+          id="formaDePago"
+          formControlName="formaDePago"
+          class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
+        >
+
+          <option [ngValue]="FormaDePago.Efectivo">
+            Efectivo
+          </option>
+
+          <option [ngValue]="FormaDePago.TarjetaDebito">
+            Tarjeta de débito
+          </option>
+
+          <option [ngValue]="FormaDePago.TarjetaCredito">
+            Tarjeta de crédito
+          </option>
+
+          <option [ngValue]="FormaDePago.Transferencia">
+            Transferencia
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- Estado -->
+      <div class="mb-4">
+
+        <label
+          for="estado"
+          class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1"
+        >
+          Estado
+        </label>
+
+        <select
+          id="estado"
+          formControlName="estado"
+          class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
+        >
+
+          <option [ngValue]="EstadoTransaccion.Pendiente">
+            Pendiente
+          </option>
+
+          <option [ngValue]="EstadoTransaccion.Finalizado">
+            Finalizado
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- Cliente -->
+      <div class="mb-4">
+
+        <label
+          for="idCliente"
+          class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1"
+        >
+          Cliente
+        </label>
+
+        <select
+          id="idCliente"
+          formControlName="idCliente"
+          class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
+        >
+
+          <option [ngValue]="0">
+            Seleccione un cliente
+          </option>
+
+          @for (cliente of clientes(); track cliente.id) {
+
+            <option [ngValue]="cliente.id">
+              {{ cliente.nombre }}
+              {{ cliente.apellido }}
+              - CI {{ cliente.ci }}
+            </option>
+
+          }
+
+        </select>
+
+        @if (
+          transaccionForm.get('idCliente')?.touched &&
+          transaccionForm.get('idCliente')?.invalid
+        ) {
+          <p class="text-red-500 text-xs mt-1">
+            Debe seleccionar un cliente.
+          </p>
+        }
+
+      </div>
+
+
+      <!-- Reserva -->
+      <div class="mb-4">
+
+        <label
+          for="idReserva"
+          class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1"
+        >
+          Reserva
+        </label>
+
+        <select
+          id="idReserva"
+          formControlName="idReserva"
+          class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
+        >
+
+          <option [ngValue]="0">
+            Seleccione una reserva
+          </option>
+
+          @for (reserva of reservas(); track reserva.id) {
+
+            <option [ngValue]="reserva.id">
+              Reserva #{{ reserva.id }}
+
+              @if (reserva.clientePagador) {
+                -
+                {{ reserva.clientePagador.nombre }}
+                {{ reserva.clientePagador.apellido }}
+              }
+
+            </option>
+
+          }
+
+        </select>
+
+        @if (
+          transaccionForm.get('idReserva')?.touched &&
+          transaccionForm.get('idReserva')?.invalid
+        ) {
+          <p class="text-red-500 text-xs mt-1">
+            Debe seleccionar una reserva.
+          </p>
+        }
+
+      </div>
+
+
+      <!-- Observaciones -->
+      <div class="mb-6">
+
+        <label
+          for="observaciones"
+          class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1"
+        >
+          Observaciones
+        </label>
+
+        <textarea
+          id="observaciones"
+          rows="3"
+          formControlName="observaciones"
+          placeholder="Ingrese observaciones"
+          class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white"
+        ></textarea>
+
+      </div>
+
+
+      <!-- Botones -->
+      <div class="flex justify-end gap-3">
+
+        <button
+          type="button"
+          (click)="cerrarModal()"
+          class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          class="px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-semibold transition-colors"
+        >
+          Guardar
+        </button>
+
+      </div>
+
+    </form>
+
+  </app-modal-generico>
+
+}
