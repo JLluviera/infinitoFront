@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { API_URL } from '../../config/api-config.token';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ReservaModel } from '../../models/reserva.model';
+import { ReservaList, ReservaModel } from '../../models/reserva.model';
 import { ReservaCrearModel } from '../../models/reserva-crear.model';
 
 @Injectable({
@@ -31,6 +31,15 @@ export class ReservasService {
   }
 
   getReservasCliente(ci: number): Observable<ReservaModel[]> {
-    return this.http.get<ReservaModel[]>(`${this.apiUrl}/api/Reservas/cliente/${ci}`)
+    return this.http.get<ReservaModel[]>(`${this.apiUrl}/api/Reserva/cliente/${ci}`)
+  }
+
+  getReservasExcursiones(idExcursion: number): Observable<ReservaList[]>{
+    return this.http.get<ReservaList[]>(`${this.apiUrl}/api/Reserva/excursion/${idExcursion}`)
+  }
+
+  getReservasList(): Observable<ReservaList[]>{
+    return this.http.get<ReservaList[]>(`${this.apiUrl}/api/Reserva/list`)
+
   }
 }

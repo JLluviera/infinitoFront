@@ -33,3 +33,12 @@ export enum EstadoReserva {
     Cancelada = 'Cancelada',
     Anulada = 'Anulada'
 }
+
+export interface ReservaList{
+    id: number,
+    idExcursion: number,
+    nombreCliente: string,
+    apellidoCliente: string,
+    ciCliente: string
+    estadoReserva: EstadoReserva
+}

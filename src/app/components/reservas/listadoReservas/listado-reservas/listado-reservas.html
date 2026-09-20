@@ -1,0 +1,9 @@
+<app-lista-generica 
+    titulo="Listado de Reservas"
+    subtitulo="Reservas disponibles en la base de datos"
+    [data]="reservas()"
+    [rutaDetalle]="'/excursiones/detalle'"
+    [campoId]="'id'"
+    [columnas]="columnas"
+    (onEdit)="verReserva()"
+></app-lista-generica>
