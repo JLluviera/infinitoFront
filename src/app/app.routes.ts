@@ -13,6 +13,8 @@ import { CrearReservaComponent } from './components/reservas/crear-reserva.compo
 import { ModalCrearReservaComponent } from './components/reservas/modalCrearReserva.component/modal-crear-reserva.component/modal-crear-reserva.component';
 import { TransaccionComponent } from './components/transaccion/transaccion';
 import { DetalleClienteComponent } from './components/cliente/detalle-cliente/detalle-cliente/detalle-cliente';
+import { VerReservaComponent } from './components/reservas/verReserva/ver-reserva.component/ver-reserva.component';
+
 export const routes: Routes = [
 
   // Ruta pública: Login
@@ -63,6 +65,10 @@ export const routes: Routes = [
       {
         path: 'reserva',
         component: ListadoReservas
+      },
+      {
+        path: 'reserva/detalle/:id',
+        component: VerReservaComponent
       },
       // Transaccion
       {

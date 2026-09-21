@@ -19,7 +19,7 @@ export class ReservasService {
   }
 
   getReservaPorId(id: number): Observable<ReservaModel> {
-    return this.http.get<ReservaModel>(`${this.apiUrl}/api/${id}`);
+    return this.http.get<ReservaModel>(`${this.apiUrl}/api/Reserva/${id}`);
   }
 
   postReserva(reserva: ReservaCrearModel): Observable<string> {
