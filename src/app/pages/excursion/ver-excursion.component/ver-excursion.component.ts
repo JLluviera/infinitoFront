@@ -5,16 +5,19 @@ import { Excursion } from '../../../models/excursion.model';
 import { ExcursionService } from '../../../services/excursiones.service/excursion.service';
 import { ExcursionBotonEditarComponent } from '../../../components/excursion/excursion.boton.editar/excursion.boton.editar';
 import { AlertService } from '../../../services/alert.service/alert-service';
+import { ListadoReservas } from '../../../components/reservas/listadoReservas/listado-reservas/listado-reservas';
 
 @Component({
   selector: 'app-ver-excursion',
   standalone: true,
-  imports: [CommonModule, DatePipe, RouterLink, ExcursionBotonEditarComponent],
+  imports: [CommonModule, DatePipe, RouterLink, ExcursionBotonEditarComponent, ListadoReservas],
   templateUrl: './ver-excursion.component.html'
 })
 export class VerExcursionComponent {
   // Recibe el 'id' automáticamente desde la ruta
   idExcursion = input.required<string>({ alias: 'id' });
+  idExcursionNumber: number = 0;
+
   mostrarEdicion=signal(false)
   private router = inject(Router);
   excursionService = inject(ExcursionService);
@@ -29,6 +32,7 @@ export class VerExcursionComponent {
       const id = this.idExcursion();
       if (id) {
         this.obtenerDetalleExcursion(id);
+        this.idExcursionNumber = Number(id);
       }
       else {
         this.error.set('ID de excursión no proporcionado');

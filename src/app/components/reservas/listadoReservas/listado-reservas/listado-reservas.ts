@@ -27,12 +27,14 @@ export class ListadoReservas implements OnInit {
     ]
 
   ngOnInit(): void {
+    console.log("Componente iniciado");
     this.cargarReservas(this.idExcursion());
   }
 
   verReserva():void {}
 
   cargarReservas(idExcursion?: number): void {
+    console.log("Cargando reservas");
     if (!(idExcursion && idExcursion > 0))
     {
       this.servicioReservas.getReservasList()
