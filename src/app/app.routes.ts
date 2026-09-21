@@ -7,13 +7,12 @@ import { PaisListadoComponent } from './components/pais/pais.listado.component/p
 import { ExcursionComponent } from './components/excursion/excursion';
 import { VerExcursionComponent } from './pages/excursion/ver-excursion.component/ver-excursion.component';
 import { ClienteComponent } from './components/cliente/cliente';
-import {ListadoReservas} from './components/reservas/listadoReservas/listado-reservas/listado-reservas'
-
+import { ListadoReservas } from './components/reservas/listadoReservas/listado-reservas/listado-reservas'
 import { authGuard } from './services/auth.service/auth.guard';
 import { CrearReservaComponent } from './components/reservas/crear-reserva.component/crear-reserva.component';
 import { ModalCrearReservaComponent } from './components/reservas/modalCrearReserva.component/modal-crear-reserva.component/modal-crear-reserva.component';
 import { TransaccionComponent } from './components/transaccion/transaccion';
-
+import { DetalleClienteComponent } from './components/cliente/detalle-cliente/detalle-cliente/detalle-cliente';
 export const routes: Routes = [
 
   // Ruta pública: Login
@@ -55,6 +54,10 @@ export const routes: Routes = [
       {
         path: 'clientes',
         component: ClienteComponent
+      },
+      {
+        path: 'clientes/detalle/:id',
+        component: DetalleClienteComponent
       },
       // Reservas
       {

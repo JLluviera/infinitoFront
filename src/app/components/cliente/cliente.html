@@ -1,8 +1,16 @@
 <app-cliente-boton-agregar (clienteCreado)="obtenerClientes()">
 </app-cliente-boton-agregar>
 
-<app-lista-generica titulo="Listado de Clientes" subtitulo="Clientes registrados en la base de datos"
-    [data]="clientes()" [columnas]="columnas" (onEdit)="editarCliente($event)" (onDelete)="eliminarCliente($event.id)">
+<app-lista-generica
+  titulo="Listado de Clientes"
+  subtitulo="Clientes registrados en la base de datos"
+  [data]="clientes()"
+  [columnas]="columnas"
+  [rutaDetalle]="'/clientes/detalle'"
+  [campoId]="'id'"
+  (onEdit)="editarCliente($event)"
+  (onDelete)="eliminarCliente($event.id)"
+>
 </app-lista-generica>
 
 @if (mostrarEdicion && clienteSeleccionado) {

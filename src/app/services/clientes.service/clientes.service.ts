@@ -19,8 +19,8 @@ export class ClientesService {
   }
 
   obtenerClientePorId(id: number): Observable<Cliente> {
-    return this.http.get<Cliente>(`${this.apiUrl}/${id}`);
-  }
+  return this.http.get<Cliente>(`${this.endpoint}/${id}`);
+}
   crearCliente(nuevoCliente: CrearCliente): Observable<string> {
     return this.http.post(this.endpoint, nuevoCliente, { responseType: 'text' });
   }
