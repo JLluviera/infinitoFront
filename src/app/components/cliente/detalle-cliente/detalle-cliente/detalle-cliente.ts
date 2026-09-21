@@ -1,11 +1,10 @@
 import { Component, effect, inject, input, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ClientesService } from '../../../../services/clientes.service/clientes.service';
 import { ReservasService } from '../../../../services/reservas.service/reservas.service';
-
 import { Cliente } from '../../../../models/cliente.model';
 import { ReservaModel, EstadoReserva } from '../../../../models/reserva.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-detalle-cliente',
@@ -17,6 +16,7 @@ export class DetalleClienteComponent {
 
   private clientesService = inject(ClientesService);
   private reservasService = inject(ReservasService);
+  private router= inject(Router);
 
 
   id = input.required<string>();
@@ -89,5 +89,8 @@ export class DetalleClienteComponent {
   }
   obtenerNombreEstado(estado: EstadoReserva): string {
   return EstadoReserva[estado];
+}
+volver(): void {
+  this.router.navigate(['/clientes']);
 }
 }
