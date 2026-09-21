@@ -69,7 +69,14 @@ export class ClienteBotonEditarComponent implements OnChanges {
     fechaNacimiento: [
       '',
       Validators.required
-    ]
+    ],
+    fechaVencimientoCi: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(2)
+      ]
+    ],
 
   });
 
@@ -88,7 +95,9 @@ export class ClienteBotonEditarComponent implements OnChanges {
 
         telefono: this.cliente.telefono,
 
-        fechaNacimiento: this.cliente.fechaNacimiento
+        fechaNacimiento: this.cliente.fechaNacimiento,
+
+        fechaVencimientoCi: this.cliente.fechaVencimientoCi
 
       });
 
@@ -134,7 +143,9 @@ export class ClienteBotonEditarComponent implements OnChanges {
 
       telefono: this.clienteForm.get('telefono')?.value,
 
-      fechaNacimiento: this.clienteForm.get('fechaNacimiento')?.value
+      fechaNacimiento: this.clienteForm.get('fechaNacimiento')?.value,
+
+      fechaVencimientoCi: this.clienteForm.get('fechaVencimientoCi')?.value
 
     };
 

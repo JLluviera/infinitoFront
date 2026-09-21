@@ -24,7 +24,8 @@ export class ClienteComponent {
     { header: 'Apellido', field: 'apellido', tipo: 'texto' },
     { header: 'CI', field: 'ci', tipo: 'texto' },
     { header: 'Teléfono', field: 'telefono', tipo: 'texto' },
-    { header: 'Fecha de nacimiento', field: 'fechaNacimiento', tipo: 'texto' }
+    { header: 'Fecha de nacimiento', field: 'fechaNacimiento', tipo: 'texto' },
+    { header: 'Fecha vencimiento de Ci', field: 'fechaVencimientoCi', tipo: 'texto' }
   ];
 
   constructor(private clienteService: ClientesService) {

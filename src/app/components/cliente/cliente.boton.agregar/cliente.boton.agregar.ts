@@ -55,7 +55,14 @@ export class ClienteBotonAgregarComponent {
     fechaNacimiento: [
       '',
       Validators.required
-    ]
+    ],
+    fechaVencimientoCi: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(2)
+      ]
+    ],
 
   });
 
@@ -94,7 +101,10 @@ export class ClienteBotonAgregarComponent {
 
       telefono: this.clienteForm.get('telefono')?.value,
 
-      fechaNacimiento: this.clienteForm.get('fechaNacimiento')?.value
+      fechaNacimiento: this.clienteForm.get('fechaNacimiento')?.value,
+      
+      fechaVencimientoCi: this.clienteForm.get('fechaVencimientoCi')?.value
+
 
     };
 

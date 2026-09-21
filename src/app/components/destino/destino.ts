@@ -6,6 +6,8 @@ import { DestinoFormulario } from './destino-formulario/destino-formulario';
 import { ChangeDetectorRef } from '@angular/core';
 import { ListaGenericaComponent, ColumnaTabla} from '../lista-generica.component/lista-generica.component'
 import { ModalGenericoComponent } from '../modal-generico/modal-generico';
+import { Pais } from '../../models/pais.model';
+import { PaisesService } from '../../services/paises.service/paises.service';
 
 @Component({
   selector: 'app-destino',
@@ -17,6 +19,7 @@ export class DestinoComponent implements OnInit  {
 
   private destinoService = inject(DestinoService);
   private cdr = inject(ChangeDetectorRef);
+  private paisesService=inject(PaisesService);
 
   destinos = signal<Destino[]>([]);
   cargando = signal<boolean>(false);
@@ -28,24 +31,39 @@ export class DestinoComponent implements OnInit  {
     { header: 'ID', field: 'id', tipo: 'id' },
     { header: 'Nombre', field: 'nombre', tipo: 'texto' },
     { header: 'Ciudad', field: 'ciudad', tipo: 'texto' },
-    { header: 'Id Pais', field: 'idPais', tipo: 'id' },
+    { header: 'Pais', field: 'nombrePais', tipo: 'texto' },
     { header : 'Descripcion', field: 'descripcion', tipo: 'texto' },
   ]
 ngOnInit(): void {
   this.obtenerDestinos();
 }
   obtenerDestinos(): void {
-    this.destinoService.obtenerDestinos().subscribe({
-      
-      next: (destinos) => {
-        this.destinos.set(destinos);
-        this.cdr.detectChanges();
-      },
-      error: (error) => {
-        console.error('Error al obtener destinos:', error);
-      }
-    });
-  }
+  this.paisesService.getPaises().subscribe({
+    next: (paises) => {
+
+      this.destinoService.obtenerDestinos().subscribe({
+        next: (destinos) => {
+
+          const destinosConPais = destinos.map(destino => ({
+            ...destino,
+            nombrePais: paises.find(
+              pais => pais.id === destino.idPais
+            )?.nombrePais ?? 'Sin país'
+          }));
+
+          this.destinos.set(destinosConPais);
+        },
+        error: (error) => {
+          console.error('Error al obtener destinos:', error);
+        }
+      });
+
+    },
+    error: (error) => {
+      console.error('Error al obtener países:', error);
+    }
+  });
+}
 
   eliminarDestino(destino: Destino): void {
   this.destinoService.eliminarDestino(destino.id).subscribe({
