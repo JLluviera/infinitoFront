@@ -13,6 +13,7 @@ import { authGuard } from './services/auth.service/auth.guard';
 import { CrearReservaComponent } from './components/reservas/crear-reserva.component/crear-reserva.component';
 import { ModalCrearReservaComponent } from './components/reservas/modalCrearReserva.component/modal-crear-reserva.component/modal-crear-reserva.component';
 import { TransaccionComponent } from './components/transaccion/transaccion';
+import { VerReservaComponent } from './components/reservas/verReserva/ver-reserva.component/ver-reserva.component';
 
 export const routes: Routes = [
 
@@ -60,6 +61,10 @@ export const routes: Routes = [
       {
         path: 'reserva',
         component: ListadoReservas
+      },
+      {
+        path: 'reserva/detalle/:id',
+        component: VerReservaComponent
       },
       // Transaccion
       {

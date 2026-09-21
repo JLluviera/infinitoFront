@@ -3,10 +3,11 @@ import { ReservasService } from '../../../../services/reservas.service/reservas.
 import { ReservaList } from '../../../../models/reserva.model';
 import { AlertService } from '../../../../services/alert.service/alert-service';
 import { ColumnaTabla, ListaGenericaComponent } from '../../../lista-generica.component/lista-generica.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-listado-reservas',
-  imports: [ListaGenericaComponent],
+  imports: [ListaGenericaComponent, RouterLink],
   templateUrl: './listado-reservas.html',
   styleUrl: './listado-reservas.css',
 })
@@ -22,8 +23,8 @@ export class ListadoReservas implements OnInit {
       { header: 'IDExcursion', field: 'idExcursion', tipo: 'id' },
       { header: 'NombreCliente ', field: 'nombreCliente', tipo: 'texto' },
       { header: 'ApellidoCliente ', field: 'apellidoCliente', tipo: 'texto' },
-      { header: 'Cedula', field: 'ciCliente', tipo: 'texto' },
-      { header: 'Estado', field: 'estadoReserva', tipo: 'link' },
+      { header: 'Cedula', field: 'ciCliente', tipo: 'link' },
+      { header: 'Estado', field: 'estadoReserva', tipo: 'texto' },
     ]
 
   ngOnInit(): void {
@@ -31,7 +32,11 @@ export class ListadoReservas implements OnInit {
     this.cargarReservas(this.idExcursion());
   }
 
-  verReserva():void {}
+  verReserva(idReserva: number):void {
+    if (!idReserva) return;
+
+    
+  }
 
   cargarReservas(idExcursion?: number): void {
     console.log("Cargando reservas");
@@ -52,5 +57,7 @@ export class ListadoReservas implements OnInit {
       })
     }
   }
+
+  
 }
 

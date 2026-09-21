@@ -1,0 +1,179 @@
+<div class="max-w-4xl mx-auto space-y-6">
+    
+  <!-- Botón Volver -->
+  <nav aria-label="Navegación de retorno">
+    <a routerLink="/reserva" 
+       aria-label="Volver al listado de reservas"
+       class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800/80 border border-slate-200/80 dark:border-slate-700/60 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-sm rounded-full shadow-2xs transition-all outline-none focus:ring-2 focus:ring-sky-500/50 cursor-pointer">
+      <svg class="w-4 h-4 text-slate-500 dark:text-slate-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/>
+      </svg>
+      <span>Volver al listado</span>
+    </a>
+  </nav>
+
+  <!-- Vista Principal de Detalles de Reserva -->
+  @if (reserva(); as item) {
+    <main class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm overflow-hidden transition-colors">
+      
+      <!-- Header del Detalle -->
+      <header class="p-6 md:p-8 bg-slate-50/60 dark:bg-slate-800/40 border-b border-slate-200/60 dark:border-slate-700/60">
+        
+        <div class="flex flex-wrap items-center gap-2 mb-4">
+          <!-- Badge ID -->
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-100 dark:border-sky-500/20">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z" />
+            </svg>
+            Reserva #{{ item.id }}
+          </span>
+
+          <!-- Badge Estado (Dinámico) -->
+          @switch (item.EstadoReserva) {
+            @case ('Confirmada') {
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-500/20">
+                Confirmada
+              </span>
+            }
+            @case ('Pendiente') {
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-100 dark:border-amber-500/20">
+                Pendiente
+              </span>
+            }
+            @default {
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-500/20">
+                {{ item.EstadoReserva }}
+              </span>
+            }
+          }
+        </div>
+
+        <!-- Título Principal -->
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-white tracking-tight leading-snug">
+          Reserva de {{ item.clientePagador.nombre }} {{ item.clientePagador.apellido }}
+        </h1>
+
+        <!-- Subtítulo (Servicio Reservado) -->
+        <div class="mt-3 flex items-center gap-2 text-slate-600 dark:text-slate-300 text-base md:text-lg font-medium">
+          <div class="w-7 h-7 rounded-full bg-indigo-500/10 dark:bg-indigo-500/20 text-indigo-500 dark:text-indigo-400 flex items-center justify-center shrink-0">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6.75h1.5m-1.5 3h1.5m-1.5 3h1.5M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" />
+            </svg>
+          </div>
+          @if (item.excursion) {
+            <span>Excursión: {{ item.excursion.nombre }}</span>
+          } @else if (item.paquete) {
+            <span>Paquete: {{ item.paquete.Nombre }}</span>
+          } @else {
+            <span>Servicio sin asignar</span>
+          }
+        </div>
+      </header>
+
+      <!-- Bloques de Datos Principales -->
+      <section aria-label="Estadísticas de la reserva" class="p-6 md:p-8 grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 border-b border-slate-200/60 dark:border-slate-700/60">
+        
+        <!-- Monto Total -->
+        <article class="p-4 md:p-5 bg-slate-50/70 dark:bg-slate-800/50 rounded-2xl border border-slate-200/60 dark:border-slate-700/60 flex items-center gap-4 hover:border-emerald-300 dark:hover:border-emerald-600 transition-colors">
+          <div class="w-12 h-12 rounded-full bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <span class="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Monto Total</span>
+            <span class="text-lg md:text-xl font-bold text-slate-800 dark:text-white mt-0.5 block">
+              {{ item.montoTotal | currency:'USD' }}
+            </span>
+          </div>
+        </article>
+
+        <!-- Fecha de Reserva -->
+        <article class="p-4 md:p-5 bg-slate-50/70 dark:bg-slate-800/50 rounded-2xl border border-slate-200/60 dark:border-slate-700/60 flex items-center gap-4 hover:border-sky-300 dark:hover:border-sky-600 transition-colors">
+          <div class="w-12 h-12 rounded-full bg-sky-500/10 dark:bg-sky-500/20 text-sky-500 dark:text-sky-400 flex items-center justify-center shrink-0">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/>
+            </svg>
+          </div>
+          <div>
+            <span class="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Fecha Realizada</span>
+            <span class="text-lg md:text-xl font-bold text-slate-800 dark:text-white mt-0.5 block">
+              {{ item.fechaReserva | date:'dd/MM/yyyy' }}
+            </span>
+          </div>
+        </article>
+
+        <!-- Pasajeros Totales -->
+        <article class="p-4 md:p-5 bg-slate-50/70 dark:bg-slate-800/50 rounded-2xl border border-slate-200/60 dark:border-slate-700/60 flex items-center gap-4 hover:border-orange-300 dark:hover:border-orange-600 transition-colors">
+          <div class="w-12 h-12 rounded-full bg-orange-500/10 dark:bg-orange-500/20 text-orange-600 dark:text-orange-400 flex items-center justify-center shrink-0">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+            </svg>
+          </div>
+          <div>
+            <span class="block text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Pasajeros</span>
+            <span class="text-lg md:text-xl font-bold text-slate-800 dark:text-white mt-0.5 block">
+              {{ item.clientesIncluidos.length || 0 }} Personas
+            </span>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- Sección de Clientes Incluidos -->
+      @if (item.clientesIncluidos && item.clientesIncluidos.length > 0) {
+        <section aria-label="Lista de pasajeros" class="p-6 md:p-8">
+          <h2 class="text-lg font-bold text-slate-800 dark:text-white mb-4 flex items-center gap-2">
+            <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z" />
+            </svg>
+            Pasajeros Incluidos
+          </h2>
+          
+          <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            @for (pasajero of item.clientesIncluidos; track pasajero.id) {
+              <li class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-slate-800/30 rounded-xl border border-slate-100 dark:border-slate-700/50">
+                <div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-300 font-bold uppercase shrink-0">
+                  {{ pasajero.nombre.charAt(0) }}{{ pasajero.apellido.charAt(0) }}
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate">
+                    {{ pasajero.nombre }} {{ pasajero.apellido }}
+                  </p>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 truncate">
+                    ID: {{ pasajero.id }}
+                  </p>
+                </div>
+              </li>
+            }
+          </ul>
+        </section>
+      }
+
+      <!-- Acciones Inferiores -->
+      <footer class="p-6 md:p-8 bg-slate-50/60 dark:bg-slate-800/40 border-t border-slate-200/60 dark:border-slate-700/60 flex flex-wrap gap-3 justify-end items-center">
+        <button (click)="anularReserva(idReserva())" type="button" 
+                aria-label="Anular esta reserva"
+                class="w-full sm:w-auto px-6 py-2.5 bg-sky-500 hover:bg-sky-600 active:bg-sky-700 text-white font-bold text-sm rounded-full shadow-2xs transition-all cursor-pointer flex items-center justify-center gap-2 focus:ring-2 focus:ring-sky-500/50 outline-none">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+          </svg>
+          <span>Anular</span>
+        </button>
+        <button (click)="cancelarReserva(idReserva())" type="button" 
+                aria-label="Cancelar esta reserva"
+                class="w-full sm:w-auto px-6 py-2.5 bg-sky-500 hover:bg-sky-600 active:bg-sky-700 text-white font-bold text-sm rounded-full shadow-2xs transition-all cursor-pointer flex items-center justify-center gap-2 focus:ring-2 focus:ring-sky-500/50 outline-none">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+          </svg>
+          <span>Cancelar</span>
+        </button>
+      </footer>
+    
+    </main>
+  } @else {
+  <div class="p-8 text-center text-slate-500 dark:text-slate-400">
+    Cargando o no se encontró la reserva...
+  </div>
+}
+</div>

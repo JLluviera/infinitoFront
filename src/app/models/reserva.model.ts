@@ -1,6 +1,7 @@
 import { Paquete } from "../components/paquete/paquete";
 import { Cliente } from "./cliente.model";
 import { Excursion } from "./excursion.model";
+import { PaqueteModel } from "./paquete.model";
 
 export interface ReservaModel {
     id: number;
@@ -21,7 +22,7 @@ export interface ReservaModel {
 
     idPaquete: number;
 
-    paquete: Paquete;
+    paquete: PaqueteModel;
 
     clientesIncluidos: Cliente[];
 }

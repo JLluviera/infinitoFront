@@ -2,8 +2,8 @@
     titulo="Listado de Reservas"
     subtitulo="Reservas disponibles en la base de datos"
     [data]="reservas()"
-    [rutaDetalle]="'/excursiones/detalle'"
+    [rutaDetalle]="'/reserva/detalle'"
     [campoId]="'id'"
     [columnas]="columnas"
-    (onEdit)="verReserva()"
+    (onEdit)="verReserva($event.id)"
 ></app-lista-generica>
