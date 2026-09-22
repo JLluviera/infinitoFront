@@ -29,10 +29,10 @@ export interface ReservaModel {
 
 
 export enum EstadoReserva {
-    Pendiente = 0,
-    Confirmada = 1,
-    Cancelada = 2,
-    Anulada = 3
+    Pendiente = "Pendiente",
+    Confirmada = "Confirmada",
+    Cancelada = "Cancelada",
+    Anulada = "Anulada"
 }
 
 export interface ReservaList{

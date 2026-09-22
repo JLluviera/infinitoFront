@@ -5,6 +5,7 @@ import { ReservasService } from '../../../../services/reservas.service/reservas.
 import { ReservaModel } from '../../../../models/reserva.model';
 import { ActivatedRoute } from '@angular/router';
 import { RouterLink } from '@angular/router';
+import { EstadoReserva } from '../../../../models/reserva.model';
 
 @Component({
   selector: 'app-ver-reserva',
@@ -17,6 +18,8 @@ export class VerReservaComponent implements OnInit{
   reserva = signal<ReservaModel | null>(null);
   cargando = signal<boolean>(false);
 
+   readonly EstadoReserva = EstadoReserva;
+
   private alertas = inject(AlertService);
   private reservaService = inject(ReservasService);
   private route = inject(ActivatedRoute);
@@ -26,7 +29,8 @@ export class VerReservaComponent implements OnInit{
     this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
       if (id && !isNaN(id)) {
-        this.cargarReserva(id);
+        this.cargarReserva(id)
+        ;
       } else {
         console.error('El ID de la reserva no es válido');
       }
