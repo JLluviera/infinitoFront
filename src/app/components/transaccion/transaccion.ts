@@ -1,13 +1,11 @@
 import { Component, inject, signal } from '@angular/core';
-
 import { TransaccionesService } from '../../services/transaccion.service/transacciones.service';
-import { Transaccion } from '../../models/transaccion.model';
-
+import { Transaccion,EstadoTransaccion,FormaDePago } from '../../models/transaccion.model';
 import { ListaGenericaComponent, ColumnaTabla } from '../lista-generica.component/lista-generica.component';
-import { from } from 'rxjs';
 import { BotonAgregarTransaccionComponent } from './boton-agregar-transaccion/boton-agregar-transaccion';
 import { BotonEditarTransaccionComponent } from './boton-editar-transaccion/boton-editar-transaccion/boton-editar-transaccion';
-import { PaisBotonEditarComponent } from '../pais/pais.boton.editar/pais.boton.editar';
+import { ClientesService } from '../../services/clientes.service/clientes.service';
+
 
 @Component({
   selector: 'app-transaccion',
@@ -18,19 +16,21 @@ import { PaisBotonEditarComponent } from '../pais/pais.boton.editar/pais.boton.e
 export class TransaccionComponent {
 
   private transaccionesService = inject(TransaccionesService);
+  private clientesService= inject(ClientesService);
 
   transacciones = signal<Transaccion[]>([]);
   transaccionSeleccionada: Transaccion | null = null;
   mostrarEdicion = false;
+  
 
   columnas: ColumnaTabla<Transaccion>[] = [
     { header: 'ID', field: 'id', tipo: 'id' },
     { header: 'Monto', field: 'monto', tipo: 'texto' },
     { header: 'Fecha', field: 'fechaCreacion', tipo: 'texto' },
-    { header: 'Forma de pago', field: 'formaDePago', tipo: 'texto' },
-    { header: 'Estado', field: 'estado', tipo: 'texto' },
-    { header: 'Reserva', field: 'idReserva', tipo: 'id' },
-    { header: 'Cliente', field: 'idCliente', tipo: 'id' },
+    { header: 'Forma de pago', field: 'nombreFormaPago', tipo: 'texto' },
+    { header: 'Estado', field: 'nombreEstado', tipo: 'texto' },
+    { header: 'Nro Reserva', field: 'idReserva', tipo: 'id' },
+    { header: 'Cliente', field: 'nombreCliente', tipo: 'texto' },
   ];
 
   constructor() {
@@ -38,19 +38,59 @@ export class TransaccionComponent {
   }
 
   obtenerTransacciones(): void {
-    this.transaccionesService.obtenerTransacciones().subscribe({
-      next: (transacciones) => {
-        this.transacciones.set(transacciones);
-      },
-      error: (error) => {
-        console.error('Error al obtener las transacciones:', error);
-      }
-    });
-  }
 
-  recargarTransacciones(): void {
-    this.obtenerTransacciones();
-  }
+  this.transaccionesService.obtenerTransacciones().subscribe({
+
+    next: (transacciones) => {
+
+      this.clientesService.obtenerClientes().subscribe({
+
+        next: (clientes) => {
+
+          const transaccionesConDatos = transacciones.map(transaccion => {
+
+            const cliente = clientes.find(
+              c => c.id === transaccion.idCliente
+            );
+
+            return {
+              ...transaccion,
+
+              nombreCliente: cliente
+                ? `${cliente.nombre} ${cliente.apellido}`
+                : 'Cliente no encontrado',
+
+              nombreEstado:
+                EstadoTransaccion[transaccion.estado],
+
+              nombreFormaPago:
+                FormaDePago[transaccion.formaDePago]
+            };
+
+          });
+
+          this.transacciones.set(transaccionesConDatos);
+
+        },
+
+        error: (error) => {
+          console.error('Error al obtener los clientes:', error);
+        }
+
+      });
+
+    },
+
+    error: (error) => {
+      console.error('Error al obtener las transacciones:', error);
+    }
+
+  });
+}
+
+recargarTransacciones(): void {
+  this.obtenerTransacciones();
+}
 
   eliminarTransaccion(transaccion: Transaccion): void {
     const confirmar = confirm(
