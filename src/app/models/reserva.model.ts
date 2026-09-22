@@ -8,7 +8,7 @@ export interface ReservaModel {
 
     fechaReserva: string;
 
-    EstadoReserva: EstadoReserva;
+    estadoReserva: EstadoReserva;
 
     montoTotal: number;
 
@@ -29,10 +29,10 @@ export interface ReservaModel {
 
 
 export enum EstadoReserva {
-    Pendiente = 'Pendiente',
-    Confirmada = 'Confirmada',
-    Cancelada = 'Cancelada',
-    Anulada = 'Anulada'
+    Pendiente = "Pendiente",
+    Confirmada = "Confirmada",
+    Cancelada = "Cancelada",
+    Anulada = "Anulada"
 }
 
 export interface ReservaList{
