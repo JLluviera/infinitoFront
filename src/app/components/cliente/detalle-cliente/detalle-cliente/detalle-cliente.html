@@ -1,0 +1,176 @@
+<div class="p-6">
+
+  @if (cargando()) {
+
+    <p class="text-slate-500">
+      Cargando información del cliente...
+    </p>
+
+  }
+  @else if (error()) {
+
+    <p class="text-red-500">
+      {{ error() }}
+    </p>
+
+  }
+  @else if (cliente()) {
+<button
+    type="button"
+    (click)="volver()"
+    class="inline-flex items-center gap-2 px-4 py-2 mb-4 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+  >
+    ← Volver
+  </button>
+    <div class="mb-6">
+
+      <h1 class="text-2xl font-bold text-slate-800 dark:text-white">
+        Detalle del Cliente
+      </h1>
+
+      <p class="text-sm text-slate-500 dark:text-slate-400">
+        Información del cliente y sus reservas
+      </p>
+
+    </div>
+
+
+    <!-- Datos del cliente -->
+    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow p-6 mb-6">
+
+      <h2 class="text-lg font-semibold text-slate-800 dark:text-white mb-4">
+        Datos del cliente
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <div>
+          <span class="text-sm text-slate-500">
+            Nombre
+          </span>
+
+          <p class="font-medium text-slate-800 dark:text-white">
+            {{ cliente()!.nombre }}
+            {{ cliente()!.apellido }}
+          </p>
+        </div>
+
+
+        <div>
+          <span class="text-sm text-slate-500">
+            C.I.
+          </span>
+
+          <p class="font-medium text-slate-800 dark:text-white">
+            {{ cliente()!.ci }}
+          </p>
+        </div>
+
+
+        <div>
+          <span class="text-sm text-slate-500">
+            Teléfono
+          </span>
+
+          <p class="font-medium text-slate-800 dark:text-white">
+            {{ cliente()!.telefono }}
+          </p>
+        </div>
+
+
+        <div>
+          <span class="text-sm text-slate-500">
+            Fecha de nacimiento
+          </span>
+
+          <p class="font-medium text-slate-800 dark:text-white">
+            {{ cliente()!.fechaNacimiento }}
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Reservas -->
+    <div class="bg-white dark:bg-slate-900 rounded-2xl shadow p-6">
+
+      <h2 class="text-lg font-semibold text-slate-800 dark:text-white mb-4">
+        Reservas del cliente
+      </h2>
+
+      @if (reservas().length === 0) {
+
+        <p class="text-slate-500">
+          El cliente no tiene reservas.
+        </p>
+
+      }
+      @else {
+
+        <div class="overflow-x-auto">
+
+          <table class="w-full">
+
+            <thead>
+              <tr class="border-b border-slate-200 dark:border-slate-700">
+
+                <th class="text-left py-3 px-2">
+                  Reserva
+                </th>
+
+                <th class="text-left py-3 px-2">
+                  Excursión
+                </th>
+
+                <th class="text-left py-3 px-2">
+                  Estado
+                </th>
+
+                <th class="text-left py-3 px-2">
+                  Monto
+                </th>
+
+              </tr>
+            </thead>
+
+            <tbody>
+
+              @for (reserva of reservas(); track reserva.id) {
+
+                <tr class="border-b border-slate-100 dark:border-slate-800">
+
+                  <td class="py-3 px-2">
+                    #{{ reserva.id }}
+                  </td>
+
+                  <td class="py-3 px-2">
+                    {{ reserva.excursion.nombre }}
+                  </td>
+
+                  <td class="py-3 px-2">
+                    {{ obtenerNombreEstado(reserva.estadoReserva) }}
+                  </td>
+
+                  <td class="py-3 px-2">
+                    ${{ reserva.montoTotal }}
+                  </td>
+
+                </tr>
+
+              }
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</div>

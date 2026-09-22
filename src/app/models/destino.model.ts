@@ -11,6 +11,7 @@ export interface Destino{
     pais?: Pais;
     excursiones?: Excursion[];
     paquetes?: Paquete[];
+    nombrePais?:string;
 }
 export interface CrearDestino {
   nombre: string;

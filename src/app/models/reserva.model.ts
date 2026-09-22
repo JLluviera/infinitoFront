@@ -9,6 +9,7 @@ export interface ReservaModel {
     fechaReserva: string;
 
     estadoReserva: EstadoReserva;
+    estadoReserva: EstadoReserva;
 
     montoTotal: number;
 

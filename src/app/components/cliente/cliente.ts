@@ -20,11 +20,12 @@ export class ClienteComponent {
   clienteSeleccionado: Cliente | null = null; mostrarEdicion = false;
   columnas: ColumnaTabla<Cliente>[] = [
     { header: 'ID', field: 'id', tipo: 'id' },
-    { header: 'Nombre', field: 'nombre', tipo: 'texto' },
+    { header: 'Nombre', field: 'nombre', tipo: 'link' },
     { header: 'Apellido', field: 'apellido', tipo: 'texto' },
     { header: 'CI', field: 'ci', tipo: 'texto' },
     { header: 'Teléfono', field: 'telefono', tipo: 'texto' },
-    { header: 'Fecha de nacimiento', field: 'fechaNacimiento', tipo: 'texto' }
+    { header: 'Fecha de nacimiento', field: 'fechaNacimiento', tipo: 'texto' },
+    { header: 'Fecha vencimiento de Ci', field: 'fechaVencimientoCi', tipo: 'texto' }
   ];
 
   constructor(private clienteService: ClientesService) {

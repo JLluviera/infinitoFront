@@ -4,11 +4,12 @@ import { AlertService } from '../../../../services/alert.service/alert-service';
 import { ReservasService } from '../../../../services/reservas.service/reservas.service';
 import { ReservaModel } from '../../../../models/reserva.model';
 import { ActivatedRoute } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { EstadoReserva } from '../../../../models/reserva.model';
 
 @Component({
   selector: 'app-ver-reserva',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './ver-reserva.component.html',
   styleUrl: './ver-reserva.component.css',
 })
