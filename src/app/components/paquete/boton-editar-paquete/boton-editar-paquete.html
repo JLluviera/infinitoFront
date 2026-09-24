@@ -1,0 +1,105 @@
+<app-modal-generico titulo="Editar Paquete" subtitulo="Modifique los datos del paquete" (cerrar)="cerrarModal()">
+
+    <form [formGroup]="paqueteForm" (ngSubmit)="guardar()">
+
+        <!-- Nombre -->
+        <div class="mb-4">
+
+            <label for="nombre" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Nombre
+            </label>
+
+            <input id="nombre" type="text" formControlName="nombre"
+                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white">
+
+            @if (
+            paqueteForm.get('nombre')?.touched &&
+            paqueteForm.get('nombre')?.invalid
+            ) {
+            <p class="text-red-500 text-xs mt-1">
+                El nombre es obligatorio.
+            </p>
+            }
+
+        </div>
+
+
+        <!-- Precio -->
+        <div class="mb-4">
+
+            <label for="precio" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Precio
+            </label>
+
+            <input id="precio" type="number" min="1" formControlName="precio"
+                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white">
+
+        </div>
+
+
+        <!-- Seña -->
+        <div class="mb-4">
+
+            <label for="seña" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Seña
+            </label>
+
+            <input id="seña" type="number" min="0" formControlName="seña"
+                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white">
+
+        </div>
+
+
+        <!-- Destino -->
+        <div class="mb-4">
+
+            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Destino
+            </label>
+
+            <app-select-generico [items]="destinos()" valor="id" texto="nombre"
+                (seleccionCambiada)="seleccionarDestino($event)">
+            </app-select-generico>
+
+            @if (
+            paqueteForm.get('idDestino')?.touched &&
+            paqueteForm.get('idDestino')?.invalid
+            ) {
+            <p class="text-red-500 text-xs mt-1">
+                Debe seleccionar un destino.
+            </p>
+            }
+
+        </div>
+
+
+        <!-- Descripción -->
+        <div class="mb-6">
+
+            <label for="descripcion" class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Descripción
+            </label>
+
+            <textarea id="descripcion" rows="3" formControlName="descripcion"
+                class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white"></textarea>
+
+        </div>
+
+
+        <!-- Botones -->
+        <div class="flex justify-end gap-3">
+
+            <button type="button" (click)="cerrarModal()"
+                class="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300">
+                Cancelar
+            </button>
+
+            <button type="submit" class="px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-semibold">
+                Guardar cambios
+            </button>
+
+        </div>
+
+    </form>
+
+</app-modal-generico>

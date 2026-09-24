@@ -1,11 +1,19 @@
 import { Destino } from "./destino.model";
 
-export interface PaqueteModel {
-    IdPaquete: number;
-    IdDestino: number;
-    Nombre: string;
-    Descripcion: string;
-    Precio: number;
-    Senia: number;
-    Destino: Destino;
+export interface Paquete {
+  id: number;
+  idDestino: number;
+  nombre: string;
+  precio: number;
+  seña: number | null;
+  descripcion: string;
+  nombreDestino?: string;
+}
+
+export interface PaqueteCrear {
+  nombre: string;
+  precio: number;
+  seña: number | null;
+  descripcion: string;
+  idDestino: number;
 }

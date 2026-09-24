@@ -7,10 +7,10 @@ import { ReservaCrearModel } from '../../../models/reserva-crear.model';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SelectGenericoComponent } from '../../select-generico/select-generico';
-import { Paquete } from '../../paquete/paquete';
+import { PaqueteComponent } from '../../paquete/paquete';
 import { Cliente } from '../../../models/cliente.model';
 import { debounce, debounceTime, distinctUntilChanged, Observable, single, Subscription } from 'rxjs';
-import { PaquetesService } from '../../../services/paquetes.service';
+import { PaquetesService } from '../../../services/paquetes.service/paquetes.service';
 import { Excursion } from '../../../models/excursion.model';
 import { ExcursionService } from '../../../services/excursiones.service/excursion.service';
 
@@ -33,7 +33,7 @@ export class CrearReservaComponent implements OnInit, OnDestroy {
 
   excursiones = signal<Excursion[]>([]);
 
-  paquetes = signal<Paquete[]>([]);
+  paquetes = signal<PaqueteComponent[]>([]);
 
   cargando = signal<boolean>(false);
 

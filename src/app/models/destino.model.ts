@@ -1,6 +1,6 @@
 import { Pais } from "./pais.model";
 import { Excursion } from "./excursion.model";
-import { Paquete } from "../components/paquete/paquete";
+import { PaqueteComponent } from "../components/paquete/paquete";
 
 export interface Destino{
     id: number;
@@ -10,7 +10,7 @@ export interface Destino{
     descripcion: string;
     pais?: Pais;
     excursiones?: Excursion[];
-    paquetes?: Paquete[];
+    paquetes?: PaqueteComponent[];
     nombrePais?:string;
 }
 export interface CrearDestino {

@@ -14,6 +14,7 @@ import { ModalCrearReservaComponent } from './components/reservas/modalCrearRese
 import { TransaccionComponent } from './components/transaccion/transaccion';
 import { DetalleClienteComponent } from './components/cliente/detalle-cliente/detalle-cliente/detalle-cliente';
 import { VerReservaComponent } from './components/reservas/verReserva/ver-reserva.component/ver-reserva.component';
+import { PaqueteComponent } from './components/paquete/paquete';
 
 export const routes: Routes = [
 
@@ -74,6 +75,11 @@ export const routes: Routes = [
       {
         path: 'transacciones',
         component: TransaccionComponent
+      },
+      // Paquete
+      {
+        path: 'paquetes',
+        component: PaqueteComponent
       },
       // Ruta por defecto
       {

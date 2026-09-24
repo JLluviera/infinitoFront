@@ -6,7 +6,6 @@ import { DestinoFormulario } from './destino-formulario/destino-formulario';
 import { ChangeDetectorRef } from '@angular/core';
 import { ListaGenericaComponent, ColumnaTabla} from '../lista-generica.component/lista-generica.component'
 import { ModalGenericoComponent } from '../modal-generico/modal-generico';
-import { Pais } from '../../models/pais.model';
 import { PaisesService } from '../../services/paises.service/paises.service';
 
 @Component({

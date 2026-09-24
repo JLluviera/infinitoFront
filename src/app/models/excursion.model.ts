@@ -1,4 +1,4 @@
-import { Paquete } from "../components/paquete/paquete";
+import { Paquete } from "./paquete.model";
 import { Destino } from "./destino.model";
 
 export interface Excursion {
