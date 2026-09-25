@@ -42,4 +42,12 @@ export class ReservasService {
     return this.http.get<ReservaList[]>(`${this.apiUrl}/api/Reserva/list`)
 
   }
+
+  anularReserva(idReserva: number): Observable<string>{
+    return this.http.put(`${this.apiUrl}/api/Reserva/anular/${idReserva}`, idReserva, { responseType: 'text'});
+  }
+
+  cancelarReserva(idReserva: number): Observable<string>{
+    return this.http.put(`${this.apiUrl}/api/Reserva/cancelar/${idReserva}`, idReserva, { responseType: 'text'})
+  }
 }
