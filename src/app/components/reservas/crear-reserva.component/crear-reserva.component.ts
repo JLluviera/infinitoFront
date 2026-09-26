@@ -180,4 +180,7 @@ export class CrearReservaComponent implements OnInit, OnDestroy {
   onSeleccionPaquete(idPaquete: number){
     this.reservaForm.get('idPaquete')?.setValue(idPaquete);
   }
+  volver(): void {
+  this.router.navigate(['/reserva']);
+}
 }

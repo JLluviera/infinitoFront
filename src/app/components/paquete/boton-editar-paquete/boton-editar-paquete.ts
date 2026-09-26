@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, Output, OnChanges, SimpleChanges, inject, signal } from '@angular/core';
+import {Component,EventEmitter,Input,Output,OnChanges,SimpleChanges,inject,signal} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {FormBuilder,ReactiveFormsModule,Validators} from '@angular/forms';
 import { PaquetesService } from '../../../services/paquetes.service/paquetes.service';
 import { DestinoService } from '../../../services/destinos.service/destino.service';
 import { Paquete } from '../../../models/paquete.model';
@@ -9,11 +9,10 @@ import { Destino } from '../../../models/destino.model';
 import { ModalGenericoComponent } from '../../modal-generico/modal-generico';
 import { SelectGenericoComponent } from '../../select-generico/select-generico';
 
-
 @Component({
   selector: 'app-boton-editar-paquete',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ModalGenericoComponent, SelectGenericoComponent],
+  imports: [CommonModule,ReactiveFormsModule,ModalGenericoComponent,SelectGenericoComponent],
   templateUrl: './boton-editar-paquete.html',
   styleUrl: './boton-editar-paquete.css'
 })
@@ -86,6 +85,7 @@ export class BotonEditarPaqueteComponent implements OnChanges {
     });
 
   }
+
   seleccionarDestino(idDestino: number): void {
 
     this.paqueteForm.patchValue({
@@ -131,6 +131,9 @@ export class BotonEditarPaqueteComponent implements OnChanges {
             error
           );
         }
+
       });
+
   }
+
 }

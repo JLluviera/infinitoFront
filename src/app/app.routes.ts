@@ -71,6 +71,10 @@ export const routes: Routes = [
         path: 'reserva/detalle/:id',
         component: VerReservaComponent
       },
+      {
+        path: 'reserva/crear',
+        component: CrearReservaComponent
+      },
       // Transaccion
       {
         path: 'transacciones',
