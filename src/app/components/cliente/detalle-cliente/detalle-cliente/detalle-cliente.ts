@@ -18,9 +18,10 @@ export class DetalleClienteComponent {
   private reservasService = inject(ReservasService);
   private router= inject(Router);
 
-
   id = input.required<string>();
 
+  saldoPendiente = signal<number>(0);
+  deudaCliente = signal<number>(0);
   cliente = signal<Cliente | null>(null);
   reservas = signal<ReservaModel[]>([]);
   EstadoReserva = EstadoReserva;
@@ -52,6 +53,8 @@ export class DetalleClienteComponent {
 
         this.cliente.set(cliente);
         this.obtenerReservas(cliente.ci);
+        this.obtenerSaldoCliente(cliente.id);
+        this.obtenerDeudaCliente(cliente.id);
 
         this.cargando.set(false);
       },
@@ -87,10 +90,37 @@ export class DetalleClienteComponent {
     });
 
   }
+
   obtenerNombreEstado(estado: EstadoReserva): string {
   return EstadoReserva[estado];
-}
-volver(): void {
-  this.router.navigate(['/clientes']);
-}
+  }
+
+  cedulaVencida(fecha: string | undefined): boolean{
+    if (!fecha) return false;
+    const fechaVenc = new Date(fecha);
+    const hoy = new Date();
+    // Reseteamos horas para comparar solo la fecha
+    hoy.setHours(0, 0, 0, 0);
+    return fechaVenc < hoy;
+  }
+
+  volver(): void {
+    this.router.navigate(['/clientes']);
+  }
+
+  obtenerSaldoCliente(id: number){
+    this.clientesService.obtenerSaldoPendienteCliente(id).subscribe({
+      next: (resp: any) =>{
+        this.saldoPendiente.set(resp);
+      }
+    })
+  }
+
+  obtenerDeudaCliente(id: number){
+    this.clientesService.obtenerDeudaCliente(id).subscribe({
+      next: (resp: any) => {
+        this.deudaCliente.set(resp);
+      }
+    })
+  }
 }

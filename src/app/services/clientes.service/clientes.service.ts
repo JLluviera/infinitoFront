@@ -36,4 +36,12 @@ export class ClientesService {
   obtenerClientePorCi(ci: number) : Observable<Cliente> {
     return this.http.get<Cliente>(`${this.endpoint}/ci/${ci}`);
   }
+
+  obtenerSaldoPendienteCliente(id: number) : Observable<number> {
+    return this.http.get<number>(`${this.endpoint}/saldo/${id}`);
+  }
+
+  obtenerDeudaCliente(id: number) : Observable<number> {
+    return this.http.get<number>(`${this.endpoint}/deuda/${id}`);
+  }
 }
