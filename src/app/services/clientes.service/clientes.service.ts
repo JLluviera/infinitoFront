@@ -44,4 +44,14 @@ export class ClientesService {
   obtenerDeudaCliente(id: number) : Observable<number> {
     return this.http.get<number>(`${this.endpoint}/deuda/${id}`);
   }
+
+  usarSaldo(idCliente: number,idReservaNueva: number,monto: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/api/CuentaCorriente/usar-saldo`,
+    {
+      idCliente,
+      idReservaNueva,
+      monto
+    }
+  );
+}
 }

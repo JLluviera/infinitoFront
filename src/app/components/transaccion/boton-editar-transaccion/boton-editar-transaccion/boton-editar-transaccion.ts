@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
+
 import {
   FormBuilder,
   ReactiveFormsModule,
@@ -16,11 +17,14 @@ import {
 } from '@angular/forms';
 
 import { ModalGenericoComponent } from '../../../modal-generico/modal-generico';
-
 import { TransaccionesService } from '../../../../services/transaccion.service/transacciones.service';
-import { Transaccion } from '../../../../models/transaccion.model';
-import { TransaccionCrear } from '../../../../models/transaccion.model';
-import { FormaDePago,EstadoTransaccion } from '../../../../models/transaccion.model';
+
+import {
+  Transaccion,
+  TransaccionCrear,
+  FormaDePago,
+  EstadoTransaccion
+} from '../../../../models/transaccion.model';
 
 @Component({
   selector: 'app-boton-editar-transaccion',
@@ -47,12 +51,19 @@ export class BotonEditarTransaccionComponent implements OnChanges {
   EstadoTransaccion = EstadoTransaccion;
 
   transaccionForm = this.formBuilder.nonNullable.group({
-    monto: [0, [
-      Validators.required,
-      Validators.min(1)
-    ]],
 
-    fechaCreacion: ['', Validators.required],
+    monto: [
+      0,
+      [
+        Validators.required,
+        Validators.min(1)
+      ]
+    ],
+
+    fechaCreacion: [
+      '',
+      Validators.required
+    ],
 
     formaDePago: [
       FormaDePago.Efectivo,
@@ -62,7 +73,7 @@ export class BotonEditarTransaccionComponent implements OnChanges {
     observaciones: [''],
 
     estado: [
-      EstadoTransaccion.Pendiente,
+      EstadoTransaccion.Pago,
       Validators.required
     ],
 
@@ -88,15 +99,22 @@ export class BotonEditarTransaccionComponent implements OnChanges {
     if (changes['transaccion'] && this.transaccion) {
 
       this.transaccionForm.patchValue({
-        monto: this.transaccion.monto,
-        fechaCreacion: this.transaccion.fechaCreacion,
-        formaDePago: this.transaccion.formaDePago,
-        observaciones: this.transaccion.observaciones,
-        estado: this.transaccion.estado,
-        idReserva: this.transaccion.idReserva,
-        idCliente: this.transaccion.idCliente
-      });
 
+        monto: this.transaccion.monto,
+
+        fechaCreacion: this.transaccion.fechaCreacion,
+
+        formaDePago: this.transaccion.formaDePago,
+
+        observaciones: this.transaccion.observaciones,
+
+        estado: this.transaccion.estado,
+
+        idReserva: this.transaccion.idReserva,
+
+        idCliente: this.transaccion.idCliente
+
+      });
     }
   }
 
@@ -112,20 +130,31 @@ export class BotonEditarTransaccionComponent implements OnChanges {
     }
 
     const valores = this.transaccionForm.getRawValue();
+console.log(valores);
 
     const transaccion: TransaccionCrear = {
+      
+
       monto: valores.monto,
+
       fechaCreacion: valores.fechaCreacion,
+
       formaDePago: valores.formaDePago,
+
       observaciones: valores.observaciones,
+
       estado: valores.estado,
+
       idReserva: valores.idReserva,
+
       idCliente: valores.idCliente
+
     };
 
     this.transaccionesService
       .editarTransaccion(this.transaccion.id, transaccion)
       .subscribe({
+
         next: () => {
           this.transaccionEditada.emit();
         },
@@ -136,6 +165,7 @@ export class BotonEditarTransaccionComponent implements OnChanges {
             error
           );
         }
+
       });
   }
 }
