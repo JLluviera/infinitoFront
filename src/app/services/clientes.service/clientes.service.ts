@@ -4,6 +4,7 @@ import { Cliente, CrearCliente } from '../../models/cliente.model';
 import { Observable } from 'rxjs';
 import { API_URL } from '../../config/api-config.token';
 import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
+import { Pagina } from '../../models/pagina';
 
 @Injectable({
   providedIn: 'root',
@@ -53,5 +54,9 @@ export class ClientesService {
       monto
     }
   );
+}
+obtenerClientesPaginado(afterId: number | null): Observable<Pagina<Cliente>> {
+  let url = `${this.endpoint}/paginado`;if (afterId !== null) {url += `?afterId=${afterId}`;}
+  return this.http.get<Pagina<Cliente>>(url);
 }
 }

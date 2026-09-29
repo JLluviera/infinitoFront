@@ -6,11 +6,12 @@ import { ClienteBotonAgregarComponent } from './cliente.boton.agregar/cliente.bo
 import { ColumnaTabla, ListaGenericaComponent, } from '../lista-generica.component/lista-generica.component';
 import { ModalGenericoComponent } from '../modal-generico/modal-generico';
 import { ClienteBotonEditarComponent } from './cliente.boton.editar/cliente.boton.editar';
+import { Pagina } from '../../models/pagina';
 
 @Component({
   selector: 'app-cliente',
   standalone: true,
-  imports: [CommonModule, ListaGenericaComponent, ModalGenericoComponent, ClienteBotonAgregarComponent,ClienteBotonEditarComponent],
+  imports: [CommonModule, ListaGenericaComponent, ModalGenericoComponent, ClienteBotonAgregarComponent, ClienteBotonEditarComponent],
   templateUrl: './cliente.html',
   styleUrl: './cliente.css'
 })
@@ -27,9 +28,13 @@ export class ClienteComponent {
     { header: 'Fecha de nacimiento', field: 'fechaNacimiento', tipo: 'texto' },
     { header: 'Fecha vencimiento de Ci', field: 'fechaVencimientoCi', tipo: 'texto' }
   ];
+  cursor = signal<number | null>(null);
+  hayMas = signal(true);
+  cargando = signal(false);
 
   constructor(private clienteService: ClientesService) {
-    this.obtenerClientes();
+  this.cargarClientesInicial();
+
   }
 
   obtenerClientes(): void {
@@ -59,54 +64,94 @@ export class ClienteComponent {
 
   editarCliente(cliente: Cliente): void {
 
-  this.clienteSeleccionado = cliente;
-  this.mostrarEdicion = true;
+    this.clienteSeleccionado = cliente;
+    this.mostrarEdicion = true;
 
-}
-cerrarEdicion(): void {
+  }
+  cerrarEdicion(): void {
 
-  this.mostrarEdicion = false;
-  this.clienteSeleccionado = null;
+    this.mostrarEdicion = false;
+    this.clienteSeleccionado = null;
 
-}
-finalizarEdicion(): void {
+  }
+  finalizarEdicion(): void {
 
-  this.mostrarEdicion = false;
-  this.clienteSeleccionado = null;
+    this.mostrarEdicion = false;
+    this.clienteSeleccionado = null;
 
-  this.obtenerClientes();
+    this.obtenerClientes();
 
-}
-eliminarCliente(id: number): void {
+  }
+  eliminarCliente(id: number): void {
 
-  const confirmado = confirm(
-    '¿Está seguro que desea eliminar este cliente?'
-  );
+    const confirmado = confirm(
+      '¿Está seguro que desea eliminar este cliente?'
+    );
 
-  if (!confirmado) {
+    if (!confirmado) {
+      return;
+    }
+
+    this.clienteService.borrarCliente(id).subscribe({
+
+      next: () => {
+
+        console.log('✅ Cliente eliminado correctamente');
+
+        this.obtenerClientes();
+
+      },
+
+      error: (error) => {
+
+        console.error(
+          '❌ Error al eliminar cliente:',
+          error
+        );
+
+      }
+
+    });
+  }
+  cargarClientes(): void {
+
+  console.log('🚀 cargarClientes() ejecutado');
+  console.log('Cursor actual:', this.cursor());
+  console.log('Hay más actual:', this.hayMas());
+
+  if (this.cargando() || !this.hayMas()) {
+    console.log('⛔ No se carga');
     return;
   }
 
-  this.clienteService.borrarCliente(id).subscribe({
+  this.cargando.set(true);
 
-    next: () => {
+  this.clienteService
+    .obtenerClientesPaginado(this.cursor())
+    .subscribe({
+      next: (pagina) => {
 
-      console.log('✅ Cliente eliminado correctamente');
+        this.clientes.update(clientesActuales => [
+          ...clientesActuales,
+          ...pagina.elementos
+        ]);
 
-      this.obtenerClientes();
+        this.cursor.set(pagina.siguienteCursor);
+        this.hayMas.set(pagina.hayMas);
 
-    },
+        this.cargando.set(false);
+      },
 
-    error: (error) => {
-
-      console.error(
-        '❌ Error al eliminar cliente:',
-        error
-      );
-
-    }
-
-  });
-
+      error: (error) => {
+        console.error('❌ Error:', error);
+        this.cargando.set(false);
+      }
+    });
+}
+  cargarClientesInicial(): void {
+  this.clientes.set([]);
+  this.cursor.set(null);
+  this.hayMas.set(true);
+  this.cargarClientes();
 }
 }
