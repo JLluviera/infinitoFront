@@ -51,6 +51,7 @@
         valor="id"
         texto="nombrePais"
         [(ngModel)]="nuevoDestino.idPais"
+        (seleccionCambiada)="onSelectionPaises($event)"
         name="pais">
         </app-select-generico>
     </div>

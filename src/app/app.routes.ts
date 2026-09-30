@@ -15,6 +15,8 @@ import { TransaccionComponent } from './components/transaccion/transaccion';
 import { DetalleClienteComponent } from './components/cliente/detalle-cliente/detalle-cliente/detalle-cliente';
 import { VerReservaComponent } from './components/reservas/verReserva/ver-reserva.component/ver-reserva.component';
 import { PaqueteComponent } from './components/paquete/paquete';
+import { PlantillaCreadorComponent } from './components/plantillasVehiculos/plantilla-creador.component/plantilla-creador.component';
+import { AsignacionAsientosComponent } from './components/asignacionAsientos/asignacion-asientos.component/asignacion-asientos.component';
 
 export const routes: Routes = [
 
@@ -84,6 +86,16 @@ export const routes: Routes = [
       {
         path: 'paquetes',
         component: PaqueteComponent
+      },
+      //Planillas Vehiculos
+      {
+        path: 'plantillasVehiculos',
+        component : PlantillaCreadorComponent
+      },
+      //Asignacio de Asientos de una Excursion
+      {
+        path: 'asignarAsientos/:excursionId',
+        component : AsignacionAsientosComponent
       },
       // Ruta por defecto
       {
