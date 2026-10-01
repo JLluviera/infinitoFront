@@ -1,6 +1,7 @@
 export interface PasajeroPendienteDTO {
   reservaClienteId: number;
+  reservaId: number;
+  clienteId: number;
   nombreCliente: string;
-  documento?: string;
-  asientoAsignadoId?: number | null;
+  apellidoCliente: string;
 }

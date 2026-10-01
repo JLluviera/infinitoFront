@@ -10,6 +10,6 @@ export interface MapaExcursionResponseDTO
     totalPisos: number,
     totalFilas: number,
     totalColumnas: number,
-    Asientos: AsientoMapaDTO[];
-    PasajerosPendientes: PasajeroPendienteDTO[]
+    asientos: AsientoMapaDTO[];
+    pasajerosPendientes: PasajeroPendienteDTO[]
 }

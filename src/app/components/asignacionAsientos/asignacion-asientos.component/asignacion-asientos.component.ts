@@ -39,7 +39,7 @@ export class AsignacionAsientosComponent implements OnInit {
 
   // Lista de Pisos disponibles en esta plantilla
   pisosDisponibles = computed(() => {
-    const pisos = this.mapaExcursion()?.Asientos.map(a => a.pisoAsiento);
+    const pisos = this.mapaAsientos().map(a => a.pisoAsiento);
     return Array.from(new Set(pisos)).sort((a, b) => a - b);
   });
 
@@ -50,7 +50,7 @@ export class AsignacionAsientosComponent implements OnInit {
 
   // Matriz bidimensional computada (Fila x Columna) para el piso actual
   matrizPiso = computed(() => {
-    const asientos = this.asientosPisoActual;
+    const asientos = this.asientosPisoActual();
     if (asientos.length === 0) return [];
 
     const maxFila = this.mapaExcursion()?.totalFilas ||  1;
@@ -62,7 +62,7 @@ export class AsignacionAsientosComponent implements OnInit {
     );
 
     // Ubicar cada asiento en su coordenada (fila - 1, columna - 1)
-    asientos().forEach(a => {
+    asientos.forEach(a => {
     if (a.fila > 0 && a.columna > 0) {
       grid[a.fila - 1][a.columna - 1] = a;
     }
@@ -115,7 +115,7 @@ export class AsignacionAsientosComponent implements OnInit {
 
     this.asignacionesAsientosService.asignarAsiento(payload).subscribe({
       next: (resp: any) => {
-        this.alertas.confirm(resp, "Asiento asignado");
+        this.alertas.showAlert(`Asiento ${asiento.numeroAsiento} asignado a ${pasajero.nombreCliente} ${pasajero.apellidoCliente}`, 'exito', 'Asignación Exitosa', 3000);
       },
       error: (err :any) => {
         return;
@@ -158,8 +158,8 @@ export class AsignacionAsientosComponent implements OnInit {
     this.asignacionesAsientosService.obtenerMapaAsientos(this.idExcursion()).subscribe({
       next: (resp: MapaExcursionResponseDTO) => {
         this.mapaExcursion.set(resp);
-        this.mapaAsientos.set(resp.Asientos);
-        this.pasajerosPendientes.set(resp.PasajerosPendientes);
+        this.mapaAsientos.set(resp.asientos);
+        this.pasajerosPendientes.set(resp.pasajerosPendientes);
         this.cargando.set(false);
       },
       error: (err: any) => {

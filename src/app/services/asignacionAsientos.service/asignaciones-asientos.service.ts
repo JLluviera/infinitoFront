@@ -28,8 +28,8 @@ export class AsientoService {
    * Asigna un asiento a un registro ReservaCliente dentro de una excursión.
    * C# Endpoint: POST /api/excursiones/asignar-asiento
    */
-  asignarAsiento(payload: AsignarAsientoRequestDTO): Observable<void> {
-    return this.http.post<void>(`${this.endpoint}/asignar-asiento`, payload);
+  asignarAsiento(payload: AsignarAsientoRequestDTO): Observable<string> {
+    return this.http.post(`${this.endpoint}/asignar-asiento`, payload, { responseType: 'text' });
   }
 
   /**
