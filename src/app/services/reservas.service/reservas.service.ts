@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ReservaList, ReservaModel } from '../../models/reserva.model';
 import { ReservaCrearModel } from '../../models/reserva-crear.model';
+import { Pagina } from '../../models/pagina';
 
 @Injectable({
   providedIn: 'root',
@@ -50,4 +51,23 @@ export class ReservasService {
   cancelarReserva(idReserva: number): Observable<string>{
     return this.http.put(`${this.apiUrl}/api/Reserva/cancelar/${idReserva}`, idReserva, { responseType: 'text'})
   }
+
+  obtenerReservasPaginado( afterId: number | null,idExcursion: number | null): Observable<Pagina<ReservaList>> {
+
+  let url = `${this.apiUrl}/api/Reserva/list/paginado`;
+
+  const parametros: string[] = [];
+
+  if (afterId !== null) {
+    parametros.push(`afterId=${afterId}`);
+  }
+
+  if (idExcursion !== null && idExcursion > 0) {
+    parametros.push(`idExcursion=${idExcursion}`);
+  }
+
+  if (parametros.length > 0) {
+    url += `?${parametros.join('&')}`;}
+    return this.http.get<Pagina<ReservaList>>(url);
+}
 }

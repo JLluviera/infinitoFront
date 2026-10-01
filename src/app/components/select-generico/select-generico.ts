@@ -15,9 +15,13 @@ export class SelectGenericoComponent<T extends Record<string, any>> {
   @Input() texto = 'nombre';
   @Input() disabled = false;
 
+  @Input() valorSeleccionado: number | null = null;
+
   onSeleccion(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const valorNumerico = Number(selectElement.value);
+    console.log('🌎 SELECT EMITIÓ:', valorNumerico);
     this.seleccionCambiada.emit(valorNumerico); // emitimos el cambio al padre.
+    
   }
 }

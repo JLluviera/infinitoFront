@@ -19,6 +19,10 @@ export class ListadoReservas implements OnInit {
   idExcursion = input<number>();
   reservas = signal<ReservaList[]>([]);
 
+  cursor = signal<number | null>(null);
+  hayMas = signal(true);
+  cargando = signal(false);
+
   columnas: ColumnaTabla<ReservaList>[] = [
     { header: 'ID', field: 'id', tipo: 'id' },
     { header: 'IDExcursion', field: 'idExcursion', tipo: 'id' },
@@ -29,8 +33,8 @@ export class ListadoReservas implements OnInit {
   ]
 
   ngOnInit(): void {
-    console.log("Componente iniciado");
-    this.cargarReservas(this.idExcursion());
+    console.log('Componente iniciado');
+    this.cargarReservasInicial();
   }
 
   verReserva(idReserva: number): void {
@@ -39,27 +43,57 @@ export class ListadoReservas implements OnInit {
 
   }
 
-  cargarReservas(idExcursion?: number): void {
-    console.log("Cargando reservas");
-    if (!(idExcursion && idExcursion > 0)) {
-      this.servicioReservas.getReservasList()
-        .subscribe({
-          next: (Response: any) => {
-            this.reservas.set(Response)
-          }
-        })
-      return
-    } else {
-      this.servicioReservas.getReservasExcursiones(idExcursion!).subscribe({
-        next: (Response: any) => {
-          this.reservas.set(Response)
-        }
-      })
-    }
-  }
-  agregarReserva(): void {
-  this.router.navigate(['/reserva/crear']);
-}
+  cargarReservas(): void {
 
+  if (this.cargando() || !this.hayMas()) {
+    return;
+  }
+
+  this.cargando.set(true);
+
+  const idExcursion = this.idExcursion() ?? null;
+
+  this.servicioReservas
+    .obtenerReservasPaginado(
+      this.cursor(),
+      idExcursion
+    )
+    .subscribe({
+
+      next: pagina => {
+
+        this.reservas.update(reservasActuales => [
+          ...reservasActuales,
+          ...pagina.elementos
+        ]);
+
+        this.cursor.set(pagina.siguienteCursor);
+        this.hayMas.set(pagina.hayMas);
+
+        this.cargando.set(false);
+      },
+
+      error: error => {
+
+        console.error(
+          'Error al obtener reservas:',
+          error
+        );
+
+        this.cargando.set(false);
+      }
+    });
+}
+  agregarReserva(): void {
+    this.router.navigate(['/reserva/crear']);
+  }
+  cargarReservasInicial(): void {
+
+    this.reservas.set([]);
+    this.cursor.set(null);
+    this.hayMas.set(true);
+
+    this.cargarReservas();
+  }
 }
 

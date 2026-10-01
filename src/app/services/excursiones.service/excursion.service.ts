@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { API_URL } from '../../config/api-config.token';
 import { Observable } from 'rxjs';
 import { Excursion, CrearExcursion } from '../../models/excursion.model';
+import { Pagina } from '../../models/pagina';
+
 
 @Injectable({
   providedIn: 'root',
@@ -29,4 +31,11 @@ export class ExcursionService {
   borrarExcursion(id: number): Observable<string> {
     return this.http.delete(`${this.endpoint}/${id}`,{ responseType: 'text' });
   }
+  obtenerExcursionesPaginado(afterId: number | null): Observable<Pagina<Excursion>> {
+
+  let url = `${this.endpoint}/paginado`;
+
+  if (afterId !== null) {
+    url += `?afterId=${afterId}`;}return this.http.get<Pagina<Excursion>>(url);
+}
 }

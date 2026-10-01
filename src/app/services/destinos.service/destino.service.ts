@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { API_URL } from '../../config/api-config.token';
 import { Observable } from 'rxjs';
 import { Destino, CrearDestino } from '../../models/destino.model';
+import { Pagina } from '../../models/pagina';
 
 @Injectable({
   providedIn: 'root',
@@ -34,4 +35,15 @@ export class DestinoService {
   eliminarDestino(id: number): Observable<string> {
     return this.http.delete(`${this.endpoint}/${id}`,{responseType:'text'});
   }
+  
+  obtenerDestinosPaginado(afterId: number | null): Observable<Pagina<Destino>> {
+
+  let url = `${this.endpoint}/paginado`;
+
+  if (afterId !== null) {
+    url += `?afterId=${afterId}`;
+  }
+
+  return this.http.get<Pagina<Destino>>(url);
+}
 }

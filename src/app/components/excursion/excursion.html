@@ -5,13 +5,15 @@
 
 <app-lista-generica
   titulo="Listado de Excursiones"
-  subtitulo="Excursiones disponibles en la base de datos"
+  subtitulo="Excursiones registradas en la base de datos"
   [data]="excursiones()"
-  [rutaDetalle]="'/excursiones/detalle'"
-  [campoId]="'id'"
   [columnas]="columnas"
+  [hasMore]="hayMas()"
+  [loadingMore]="cargando()"
+  (loadMore)="cargarExcursiones()"
   (onEdit)="editarExcursion($event)"
-  (onDelete)="eliminarExcursion($event.id, $event.nombre)">
+  (onDelete)="eliminarExcursion($event.id,  $event.nombre)"
+>
 </app-lista-generica>
 <!-- Modal de edición -->
 @if (mostrarEdicion && excursionSeleccionada) {
