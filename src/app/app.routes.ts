@@ -15,6 +15,9 @@ import { TransaccionComponent } from './components/transaccion/transaccion';
 import { DetalleClienteComponent } from './components/cliente/detalle-cliente/detalle-cliente/detalle-cliente';
 import { VerReservaComponent } from './components/reservas/verReserva/ver-reserva.component/ver-reserva.component';
 import { PaqueteComponent } from './components/paquete/paquete';
+import { AuditoriaComponent } from './components/auditoria/auditoria';
+import { from } from 'rxjs';
+
 
 export const routes: Routes = [
 
@@ -90,6 +93,11 @@ export const routes: Routes = [
         path: '',
         redirectTo: 'excursiones',
         pathMatch: 'full'
+      },
+      //Auditoria
+      {
+        path: 'auditoria',
+        component: AuditoriaComponent
       }
     ]
   },

@@ -1,0 +1,23 @@
+<div class="space-y-6">
+
+  <div>
+    <h1 class="text-2xl font-bold text-slate-800 dark:text-white">
+      Auditoría
+    </h1>
+
+    <p class="text-sm text-slate-500 dark:text-slate-400">
+      Historial de cambios realizados en el sistema
+    </p>
+  </div>
+
+  <app-lista-generica
+  [data]="auditorias()"
+  [columnas]="columnas"
+  [mostrarEditar]="false"
+  [mostrarEliminar]="false"
+  [hasMore]="hayMas()"
+  [loadingMore]="cargando()"
+  (loadMore)="cargarAuditorias()">
+</app-lista-generica>
+
+</div>
