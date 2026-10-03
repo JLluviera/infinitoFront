@@ -1,1 +1,24 @@
-<p>paquete works!</p>
+<app-boton-agregar-paquete
+  (paqueteCreado)="recargarPaquetes()">
+</app-boton-agregar-paquete>
+
+<app-lista-generica
+  titulo="Listado de Paquetes"
+  subtitulo="Paquetes registrados en la base de datos"
+  [data]="paquetes()"
+  [columnas]="columnas"
+  (onEdit)="editarPaquete($event)"
+  (onDelete)="eliminarPaquete($event)"
+>
+</app-lista-generica>
+
+@if (mostrarEdicion && paqueteSeleccionado) {
+
+  <app-boton-editar-paquete
+    [paquete]="paqueteSeleccionado"
+    (paqueteEditado)="finalizarEdicion()"
+    (cerrar)="cerrarEdicion()"
+  >
+  </app-boton-editar-paquete>
+
+}

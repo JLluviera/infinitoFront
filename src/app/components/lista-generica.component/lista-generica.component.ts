@@ -30,4 +30,6 @@ export class ListaGenericaComponent<T> {//
 
   onEdit =  output<T>();
   onDelete = output<T>();
+
+  mostrarEliminar = input<boolean>(true);
 }

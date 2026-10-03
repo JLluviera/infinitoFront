@@ -1,77 +1,61 @@
-<!-- Fondo oscuro -->
+<!-- Fondo oscuro con efecto de desenfoque (backdrop blur) -->
 <div
-  class="fixed inset-0 bg-black/50 z-40"
+  class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-40 transition-opacity"
   (click)="cerrarModal()">
 </div>
 
+<!-- Contenedor del modal (centrado) -->
+<!-- Usamos pointer-events-none para que los clicks sueltos pasen al fondo oscuro -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 pointer-events-none">
 
-<!-- Contenedor del modal -->
-<div class="fixed inset-0 z-50 flex items-center justify-center p-4">
-
+  <!-- Tarjeta del Modal -->
+  <!-- pointer-events-auto rehabilita los clicks. flex y flex-col hacen la magia del tamaño -->
   <div
-    class="bg-white dark:bg-slate-900 rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+    class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col pointer-events-auto overflow-hidden"
     (click)="$event.stopPropagation()">
 
+    <!-- Cabecera (Fija en la parte superior gracias a shrink-0) -->
+    <div class="flex items-start justify-between gap-4 px-6 py-4 border-b border-slate-200 dark:border-slate-800 shrink-0">
+      
+      <!-- Títulos -->
+      <div class="flex flex-col">
+        <h2 class="text-xl font-bold text-slate-800 dark:text-white leading-tight">
+          {{ titulo }}
+        </h2>
+        @if (subtitulo) {
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+            {{ subtitulo }}
+          </p>
+        }
+      </div>
 
-    <!-- Cabecera -->
-    <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-800">
-
-      <h2 class="text-xl font-bold text-slate-800 dark:text-white">
-        {{ titulo }}
-      </h2>
-
-      @if (subtitulo) {
-        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-          {{ subtitulo }}
-        </p>
-      }
+      <!-- Botón de Cerrar (ahora integrado en la cabecera) -->
+      <button
+        type="button"
+        (click)="cerrarModal()"
+        class="shrink-0 w-8 h-8 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200 transition-colors focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-5 h-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
 
     </div>
 
-
-    <!-- Contenido que le pase el componente padre -->
-    <div class="p-6">
-
+    <!-- Cuerpo del Modal (<ng-content>) -->
+    <!-- flex-1 hace que ocupe el resto del modal. -->
+    <!-- Las últimas dos clases ocultan la barra de scroll en Firefox y Chrome/Safari/Edge -->
+    <div class="p-6 flex-1 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <ng-content></ng-content>
-
     </div>
 
-
   </div>
-
-</div>
-<div>
-    <h2 class="text-xl font-bold text-slate-800 dark:text-white">
-      {{ titulo }}
-    </h2>
-
-    @if (subtitulo) {
-      <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-        {{ subtitulo }}
-      </p>
-    }
-  </div>
-<div>
-  <button
-    type="button"
-    (click)="cerrarModal()"
-    class="w-8 h-8 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200 transition-colors cursor-pointer">
-
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      class="w-5 h-5"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      stroke-width="2">
-
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M6 18L18 6M6 6l12 12" />
-
-    </svg>
-
-  </button>
-
 </div>

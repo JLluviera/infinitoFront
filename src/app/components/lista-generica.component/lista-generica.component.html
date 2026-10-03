@@ -30,13 +30,9 @@
       <!-- Body dinámico -->
       <tbody class="divide-y divide-slate-100 dark:divide-slate-800/60 text-sm text-slate-700 dark:text-slate-300">
         
-        @for (row of data(); track $index; let isEven = $even) {
+        @for (row of data(); track $index) {
           <tr 
-            class="transition-colors hover:bg-sky-50/50 dark:hover:bg-slate-800/50 cursor-pointer"
-            [class.bg-slate-50_50]="isEven"
-            [class.dark:bg-slate-900]="isEven"
-            [class.bg-white]="!isEven"
-            [class.dark:bg-slate-800_30]="!isEven">
+            class="transition-colors cursor-pointer bg-white dark:bg-slate-900 even:bg-slate-100/70 even:dark:bg-slate-800/70 hover:bg-sky-50 dark:hover:bg-slate-800">
             
             <!-- Celdas dinámicas -->
             @for (col of columnas(); track col.field) {
@@ -94,11 +90,11 @@
                 class="bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 hover:bg-sky-500 dark:hover:bg-sky-500 hover:text-white dark:hover:text-white border border-sky-100 dark:border-sky-500/20 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-2xs cursor-pointer">
                 Editar
               </button>
-              <button 
+              @if(mostrarEliminar()){<button 
                 (click)="onDelete.emit(row)"
                 class="bg-sky-50 dark:bg-sky-500/10 text-sky-600 dark:text-sky-400 hover:bg-sky-500 dark:hover:bg-sky-500 hover:text-white dark:hover:text-white border border-sky-100 dark:border-sky-500/20 px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-2xs cursor-pointer">
                 Borrar
-              </button>
+              </button>}
             </td>
 
           </tr>

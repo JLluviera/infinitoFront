@@ -4,18 +4,31 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Excursion, CrearExcursion } from '../../../models/excursion.model';
 import { ExcursionService } from '../../../services/excursiones.service/excursion.service';
 import { ExcursionBotonAgregarComponent } from "../excursion.boton.agregar.component/excursion.boton.agregar.component";
+import { Destino } from '../../../models/destino.model';
+import { DestinoService } from '../../../services/destinos.service/destino.service';
+import { SelectGenericoComponent } from '../../select-generico/select-generico';
+import { PlantillaVehiculoService } from '../../../services/plantillaVehiculo.service/plantilla-vehiculo.service';
+import { PlantillaVehiculo } from '../../../models/plantillaVehiculo.model';
 
 @Component({
   selector: 'app-excursion-boton-editar',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ExcursionBotonAgregarComponent],
+  imports: [CommonModule, ReactiveFormsModule, ExcursionBotonAgregarComponent,SelectGenericoComponent],
   templateUrl: './excursion.boton.editar.html',
   styleUrl: './excursion.boton.editar.css'
 })
 export class ExcursionBotonEditarComponent implements OnChanges {
 
   private excursionService = inject(ExcursionService);
+  private destinoService = inject(DestinoService);
+  private plantillasService = inject(PlantillaVehiculoService);
 
+  plantillas = signal<PlantillaVehiculo[] | null>(null);
+  destinos: Destino[] = [];
+  constructor() {
+    this.obtenerDestinos();
+    this.obtenerPlantillas();
+  }
   private fb = inject(FormBuilder);
 
   @Input() excursion: Excursion | null = null;
@@ -24,6 +37,24 @@ export class ExcursionBotonEditarComponent implements OnChanges {
 
   @Output() cerrar = new EventEmitter<void>();
 
+  obtenerDestinos(): void {
+    this.destinoService.obtenerDestinos().subscribe({
+      next: (destinos) => {
+        this.destinos = destinos;
+      },
+      error: (error) => {
+        console.error('❌ Error al obtener destinos:', error);
+      }
+    });
+  }
+
+  obtenerPlantillas(): void {
+    this.plantillasService.getPlantillas().subscribe({
+      next: (resp: PlantillaVehiculo[]) =>{
+        this.plantillas.set(resp);
+      }
+    })
+  }
 
   isOpen = signal<boolean>(false);
   ngOnChanges(changes: SimpleChanges): void {
@@ -70,6 +101,14 @@ export class ExcursionBotonEditarComponent implements OnChanges {
         Validators.required,
         Validators.min(1)
       ]
+    ],
+
+    plantillaId: [
+      0,
+      [
+        Validators.required,
+        Validators.min(1)
+      ]
     ]
   });
 
@@ -89,7 +128,9 @@ export class ExcursionBotonEditarComponent implements OnChanges {
 
       cantLugares: this.excursion.cantLugares,
 
-      destinoId: this.excursion.destinoId
+      destinoId: this.excursion.destinoId,
+
+      plantillaId: this.excursion.plantillaVehiculoId
 
     });
 
@@ -105,7 +146,8 @@ export class ExcursionBotonEditarComponent implements OnChanges {
       fechaSalida: '',
       cantDias: 1,
       cantLugares: 1,
-      destinoId: 0
+      destinoId: 0,
+      plantillaId: 0
     });
 
     this.cerrar.emit();
@@ -134,7 +176,9 @@ export class ExcursionBotonEditarComponent implements OnChanges {
 
       cantLugares: this.excursionForm.get('cantLugares')?.value,
 
-      destinoId: this.excursionForm.get('destinoId')?.value
+      destinoId: this.excursionForm.get('destinoId')?.value,
+      
+      plantillaVehiculoId: this.excursionForm.get('plantillaId')?.value
 
     };
     this.excursionService.editarExcursion(this.excursion.id, excursionModificada).subscribe({
@@ -158,11 +202,15 @@ export class ExcursionBotonEditarComponent implements OnChanges {
           '❌ ERROR AL EDITAR EXCURSIÓN:',
           error
         );
-
       }
-
     });
-
   }
 
+  onSeleccionPlanilla(idPlanilla: number){
+    this.excursionForm.get('plantillaId')?.setValue(idPlanilla);
+  }
+
+  onSeleccionDestino(idDestino: number){
+    this.excursionForm.get('destinoId')?.setValue(idDestino);
+  }
 }

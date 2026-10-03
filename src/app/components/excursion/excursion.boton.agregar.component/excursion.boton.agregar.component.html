@@ -155,19 +155,32 @@
           <label
             for="destinoId"
             class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
-
             Destino
-
           </label>
 
-          <input
-            id="destinoId"
-            type="number"
-            formControlName="destinoId"
-            min="1"
-            placeholder="ID del destino"
-            class="w-full px-3 py-2 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-800 dark:text-white">
+          <app-select-generico
+            [items]="destinos"
+            valor="id"
+            texto="nombre"
+            (seleccionCambiada)="onSeleccionDestino($event)">
+          </app-select-generico>
 
+        </div>
+
+        <!-- Plantilla -->
+        <div class="mt-4">
+            <label for="plantillaId"
+              class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              Plantilla Vehiculo
+            </label>
+
+            <app-select-generico
+              [items]="plantillas()!"
+              valor="id"
+              texto="nombrePlantilla"
+              (seleccionCambiada)="onSeleccionPlanilla($event)"
+              formControlName="plantillaVehiculoId">
+            </app-select-generico>
         </div>
 
 

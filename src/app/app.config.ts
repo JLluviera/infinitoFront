@@ -8,10 +8,15 @@ import { jwtInterceptor } from './interceptors/jwt-interceptor';
 import { environment } from '../environments/environment';
 import { API_URL } from './config/api-config.token';
 
+import { respuestasHttpInterceptorfn } from '../app/interceptors/respuestasHttp/respuestas-http.interceptorfn'
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
-    provideHttpClient(withInterceptors([jwtInterceptor])),
+    provideHttpClient(withInterceptors([
+      jwtInterceptor,
+      respuestasHttpInterceptorfn
+    ])),
     
     // Aquí proveemos la URL base de manera global
     { provide: API_URL, useValue: environment.apiUrl }

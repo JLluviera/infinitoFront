@@ -5,6 +5,7 @@ export interface Cliente {
     ci: number;
     telefono: string;
     fechaNacimiento:string;
+    fechaVencimientoCi:string;
 }
 export interface CrearCliente {
     nombre: string;
@@ -12,4 +13,5 @@ export interface CrearCliente {
     ci: number;
     telefono: string;
     fechaNacimiento:string;
+    fechaVencimientoCi:string;
 }

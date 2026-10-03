@@ -19,8 +19,8 @@ export class ClientesService {
   }
 
   obtenerClientePorId(id: number): Observable<Cliente> {
-    return this.http.get<Cliente>(`${this.apiUrl}/${id}`);
-  }
+  return this.http.get<Cliente>(`${this.endpoint}/${id}`);
+}
   crearCliente(nuevoCliente: CrearCliente): Observable<string> {
     return this.http.post(this.endpoint, nuevoCliente, { responseType: 'text' });
   }
@@ -28,7 +28,20 @@ export class ClientesService {
   editarCliente(id: number, cliente: CrearCliente): Observable<string> {
     return this.http.put(`${this.endpoint}/${id}`, cliente, { responseType: 'text' });
   }
+
   borrarCliente(id: number): Observable<string> {
     return this.http.delete(`${this.endpoint}/${id}`, { responseType: 'text' });
+  }
+
+  obtenerClientePorCi(ci: number) : Observable<Cliente> {
+    return this.http.get<Cliente>(`${this.endpoint}/ci/${ci}`);
+  }
+
+  obtenerSaldoPendienteCliente(id: number) : Observable<number> {
+    return this.http.get<number>(`${this.endpoint}/saldo/${id}`);
+  }
+
+  obtenerDeudaCliente(id: number) : Observable<number> {
+    return this.http.get<number>(`${this.endpoint}/deuda/${id}`);
   }
 }
