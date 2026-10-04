@@ -18,6 +18,7 @@ export class VerReservaComponent implements OnInit{
   reserva = signal<ReservaModel | null>(null);
   cargando = signal<boolean>(false);
   idRes = signal<number>(0);
+  idExcursion = signal<number>(0);
 
   readonly EstadoReserva = EstadoReserva;
 
@@ -33,6 +34,7 @@ export class VerReservaComponent implements OnInit{
       if (id && !isNaN(id)) {
         this.cargarReserva(id);
         this.idRes.set(id);
+        console.log(`idExcursion ${this.idExcursion}`)
       } else {
         console.error('El ID de la reserva no es válido');
       }
@@ -41,8 +43,10 @@ export class VerReservaComponent implements OnInit{
 
   cargarReserva(id: number){
     this.reservaService.getReservaPorId(id).subscribe({
-      next: (reserva: any) =>{
+      next: (reserva: ReservaModel) =>{
         this.reserva.set(reserva);
+        this.idExcursion.set(reserva.idExcursion);
+        console.log(`Id recibido : ${reserva.idExcursion}`)
       }
     })
   }

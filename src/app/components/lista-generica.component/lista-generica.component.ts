@@ -30,13 +30,18 @@ export class ListaGenericaComponent<T> {//
 
   onEdit = output<T>();
   onDelete = output<T>();
+  onDetail = output<T>();
 
   mostrarEliminar = input<boolean>(true);
   mostrarEditar = input<boolean>(true);
+  mostrarDetalle = input<boolean>(false);
 
   hasMore = input(false);
   loadingMore = input(false);
   loadMore = output<void>();
+
+  
+  
 
   onScroll(event: Event): void {
 

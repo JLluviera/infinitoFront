@@ -1,5 +1,6 @@
 import { Paquete } from "./paquete.model";
 import { Destino } from "./destino.model";
+import { PlantillaVehiculo } from "./plantillaVehiculo.model";
 
 export interface Excursion {
 
@@ -16,6 +17,10 @@ export interface Excursion {
   destinoId: number;
 
   destino?: Destino;
+
+  plantillaVehiculoId: number;
+
+  plantillaVehiculo: PlantillaVehiculo
 }
 
 export interface CrearExcursion {
@@ -29,4 +34,6 @@ export interface CrearExcursion {
   cantLugares: number;
 
   destinoId: number;
+
+  plantillaVehiculoId: number;
 }
