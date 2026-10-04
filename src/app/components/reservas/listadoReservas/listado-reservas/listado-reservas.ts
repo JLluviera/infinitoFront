@@ -28,7 +28,7 @@ export class ListadoReservas implements OnInit {
     { header: 'IDExcursion', field: 'idExcursion', tipo: 'id' },
     { header: 'NombreCliente ', field: 'nombreCliente', tipo: 'texto' },
     { header: 'ApellidoCliente ', field: 'apellidoCliente', tipo: 'texto' },
-    { header: 'Cedula', field: 'ciCliente', tipo: 'link' },
+    { header: 'Cedula', field: 'ciCliente', tipo: 'texto' },
     { header: 'Estado', field: 'estadoReserva', tipo: 'texto' },
   ]
 
@@ -37,11 +37,9 @@ export class ListadoReservas implements OnInit {
     this.cargarReservasInicial();
   }
 
-  verReserva(idReserva: number): void {
-    if (!idReserva) return;
-
-
-  }
+  verReserva(reserva: ReservaList): void {
+  this.router.navigate(['/reserva/detalle', reserva.id]);
+}
 
   cargarReservas(): void {
 
@@ -95,5 +93,6 @@ export class ListadoReservas implements OnInit {
 
     this.cargarReservas();
   }
+  
 }
 

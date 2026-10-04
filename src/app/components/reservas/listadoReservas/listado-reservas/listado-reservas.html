@@ -10,8 +10,15 @@
   subtitulo="Reservas registradas en la base de datos"
   [data]="reservas()"
   [columnas]="columnas"
+
+  [mostrarDetalle]="true"
+  [mostrarEditar]="false"
+  [mostrarEliminar]="false"
+
   [hasMore]="hayMas()"
   [loadingMore]="cargando()"
   (loadMore)="cargarReservas()"
+
+  (onDetail)="verReserva($event)"
 >
 </app-lista-generica>
