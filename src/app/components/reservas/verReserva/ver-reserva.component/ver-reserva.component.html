@@ -168,6 +168,12 @@
           </svg>
           <span>Cancelar</span>
         </button>
+
+        <button [routerLink]="['/asignarAsientos', idExcursion()]" type="button" 
+                aria-label="Asginar Asientos"
+                class="w-full sm:w-auto px-6 py-2.5 bg-sky-500 hover:bg-sky-600 active:bg-sky-700 text-white font-bold text-sm rounded-full shadow-2xs transition-all cursor-pointer flex items-center justify-center gap-2 focus:ring-2 focus:ring-sky-500/50 outline-none">
+          Asignar Asientos
+        </button>
       </footer>
     
     </main>

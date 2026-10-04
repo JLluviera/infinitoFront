@@ -20,7 +20,7 @@ export class ListadoReservas implements OnInit {
   reservas = signal<ReservaList[]>([]);
 
   cursor = signal<number | null>(null);
-  hayMas = signal(true);
+  hayMas = signal<boolean>(true);
   cargando = signal(false);
 
   columnas: ColumnaTabla<ReservaList>[] = [

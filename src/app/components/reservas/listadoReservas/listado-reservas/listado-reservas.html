@@ -12,6 +12,11 @@
   [columnas]="columnas"
   [hasMore]="hayMas()"
   [loadingMore]="cargando()"
+  [mostrarEliminar]="false"
+  [rutaDetalle]="'/reserva/detalle'"
+  [campoId]="'id'"
+  [columnas]="columnas"
+  (onEdit)="verReserva($event.id)"
   (loadMore)="cargarReservas()"
 >
 </app-lista-generica>
