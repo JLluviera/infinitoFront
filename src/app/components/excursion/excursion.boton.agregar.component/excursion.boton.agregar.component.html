@@ -152,20 +152,36 @@
         <!-- Destino -->
         <div class="mt-4">
 
-  <label
-    for="destinoId"
-    class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
-    Destino
-  </label>
+          <label
+            for="destinoId"
+            class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+            Destino
+          </label>
 
-  <app-select-generico
-    [items]="destinos"
-    valor="id"
-    texto="nombre"
-    formControlName="destinoId">
-  </app-select-generico>
+          <app-select-generico
+            [items]="destinos"
+            valor="id"
+            texto="nombre"
+            (seleccionCambiada)="onSeleccionDestino($event)">
+          </app-select-generico>
 
-</div>
+        </div>
+
+        <!-- Plantilla -->
+        <div class="mt-4">
+            <label for="plantillaId"
+              class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              Plantilla Vehiculo
+            </label>
+
+            <app-select-generico
+              [items]="plantillas()!"
+              valor="id"
+              texto="nombrePlantilla"
+              (seleccionCambiada)="onSeleccionPlanilla($event)"
+              formControlName="plantillaVehiculoId">
+            </app-select-generico>
+        </div>
 
 
         <!-- Botones -->

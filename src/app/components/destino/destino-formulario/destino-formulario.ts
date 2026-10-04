@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, Input, inject } from '@angular/core';
+import { Component, EventEmitter, Output, Input, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Destino, CrearDestino } from '../../../models/destino.model';
@@ -6,6 +6,7 @@ import { ModalGenericoComponent } from '../../modal-generico/modal-generico';
 import { Pais } from '../../../models/pais.model';
 import { PaisesService } from '../../../services/paises.service/paises.service';
 import { SelectGenericoComponent } from '../../select-generico/select-generico';
+import { single } from 'rxjs';
 
 @Component({
   selector: 'app-destino-formulario',
@@ -29,6 +30,8 @@ export class DestinoFormulario {
   // Evento para avisar al padre que el usuario canceló
   @Output() cerrar = new EventEmitter<void>();
   private _destinoEditar: Destino | null = null;
+
+  paisId = signal<number>(0);
 
   @Input()
   set destinoEditar(destino: Destino | null) {
@@ -91,6 +94,7 @@ export class DestinoFormulario {
         this.paises = paises;
       },
 
+
       error: (error) => {
         console.error('❌ ERROR AL OBTENER PAÍSES:', error);
       }
@@ -101,5 +105,14 @@ export class DestinoFormulario {
   cambiarPais(idPais: number): void {
     this.nuevoDestino.idPais = idPais;
   }
+
+//   });
+//   }
+
+//   onSelectionPaises(idPais: number): void {
+//     this.nuevoDestino.idPais = idPais;
+
+//   }
+
 }
 

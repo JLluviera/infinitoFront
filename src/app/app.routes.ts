@@ -17,6 +17,8 @@ import { VerReservaComponent } from './components/reservas/verReserva/ver-reserv
 import { PaqueteComponent } from './components/paquete/paquete';
 import { AuditoriaComponent } from './components/auditoria/auditoria';
 import { from } from 'rxjs';
+import { PlantillaCreadorComponent } from './components/plantillasVehiculos/plantilla-creador.component/plantilla-creador.component';
+import { AsignacionAsientosComponent } from './components/asignacionAsientos/asignacion-asientos.component/asignacion-asientos.component';
 
 
 export const routes: Routes = [
@@ -87,6 +89,16 @@ export const routes: Routes = [
       {
         path: 'paquetes',
         component: PaqueteComponent
+      },
+      //Planillas Vehiculos
+      {
+        path: 'plantillasVehiculos',
+        component : PlantillaCreadorComponent
+      },
+      //Asignacio de Asientos de una Excursion
+      {
+        path: 'asignarAsientos/:excursionId',
+        component : AsignacionAsientosComponent
       },
       // Ruta por defecto
       {

@@ -6,6 +6,8 @@ import { ExcursionService } from '../../../services/excursiones.service/excursio
 import { Destino } from '../../../models/destino.model';
 import { DestinoService } from '../../../services/destinos.service/destino.service';
 import { SelectGenericoComponent } from '../../select-generico/select-generico';
+import { PlantillaVehiculo } from '../../../models/plantillaVehiculo.model';
+import { PlantillaVehiculoService } from '../../../services/plantillaVehiculo.service/plantilla-vehiculo.service';
 
 @Component({
   selector: 'app-excursion-boton-agregar',
@@ -18,10 +20,14 @@ export class ExcursionBotonAgregarComponent {
 
   private excursionService = inject(ExcursionService);
   private destinoService = inject(DestinoService);
+  private plantillasService = inject(PlantillaVehiculoService);
+
   destinos: Destino[] = [];
+  plantillas = signal<PlantillaVehiculo[] | null>(null);
 
   constructor() {
     this.obtenerDestinos();
+    this.obtenerPlantillas();
   }
   private fb = inject(FormBuilder);
 
@@ -34,6 +40,14 @@ export class ExcursionBotonAgregarComponent {
         console.error('❌ Error al obtener destinos:', error);
       }
     });
+  }
+  
+  obtenerPlantillas(): void {
+    this.plantillasService.getPlantillas().subscribe({
+      next: (resp: PlantillaVehiculo[]) =>{
+        this.plantillas.set(resp);
+      }
+    })
   }
 
   @Output() excursionCreada = new EventEmitter<void>();
@@ -79,6 +93,14 @@ export class ExcursionBotonAgregarComponent {
         Validators.required,
         Validators.min(1)
       ]
+    ],
+
+    plantillaId: [
+      0,
+      [
+        Validators.required,
+        Validators.min(1)
+      ]
     ]
 
   });
@@ -96,7 +118,8 @@ export class ExcursionBotonAgregarComponent {
     this.excursionForm.reset({
       cantDias: 1,
       cantLugares: 1,
-      destinoId: 0
+      destinoId: 0,
+      plantillaId: 0
     });
 
   }
@@ -123,7 +146,9 @@ export class ExcursionBotonAgregarComponent {
 
       cantLugares: this.excursionForm.get('cantLugares')?.value,
 
-      destinoId: this.excursionForm.get('destinoId')?.value
+      destinoId: this.excursionForm.get('destinoId')?.value,
+
+      plantillaVehiculoId: this.excursionForm.get('plantillaId')?.value
 
     };
 
@@ -151,5 +176,13 @@ export class ExcursionBotonAgregarComponent {
         );
       }
     });
+  }
+
+  onSeleccionPlanilla(idPlanilla: number){
+    this.excursionForm.get('plantillaId')?.setValue(idPlanilla);
+  }
+
+  onSeleccionDestino(idDestino: number){
+    this.excursionForm.get('destinoId')?.setValue(idDestino);
   }
 }
