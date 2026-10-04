@@ -5,13 +5,13 @@
 >
   Agregar reserva
 </button>
-<app-lista-generica 
-    titulo="Listado de Reservas"
-    subtitulo="Reservas disponibles en la base de datos"
-    [data]="reservas()"
-    [mostrarEliminar]="false"
-    [rutaDetalle]="'/reserva/detalle'"
-    [campoId]="'id'"
-    [columnas]="columnas"
-    (onEdit)="verReserva($event.id)"
-></app-lista-generica>
+<app-lista-generica
+  titulo="Listado de Reservas"
+  subtitulo="Reservas registradas en la base de datos"
+  [data]="reservas()"
+  [columnas]="columnas"
+  [hasMore]="hayMas()"
+  [loadingMore]="cargando()"
+  (loadMore)="cargarReservas()"
+>
+</app-lista-generica>

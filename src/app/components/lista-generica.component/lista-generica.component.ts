@@ -28,8 +28,30 @@ export class ListaGenericaComponent<T> {//
   titulo = input<string>();
   subtitulo = input<string>();
 
-  onEdit =  output<T>();
+  onEdit = output<T>();
   onDelete = output<T>();
 
   mostrarEliminar = input<boolean>(true);
+  mostrarEditar = input<boolean>(true);
+
+  hasMore = input(false);
+  loadingMore = input(false);
+  loadMore = output<void>();
+
+  onScroll(event: Event): void {
+
+    const elemento = event.target as HTMLElement;
+
+    const llegoAlFinal =
+      elemento.scrollTop + elemento.clientHeight >=
+      elemento.scrollHeight - 50;
+
+    if (
+      llegoAlFinal &&
+      this.hasMore() &&
+      !this.loadingMore()
+    ) {
+      this.loadMore.emit();
+    }
+  }
 }

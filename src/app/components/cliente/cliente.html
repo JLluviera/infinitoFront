@@ -1,4 +1,5 @@
-<app-cliente-boton-agregar (clienteCreado)="obtenerClientes()">
+<app-cliente-boton-agregar
+  (clienteCreado)="cargarClientesInicial()">
 </app-cliente-boton-agregar>
 
 <app-lista-generica
@@ -8,15 +9,20 @@
   [columnas]="columnas"
   [rutaDetalle]="'/clientes/detalle'"
   [campoId]="'id'"
+  [hasMore]="hayMas()"
+  [loadingMore]="cargando()"
   (onEdit)="editarCliente($event)"
   (onDelete)="eliminarCliente($event.id)"
+  (loadMore)="cargarClientes()"
 >
 </app-lista-generica>
 
 @if (mostrarEdicion && clienteSeleccionado) {
 
-<app-cliente-boton-editar [cliente]="clienteSeleccionado" (clienteEditado)="finalizarEdicion()"
+  <app-cliente-boton-editar
+    [cliente]="clienteSeleccionado"
+    (clienteEditado)="finalizarEdicion()"
     (cerrar)="cerrarEdicion()">
-</app-cliente-boton-editar>
+  </app-cliente-boton-editar>
 
 }

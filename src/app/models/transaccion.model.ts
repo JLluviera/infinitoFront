@@ -30,10 +30,14 @@ export enum FormaDePago {
     Efectivo = 0,
     TarjetaDebito = 1,
     TarjetaCredito = 2,
-    Transferencia = 3
+    Transferencia = 3,
+    Saldo = 4
 }
 
 export enum EstadoTransaccion {
-    Pendiente = 0,
-    Finalizado = 1
+    Pago=0,
+    CreditoPorAnulacion=1,
+    UsoDeSaldo=2,
+    DevolucionPago=3,
+    CreditoPorPagoExcedente = 4
 }

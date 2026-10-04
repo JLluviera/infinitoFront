@@ -11,7 +11,7 @@ import { single } from 'rxjs';
 @Component({
   selector: 'app-destino-formulario',
   standalone: true,
-  imports: [CommonModule, FormsModule, ModalGenericoComponent,SelectGenericoComponent],
+  imports: [CommonModule, FormsModule, ModalGenericoComponent, SelectGenericoComponent],
   templateUrl: './destino-formulario.html',
   styleUrl: './destino-formulario.css',
 })
@@ -19,7 +19,7 @@ import { single } from 'rxjs';
 export class DestinoFormulario {
   private paisesService = inject(PaisesService);
   paises: Pais[] = [];
-  constructor(){
+  constructor() {
     this.obtenerPaises();
   }
 
@@ -73,11 +73,11 @@ export class DestinoFormulario {
   };
 
   // Método que se ejecuta al presionar "Guardar"
-  onSubmit() {
+  onSubmit(): void {
     if (this.nuevoDestino.nombre.trim()) {
-      // Emitimos los datos capturados hacia el padre
       this.guardar.emit(this.nuevoDestino);
     }
+
   }
 
   // Método para cancelar
@@ -87,23 +87,32 @@ export class DestinoFormulario {
 
   obtenerPaises(): void {
 
-  this.paisesService.getPaises().subscribe({
+    this.paisesService.getPaises().subscribe({
 
-    next: (paises) => {
-      console.log('✅ PAÍSES RECIBIDOS PARA EL SELECT:', paises);
-      this.paises = paises;
-    },
+      next: (paises) => {
+        console.log('✅ PAÍSES RECIBIDOS PARA EL SELECT:', paises);
+        this.paises = paises;
+      },
 
-    error: (error) => {
-      console.error('❌ ERROR AL OBTENER PAÍSES:', error);
-    }
 
-  });
+      error: (error) => {
+        console.error('❌ ERROR AL OBTENER PAÍSES:', error);
+      }
+
+    });
+
   }
-
-  onSelectionPaises(idPais: number): void {
+  cambiarPais(idPais: number): void {
     this.nuevoDestino.idPais = idPais;
-
   }
+
+//   });
+//   }
+
+//   onSelectionPaises(idPais: number): void {
+//     this.nuevoDestino.idPais = idPais;
+
+//   }
+
 }
 

@@ -47,13 +47,22 @@
 
       </label>
         <app-select-generico
-        [items]="paises"
+
+  [items]="paises"
+  valor="id"
+  texto="nombrePais"
+  [valorSeleccionado]="nuevoDestino.idPais"
+  (seleccionCambiada)="cambiarPais($event)">
+</app-select-generico>
+
+<!--         [items]="paises"
         valor="id"
         texto="nombrePais"
         [(ngModel)]="nuevoDestino.idPais"
         (seleccionCambiada)="onSelectionPaises($event)"
         name="pais">
-        </app-select-generico>
+        </app-select-generico> -->
+
     </div>
 
 

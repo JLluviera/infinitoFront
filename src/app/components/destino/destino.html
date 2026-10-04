@@ -27,9 +27,13 @@
 
 <app-lista-generica
   titulo="Listado de Destinos"
-  subtitulo="Destinos disponibles en la base de datos"
+  subtitulo="Destinos registrados en la base de datos"
   [data]="destinos()"
   [columnas]="columnas"
+  [hasMore]="hayMas()"
+  [loadingMore]="cargando()"
+  (loadMore)="cargarDestinos()"
   (onEdit)="editarDestino($event)"
   (onDelete)="borrarPorId($event)" 
-></app-lista-generica>
+>
+</app-lista-generica>

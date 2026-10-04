@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal,inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Excursion } from '../../models/excursion.model';
@@ -6,7 +6,7 @@ import { ExcursionService } from '../../services/excursiones.service/excursion.s
 import { ExcursionBotonEditarComponent } from './excursion.boton.editar/excursion.boton.editar';
 import { ExcursionBotonAgregarComponent } from './excursion.boton.agregar.component/excursion.boton.agregar.component';
 import { ColumnaTabla, ListaGenericaComponent } from '../../components/lista-generica.component/lista-generica.component';
-
+import { DestinoService } from '../../services/destinos.service/destino.service';
 @Component({
   selector: 'app-excursion',
   standalone: true,
@@ -16,21 +16,19 @@ import { ColumnaTabla, ListaGenericaComponent } from '../../components/lista-gen
 })
 export class ExcursionComponent {
 
+  private destinoService=inject(DestinoService);
   excursiones = signal<Excursion[]>([]);
   excursionSeleccionada: Excursion | null = null;
   mostrarEdicion = false;
-  constructor(private excursionService: ExcursionService) {
-    
-    this.excursionService.obtenerExcursiones().subscribe({
-      next: (excursiones) => {
-        this.excursiones.set(excursiones);
-      },
-      error: (error) => {
-        console.error('Error al obtener excursiones:', error);
-      }
-    });
 
-  }
+
+  cursor = signal<number | null>(null);
+  hayMas = signal(true);
+  cargando = signal(false);
+
+  constructor(private excursionService: ExcursionService) {
+  this.cargarExcursionesInicial();
+}
 
   columnas: ColumnaTabla<Excursion>[] = [
     { header: 'ID', field: 'id', tipo: 'id' },
@@ -42,15 +40,8 @@ export class ExcursionComponent {
   ]
 
   recargarExcursiones(): void {
-    this.excursionService.obtenerExcursiones().subscribe({
-       next:(excursiones) =>{
-          this.excursiones.set(excursiones);
-       },
-        error:(error) =>{
-          console.error('Error al obtener excursiones:', error);
-        }
-    });
-  }
+  this.cargarExcursionesInicial();
+}
 
   eliminarExcursion(id: number, nombre: string): void {
 
@@ -91,4 +82,56 @@ export class ExcursionComponent {
     this.mostrarEdicion = false;
     this.recargarExcursiones();
   }
+  cargarExcursiones(): void {
+
+  if (this.cargando() || !this.hayMas()) {
+    return;
+  }
+
+  this.cargando.set(true);
+
+  this.destinoService.obtenerDestinos().subscribe({
+    next: destinos => {
+
+      this.excursionService
+        .obtenerExcursionesPaginado(this.cursor())
+        .subscribe({
+          next: pagina => {
+
+            const excursionesConDestino = pagina.elementos.map(excursion => ({
+              ...excursion,
+              nombreDestino: destinos.find(
+                destino => destino.id === excursion.destinoId
+              )?.nombre ?? 'Sin destino'
+            }));
+
+            this.excursiones.update(excursionesActuales => [
+              ...excursionesActuales,
+              ...excursionesConDestino
+            ]);
+
+            this.cursor.set(pagina.siguienteCursor);
+            this.hayMas.set(pagina.hayMas);
+            this.cargando.set(false);
+          },
+
+          error: error => {
+            console.error('Error al obtener excursiones:', error);
+            this.cargando.set(false);
+          }
+        });
+    },
+
+    error: error => {
+      console.error('Error al obtener destinos:', error);
+      this.cargando.set(false);
+    }
+  });
+}
+cargarExcursionesInicial(): void {
+  this.excursiones.set([]);
+  this.cursor.set(null);
+  this.hayMas.set(true);
+  this.cargarExcursiones();
+}
 }

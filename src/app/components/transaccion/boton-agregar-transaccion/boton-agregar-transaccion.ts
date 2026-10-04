@@ -56,7 +56,7 @@ export class BotonAgregarTransaccionComponent {
     ],
 
     estado: [
-      EstadoTransaccion.Pendiente,
+      EstadoTransaccion.Pago,
       Validators.required
     ],
 
@@ -87,7 +87,7 @@ export class BotonAgregarTransaccionComponent {
       fechaCreacion: new Date().toISOString().split('T')[0],
       formaDePago: FormaDePago.Efectivo,
       observaciones: '',
-      estado: EstadoTransaccion.Pendiente,
+      estado: EstadoTransaccion.Pago,
       idReserva: 0,
       idCliente: 0
     });
