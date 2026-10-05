@@ -10,6 +10,8 @@
   [columnas]="columnas"
   [hasMore]="hayMas()"
   [loadingMore]="cargando()"
+  [rutaDetalle]="'/excursiones/detalle'"
+  [campoId]="'id'"
   (loadMore)="cargarExcursiones()"
   (onEdit)="editarExcursion($event)"
   (onDelete)="eliminarExcursion($event.id,  $event.nombre)"
