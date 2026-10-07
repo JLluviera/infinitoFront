@@ -98,11 +98,12 @@
         </label>
 
         <app-select-generico
-  [items]="destinos()"
-  valor="id"
-  texto="nombre"
-  (seleccionCambiada)="seleccionarDestino($event)">
-</app-select-generico>
+          [items]="destinos()"
+          valor="id"
+          texto="nombre"
+          [valorSeleccionado]="0"
+          (seleccionCambiada)="seleccionarDestino($event)">
+        </app-select-generico>
 
         @if (
           paqueteForm.get('idDestino')?.touched &&

@@ -19,7 +19,7 @@
         Excursión
       </label>
       <app-select-generico [items]="excursiones()" valor="id" texto="nombre"
-        (seleccionCambiada)="cargarPaquetes($event)" [disabled]="!!idExcursion() || cargando()">
+        (seleccionCambiada)="onSelectExcursion($event)" [disabled]="cargando()">
       </app-select-generico>
     </div>
 

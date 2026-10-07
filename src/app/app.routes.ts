@@ -73,7 +73,7 @@ export const routes: Routes = [
         component: ListadoReservas
       },
       {
-        path: 'reserva/detalle/:id',
+        path: 'reserva/detalle',
         component: VerReservaComponent
       },
       {
