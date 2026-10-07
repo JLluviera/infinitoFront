@@ -21,6 +21,7 @@ export interface Excursion {
   plantillaVehiculoId: number;
 
   plantillaVehiculo: PlantillaVehiculo
+  nombreDestino?: string;
 }
 
 export interface CrearExcursion {
