@@ -11,7 +11,7 @@ import { Pagina } from '../../models/pagina';
 @Component({
   selector: 'app-cliente',
   standalone: true,
-  imports: [CommonModule, ListaGenericaComponent, ModalGenericoComponent, ClienteBotonAgregarComponent, ClienteBotonEditarComponent],
+  imports: [CommonModule, ListaGenericaComponent, ClienteBotonAgregarComponent, ClienteBotonEditarComponent],
   templateUrl: './cliente.html',
   styleUrl: './cliente.css'
 })

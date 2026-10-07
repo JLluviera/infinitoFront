@@ -5,6 +5,7 @@ import { AlertService } from '../../../../services/alert.service/alert-service';
 import { ColumnaTabla, ListaGenericaComponent } from '../../../lista-generica.component/lista-generica.component';
 import { RouterLink, Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-listado-reservas',
   imports: [ListaGenericaComponent, RouterLink],
@@ -15,6 +16,9 @@ export class ListadoReservas implements OnInit {
   private servicioReservas = inject(ReservasService)
   private alertas = inject(AlertService);
   private router = inject(Router);
+  
+  rutaCrear = "'reserva/crear'";
+  idExc = signal<number>(0);
 
   idExcursion = input<number>();
   reservas = signal<ReservaList[]>([]);
@@ -35,6 +39,7 @@ export class ListadoReservas implements OnInit {
   ngOnInit(): void {
     console.log('Componente iniciado');
     this.cargarReservasInicial();
+    this.idExc.set(this.idExcursion() ?? 0)
   }
 
   verReserva(reserva: ReservaList): void {
@@ -83,7 +88,7 @@ export class ListadoReservas implements OnInit {
     });
 }
   agregarReserva(): void {
-    this.router.navigate(['/reserva/crear']);
+    this.router.navigate(['/reserva/crear', this.idExc()]);
   }
   cargarReservasInicial(): void {
 

@@ -27,8 +27,8 @@ export class TransaccionesService {
   }
 
   // Crear una transacción
-  crearTransaccion(transaccion: TransaccionCrear): Observable<Transaccion> {
-    return this.http.post<Transaccion>(this.endpoint, transaccion);
+  crearTransaccion(transaccion: TransaccionCrear): Observable<String> {
+    return this.http.post(this.endpoint, transaccion, { responseType: 'text' });
   }
 
   // Editar una transacción

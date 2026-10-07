@@ -77,7 +77,7 @@ export const routes: Routes = [
         component: VerReservaComponent
       },
       {
-        path: 'reserva/crear',
+        path: 'reserva/crear/:id',
         component: CrearReservaComponent
       },
       // Transaccion

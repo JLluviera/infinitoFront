@@ -1,10 +1,13 @@
-<button
-  type="button"
-  (click)="agregarReserva()"
-  class="px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-semibold transition-colors"
->
-  Agregar reserva
-</button>
+<div class="p-4">
+  <button
+    type="button"
+    (click)="agregarReserva()"
+    class="bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors cursor-pointer">
+
+    Agregar reserva
+
+  </button>
+</div>
 <app-lista-generica
   titulo="Listado de Reservas"
   subtitulo="Reservas registradas en la base de datos"

@@ -31,11 +31,11 @@ export class ExcursionService {
   borrarExcursion(id: number): Observable<string> {
     return this.http.delete(`${this.endpoint}/${id}`,{ responseType: 'text' });
   }
-  obtenerExcursionesPaginado(afterId: number | null): Observable<Pagina<Excursion>> {
+  obtenerExcursionesPaginado(despuesId: number | null): Observable<Pagina<Excursion>> {
 
   let url = `${this.endpoint}/paginado`;
 
-  if (afterId !== null) {
-    url += `?afterId=${afterId}`;}return this.http.get<Pagina<Excursion>>(url);
+  if (despuesId !== null) {
+    url += `?despuesId=${despuesId}`;}return this.http.get<Pagina<Excursion>>(url);
 }
 }

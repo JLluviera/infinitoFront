@@ -46,13 +46,21 @@ export class CrearReservaComponent implements OnInit, OnDestroy {
       next: (Response: any) => {
         this.excursiones.set(Response)
       } 
+
+
     })
+
+    console.log(`Id Excursion ${this.idExcursion()}`)
 
     const valorIdExcursion = this.idExcursion();
 
+    if (this.idExcursion() !== undefined) {
+      this.cargarPaquetes(this.idExcursion()!);
+    };
+
     this.reservaForm = this.formBuilder.group({
       idExcursionForm: [
-        { value : valorIdExcursion ? valorIdExcursion : 0,
+        { value : this.idExcursion() ? this.idExcursion() : 0,
           disabled : !!valorIdExcursion
         },
         [
@@ -75,10 +83,6 @@ export class CrearReservaComponent implements OnInit, OnDestroy {
       ]
     });
 
-    if (valorIdExcursion && valorIdExcursion > 0) {
-      this.cargarPaquetes(valorIdExcursion);
-    };
-
     const controlExcursion = this.reservaForm.get('idExcursionForm');
     if (controlExcursion){
       this.formSubscription = controlExcursion.valueChanges.pipe(
@@ -98,6 +102,7 @@ export class CrearReservaComponent implements OnInit, OnDestroy {
     }
 
   }
+
 
   submitForm(): void {
     this.cargando.set(true);
