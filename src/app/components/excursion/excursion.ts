@@ -7,6 +7,7 @@ import { ExcursionBotonEditarComponent } from './excursion.boton.editar/excursio
 import { ExcursionBotonAgregarComponent } from './excursion.boton.agregar.component/excursion.boton.agregar.component';
 import { ColumnaTabla, ListaGenericaComponent } from '../../components/lista-generica.component/lista-generica.component';
 import { DestinoService } from '../../services/destinos.service/destino.service';
+import { Destino } from '../../models/destino.model';
 @Component({
   selector: 'app-excursion',
   standalone: true,
@@ -36,7 +37,7 @@ export class ExcursionComponent {
     { header: 'Fecha Salida', field: 'fechaSalida', tipo: 'texto' },
     { header: 'Cantidad Días', field: 'cantDias', tipo: 'texto' },
     { header: 'Cantidad Lugares', field: 'cantLugares', tipo: 'texto' },
-    { header: 'ID Destino', field: 'destinoId', tipo: 'id' },
+    { header: 'Destino', field: 'nombreDestino', tipo: 'texto' },
   ]
 
   recargarExcursiones(): void {
