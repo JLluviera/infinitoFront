@@ -4,6 +4,7 @@ import {FormBuilder,FormGroup,ReactiveFormsModule,Validators} from '@angular/for
 import { CrearCliente } from '../../../models/cliente.model';
 import { ClientesService } from '../../../services/clientes.service/clientes.service';
 import { ModalGenericoComponent } from '../../modal-generico/modal-generico';
+import { AlertService } from '../../../services/alert.service/alert-service';
 
 @Component({
   selector: 'app-cliente-boton-agregar',
@@ -16,6 +17,7 @@ export class ClienteBotonAgregarComponent {
 
   private clientesService = inject(ClientesService);
   private fb = inject(FormBuilder);
+  private alertas = inject(AlertService);
 
   @Output() clienteCreado = new EventEmitter<void>();
 
@@ -117,6 +119,8 @@ export class ClienteBotonAgregarComponent {
       next: (respuesta) => {
 
         console.log('✅ CLIENTE CREADO CORRECTAMENTE:', respuesta);
+
+        this.alertas.showAlert("Cliente agregado Correctamente", "exito", "Solicitud exitosa", 3000)
 
         this.cerrarModal();
 
