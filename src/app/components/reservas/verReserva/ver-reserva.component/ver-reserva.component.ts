@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, input, numberAttribute, OnInit, signal } from '@angular/core';
 import { AlertService } from '../../../../services/alert.service/alert-service';
 import { ReservasService } from '../../../../services/reservas.service/reservas.service';
 import { ReservaModel } from '../../../../models/reserva.model';
@@ -14,7 +14,7 @@ import { EstadoReserva } from '../../../../models/reserva.model';
   styleUrl: './ver-reserva.component.css',
 })
 export class VerReservaComponent implements OnInit{
-  idReserva = input.required<number>();
+  idReserva = input.required<number, undefined>({ alias: 'id', transform: numberAttribute });
   reserva = signal<ReservaModel | null>(null);
   cargando = signal<boolean>(false);
   idRes = signal<number>(0);
@@ -36,17 +36,22 @@ export class VerReservaComponent implements OnInit{
         this.idRes.set(id);
         console.log(`idExcursion ${this.idExcursion}`)
       } else {
-        console.error('El ID de la reserva no es válido');
+        console.error(`El ID de la reserva no es válido ${id}`);
       }
     });
   }
 
   cargarReserva(id: number){
+    this.cargando.set(true);
     this.reservaService.getReservaPorId(id).subscribe({
       next: (reserva: ReservaModel) =>{
         this.reserva.set(reserva);
         this.idExcursion.set(reserva.idExcursion);
-        console.log(`Id recibido : ${reserva.idExcursion}`)
+        console.log(`Id recibido : ${reserva.idExcursion}`);
+        this.cargando.set(false);
+      },
+      error: (err: any) => {
+        this.cargando.set(false);
       }
     })
   }

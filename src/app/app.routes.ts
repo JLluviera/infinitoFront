@@ -54,7 +54,6 @@ export const routes: Routes = [
         component: ExcursionComponent,
 
       },
-
       {
         path: 'excursiones/detalle/:id',
         component: VerExcursionComponent
@@ -73,7 +72,7 @@ export const routes: Routes = [
         component: ListadoReservas
       },
       {
-        path: 'reserva/detalle',
+        path: 'reserva/detalle/:id',
         component: VerReservaComponent
       },
       {
