@@ -5,6 +5,7 @@ import { AlertService } from '../../../../services/alert.service/alert-service';
 import { ColumnaTabla, ListaGenericaComponent } from '../../../lista-generica.component/lista-generica.component';
 import { RouterLink, Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-listado-reservas',
   imports: [ListaGenericaComponent, RouterLink],
@@ -15,33 +16,35 @@ export class ListadoReservas implements OnInit {
   private servicioReservas = inject(ReservasService)
   private alertas = inject(AlertService);
   private router = inject(Router);
+  
+  rutaCrear = "'reserva/crear'";
+  idExc = signal<number>(0);
 
   idExcursion = input<number>();
   reservas = signal<ReservaList[]>([]);
 
   cursor = signal<number | null>(null);
-  hayMas = signal(true);
+  hayMas = signal<boolean>(true);
   cargando = signal(false);
 
   columnas: ColumnaTabla<ReservaList>[] = [
     { header: 'ID', field: 'id', tipo: 'id' },
-    { header: 'IDExcursion', field: 'idExcursion', tipo: 'id' },
+    { header: 'IDExcursion', field: 'idExcursion', tipo: 'link' },
     { header: 'NombreCliente ', field: 'nombreCliente', tipo: 'texto' },
     { header: 'ApellidoCliente ', field: 'apellidoCliente', tipo: 'texto' },
-    { header: 'Cedula', field: 'ciCliente', tipo: 'link' },
+    { header: 'Cedula', field: 'ciCliente', tipo: 'texto' },
     { header: 'Estado', field: 'estadoReserva', tipo: 'texto' },
   ]
 
   ngOnInit(): void {
     console.log('Componente iniciado');
     this.cargarReservasInicial();
+    this.idExc.set(this.idExcursion() ?? 0)
   }
 
-  verReserva(idReserva: number): void {
-    if (!idReserva) return;
-
-
-  }
+  verReserva(reserva: ReservaList): void {
+  this.router.navigate(['/reserva/detalle', reserva.id]);
+}
 
   cargarReservas(): void {
 
@@ -85,7 +88,7 @@ export class ListadoReservas implements OnInit {
     });
 }
   agregarReserva(): void {
-    this.router.navigate(['/reserva/crear']);
+    this.router.navigate(['/reserva/crear', this.idExc()]);
   }
   cargarReservasInicial(): void {
 
@@ -95,5 +98,6 @@ export class ListadoReservas implements OnInit {
 
     this.cargarReservas();
   }
+  
 }
 

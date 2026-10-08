@@ -8,6 +8,7 @@ import { DestinoService } from '../../../services/destinos.service/destino.servi
 import { SelectGenericoComponent } from '../../select-generico/select-generico';
 import { PlantillaVehiculo } from '../../../models/plantillaVehiculo.model';
 import { PlantillaVehiculoService } from '../../../services/plantillaVehiculo.service/plantilla-vehiculo.service';
+import { AlertService } from '../../../services/alert.service/alert-service';
 
 @Component({
   selector: 'app-excursion-boton-agregar',
@@ -21,6 +22,7 @@ export class ExcursionBotonAgregarComponent {
   private excursionService = inject(ExcursionService);
   private destinoService = inject(DestinoService);
   private plantillasService = inject(PlantillaVehiculoService);
+  private alert = inject(AlertService);
 
   destinos: Destino[] = [];
   plantillas = signal<PlantillaVehiculo[] | null>(null);
@@ -157,10 +159,7 @@ export class ExcursionBotonAgregarComponent {
 
       next: (response: any) => {
 
-        console.log(
-          'Excursión creada correctamente:',
-          response
-        );
+        this.alert.showAlert("Excursion creada", "exito", "Procedimiento exitoso", 3000);
 
         this.cerrarModal();
 
