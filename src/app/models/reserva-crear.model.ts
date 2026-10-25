@@ -5,3 +5,7 @@ export interface ReservaCrearModel {
 
     IdPaquete: number;
 }
+export interface ReservaCreadaResponse {
+  id: number;
+  mensaje: string;
+}
