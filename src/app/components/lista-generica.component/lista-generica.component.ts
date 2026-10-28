@@ -39,10 +39,7 @@ export class ListaGenericaComponent<T> {//
   hasMore = input(false);
   loadingMore = input(false);
   loadMore = output<void>();
-
   
-  
-
   onScroll(event: Event): void {
 
     const elemento = event.target as HTMLElement;

@@ -4,7 +4,7 @@ import { API_URL } from '../../config/api-config.token';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ReservaList, ReservaModel } from '../../models/reserva.model';
-import { ReservaCrearModel } from '../../models/reserva-crear.model';
+import { ReservaCrearModel,ReservaCreadaResponse } from '../../models/reserva-crear.model';
 import { Pagina } from '../../models/pagina';
 
 @Injectable({
@@ -23,9 +23,14 @@ export class ReservasService {
     return this.http.get<ReservaModel>(`${this.apiUrl}/api/Reserva/${id}`);
   }
 
-  postReserva(reserva: ReservaCrearModel): Observable<string> {
-    return this.http.post(`${this.apiUrl}/api/Reserva`, reserva, { responseType: 'text'});
-  }
+  postReserva(
+  reserva: ReservaCrearModel
+): Observable<ReservaCreadaResponse> {
+  return this.http.post<ReservaCreadaResponse>(
+    `${this.apiUrl}/api/Reserva`,
+    reserva
+  );
+}
 
   deleteReserva(id: number): Observable<string>{
     return this.http.delete(`${this.apiUrl}/api/Reserva/${id}`, { responseType: 'text'});
@@ -69,5 +74,12 @@ export class ReservasService {
   if (parametros.length > 0) {
     url += `?${parametros.join('&')}`;}
     return this.http.get<Pagina<ReservaList>>(url);
+}
+
+descargarPdf(idReserva: number): Observable<Blob> {
+  return this.http.get(
+    `${this.apiUrl}/api/Reserva/${idReserva}/pdf`,
+    { responseType: 'blob' }
+  );
 }
 }

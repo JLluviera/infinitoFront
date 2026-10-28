@@ -80,52 +80,129 @@ export class CrearReservaComponent implements OnInit, OnDestroy {
     });
   }
 
-  submitForm(): void {
-    if(this.reservaForm.invalid){
-      this.reservaForm.markAllAsTouched();
-      this.alertas.showAlert("Debe completar todos los campos", "error", "Formulario inválido", 5000);
-      return;
-    }
-
-    this.cargando.set(true);
-    const valores = this.reservaForm.getRawValue();
-    const ciCliente = valores.ciClientePagador;
-
-    // Verificar cliente
-    this.clienteService.obtenerClientePorCi(ciCliente).subscribe({
-      next: (clienteObtenido) => {
-        if (!clienteObtenido) {
-          this.alertas.showAlert("No se encontró cliente con esa CI", "error", 'C.I incorrecta', 5000);
-          this.cargando.set(false);
-          return; 
-        }
-
-        // Crear la reserva
-        const reserva: ReservaCrearModel = {
-          CiClientePagador: valores.ciClientePagador,
-          IdExcursion: valores.idExcursion, 
-          IdPaquete: valores.idPaquete
-        };
-
-        this.reservaService.postReserva(reserva).subscribe({
-          next: () => {
-            this.cargando.set(false);
-            this.alertas.showAlert("Reserva creada con éxito", "exito", "Éxito", 3000);
-            this.router.navigate(['/reservas']);
-          },
-          error: () => {
-            this.cargando.set(false);
-            this.alertas.showAlert("Hubo un problema al crear la reserva", "error", "Error", 5000);
-          }
-        });
-
-      },
-      error: () => {
-        this.cargando.set(false);
-        this.alertas.showAlert("Hubo un error al buscar el cliente", "error", "Error", 5000);
-      }
-    });
+ 
+submitForm(): void {
+  if (this.reservaForm.invalid) {
+    this.reservaForm.markAllAsTouched();
+    this.alertas.showAlert(
+      'Debe completar todos los campos',
+      'error',
+      'Formulario inválido',
+      5000
+    );
+    return;
   }
+
+  this.cargando.set(true);
+
+  const valores = this.reservaForm.getRawValue();
+  const ciCliente = valores.ciClientePagador;
+
+  // Verificar que exista el cliente
+  this.clienteService.obtenerClientePorCi(ciCliente).subscribe({
+    next: (clienteObtenido) => {
+      if (!clienteObtenido) {
+        this.alertas.showAlert(
+          'No se encontró cliente con esa CI',
+          'error',
+          'C.I incorrecta',
+          5000
+        );
+        this.cargando.set(false);
+        return;
+      }
+
+      // Preparar los datos de la reserva
+      const reserva: ReservaCrearModel = {
+        CiClientePagador: valores.ciClientePagador,
+        IdExcursion: valores.idExcursion,
+        IdPaquete: valores.idPaquete
+      };
+
+      // Crear la reserva
+      this.reservaService.postReserva(reserva).subscribe({
+        next: (respuesta) => {
+          // Descargar el PDF usando el ID devuelto por el backend
+          this.reservaService.descargarPdf(respuesta.id).subscribe({
+            next: (pdf: Blob) => {
+  console.log('PDF recibido:', pdf.size, 'bytes', pdf.type);
+
+  if (pdf.size === 0) {
+    this.alertas.showAlert(
+      'El PDF recibido está vacío',
+      'error',
+      'Error al generar comprobante',
+      5000
+    );
+    this.cargando.set(false);
+    return;
+  }
+
+  const url = URL.createObjectURL(pdf);
+  const enlace = document.createElement('a');
+
+  enlace.href = url;
+  enlace.download = `Reserva_${respuesta.id}.pdf`;
+  enlace.style.display = 'none';
+
+  document.body.appendChild(enlace);
+  enlace.click();
+  enlace.remove();
+
+  // Revocar la URL después de dar tiempo al navegador
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+  this.alertas.showAlert(
+    'Reserva creada y comprobante descargado con éxito',
+    'exito',
+    'Éxito',
+    3000
+  );
+
+  this.cargando.set(false);
+  this.router.navigate(['/reservas']);
+},
+            error: (err) => {
+              console.error('Error al descargar el PDF:', err);
+
+              this.alertas.showAlert(
+                'La reserva se creó, pero no se pudo descargar el PDF',
+                'error',
+                'Error al generar comprobante',
+                5000
+              );
+
+              this.cargando.set(false);
+              this.router.navigate(['/reservas']);
+            }
+          });
+        },
+        error: (err) => {
+          console.error('Error al crear la reserva:', err);
+
+          this.cargando.set(false);
+          this.alertas.showAlert(
+            'Hubo un problema al crear la reserva',
+            'error',
+            'Error',
+            5000
+          );
+        }
+      });
+    },
+    error: (err) => {
+      console.error('Error al buscar el cliente:', err);
+
+      this.cargando.set(false);
+      this.alertas.showAlert(
+        'Hubo un error al buscar el cliente',
+        'error',
+        'Error',
+        5000
+      );
+    }
+  });
+}
 
   ngOnDestroy(): void {
     this.formSubscription?.unsubscribe();
