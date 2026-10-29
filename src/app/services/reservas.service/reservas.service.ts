@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { ReservaList, ReservaModel } from '../../models/reserva.model';
 import { ReservaCrearModel,ReservaCreadaResponse } from '../../models/reserva-crear.model';
 import { Pagina } from '../../models/pagina';
+import { ReservaParamsDTO } from '../../models/params/reservasParamsDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -57,7 +58,7 @@ export class ReservasService {
     return this.http.put(`${this.apiUrl}/api/Reserva/cancelar/${idReserva}`, idReserva, { responseType: 'text'})
   }
 
-  obtenerReservasPaginado( afterId: number | null,idExcursion: number | null): Observable<Pagina<ReservaList>> {
+  obtenerReservasPaginado( afterId: number | null, idExcursion: number | null, filtros?: ReservaParamsDTO | null): Observable<Pagina<ReservaList>> {
 
   let url = `${this.apiUrl}/api/Reserva/list/paginado`;
 
@@ -69,6 +70,14 @@ export class ReservasService {
 
   if (idExcursion !== null && idExcursion > 0) {
     parametros.push(`idExcursion=${idExcursion}`);
+  }
+
+  if(filtros?.ciCliente){
+    parametros.push(`ciCliente=${filtros.ciCliente.toString()}`);
+  }
+
+  if(filtros?.estadoReserva){
+    parametros.push(`estadoReserva=${filtros.estadoReserva}`);
   }
 
   if (parametros.length > 0) {
