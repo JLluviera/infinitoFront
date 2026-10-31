@@ -19,7 +19,7 @@ export class ClienteBotonAgregarComponent {
   private fb = inject(FormBuilder);
   private alertas = inject(AlertService);
 
-  @Output() clienteCreado = new EventEmitter<void>();
+  @Output() clienteCreado = new EventEmitter<number>();
 
   isOpen = signal<boolean>(false);
 
@@ -122,9 +122,10 @@ export class ClienteBotonAgregarComponent {
 
         this.alertas.showAlert("Cliente agregado Correctamente", "exito", "Solicitud exitosa", 3000)
 
-        this.cerrarModal();
+        const ciCreada = cliente.ci;
 
-        this.clienteCreado.emit();
+        this.cerrarModal();
+        this.clienteCreado.emit(ciCreada);
 
       },
 

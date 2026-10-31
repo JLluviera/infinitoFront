@@ -13,12 +13,14 @@ import { ReservaCrearModel } from '../../../models/reserva-crear.model';
 import { Excursion } from '../../../models/excursion.model';
 import { SelectGenericoComponent } from '../../select-generico/select-generico';
 import { PaqueteComponent } from '../../paquete/paquete';
+import { Cliente } from '../../../models/cliente.model';
+import { ClienteBotonAgregarComponent } from '../../cliente/cliente.boton.agregar/cliente.boton.agregar';
 
 @Component({
   selector: 'app-crear-reserva',
   standalone: true,
   // SACAMOS el SelectGenericoComponent de los imports
-  imports: [CommonModule, ReactiveFormsModule, SelectGenericoComponent], 
+  imports: [CommonModule, ReactiveFormsModule, SelectGenericoComponent,ClienteBotonAgregarComponent], 
   templateUrl: './crear-reserva.component.html',
   styleUrl: './crear-reserva.component.css',
 })
@@ -36,30 +38,43 @@ export class CrearReservaComponent implements OnInit, OnDestroy {
   cargando = signal<boolean>(false);
   idExcursion = input<number>();
 
+  clientes = signal<Cliente[]>([]);
+  clientesFiltrados = signal<Cliente[]>([]);
+  mostrarResultados = signal(false);
+  buscandoClientes = signal(false);
+
   reservaForm!: FormGroup;
   private formSubscription?: Subscription;
   
   ngOnInit(): void {
-    this.cargando.set(true);
+  this.cargando.set(true);
 
-    // 1. Inicializar formulario limpio
-    this.reservaForm = this.formBuilder.group({
-      idExcursion: [null, [Validators.required, Validators.min(1)]],
-      ciClientePagador: [null, [Validators.required, Validators.min(1)]],
-      idPaquete: [null, [Validators.required, Validators.min(1)]]
-    });
+  // Inicializar formulario
+  this.reservaForm = this.formBuilder.group({
+    idExcursion: [null, [Validators.required, Validators.min(1)]],
+    ciClientePagador: [null, [Validators.required, Validators.min(1)]],
+    idPaquete: [null, [Validators.required, Validators.min(1)]]
+  });
 
-    // 2. Traer las excursiones disponibles (una sola vez)
-    this.excursionService.obtenerExcursiones().subscribe({
-      next: (response: any) => {
-        this.excursiones.set(response);
-        this.cargando.set(false);
-      },
-      error: () => this.cargando.set(false)
-    });
+  // Cargar clientes
+  this.clienteService.obtenerClientes().subscribe({
+    next: (clientes) => {
+      this.clientes.set(clientes);
+    },
+    error: (err) => {
+      console.error('Error al cargar clientes:', err);
+    }
+  });
 
-    
-  }
+  // Cargar excursiones
+  this.excursionService.obtenerExcursiones().subscribe({
+    next: (response: any) => {
+      this.excursiones.set(response);
+      this.cargando.set(false);
+    },
+    error: () => this.cargando.set(false)
+  });
+}
 
   onSelectExcursion(idExcursion: number): void{
     this.cargarPaquetes(idExcursion);
@@ -214,4 +229,47 @@ submitForm(): void {
   onSeleccionPaquete(id:number){
         this.reservaForm.get('idPaquete')?.setValue(id);
   }
+
+  buscarCliente(termino: string): void {
+  const ci = termino.trim();
+
+  if (!ci) {
+    this.clientesFiltrados.set([]);
+    this.mostrarResultados.set(false);
+    this.reservaForm.get('ciClientePagador')?.setValue(null);
+    return;
+  }
+
+  // Mientras escribe, no consideramos seleccionada una CI
+  this.reservaForm.get('ciClientePagador')?.setValue(null);
+
+  const resultados = this.clientes().filter(cliente =>
+    cliente.ci.toString().includes(ci)
+  );
+
+  this.clientesFiltrados.set(resultados);
+  this.mostrarResultados.set(true);
+}
+
+seleccionarCliente(cliente: Cliente): void {
+  this.reservaForm.get('ciClientePagador')?.setValue(cliente.ci);
+  this.mostrarResultados.set(false);
+}
+
+onClienteCreado(ci: number): void {
+  this.clienteService.obtenerClientes().subscribe({
+    next: (clientes) => {
+      this.clientes.set(clientes);
+
+      const nuevoCliente = clientes.find(c => c.ci === ci);
+
+      if (nuevoCliente) {
+        this.seleccionarCliente(nuevoCliente);
+      }
+    },
+    error: (err) => {
+      console.error('Error al actualizar clientes:', err);
+    }
+  });
+}
 }
