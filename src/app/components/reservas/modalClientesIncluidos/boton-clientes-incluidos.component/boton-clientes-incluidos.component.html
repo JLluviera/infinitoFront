@@ -1,0 +1,26 @@
+<!-- Botón para abrir -->
+<div class="p-4">
+  <button
+    type="button"
+    (click)="abrirModal()"
+    aria-label="Gestionar clientes incluidos"
+    class="w-full sm:w-auto px-6 py-2.5 bg-sky-500 hover:bg-sky-600 active:bg-sky-700 text-white font-bold text-sm rounded-full shadow-2xs transition-all cursor-pointer flex items-center justify-center gap-2 focus:ring-2 focus:ring-sky-500/50 outline-none">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+    </svg>
+    Gestionar clientes incluidos
+  </button>
+</div>
+
+@if (isOpen()) {
+    <app-modal-generico
+        titulo="Clientes Incluidos en la reserva"
+        subtitulo="En esta pagina  verá los clientes incluidos a la reserva y podrá agregar o quitar clientes."
+        (cerrar)="cerrarModal()">
+
+        <app-gestionar-clientes-incluidos
+            [reservaId]="idReservaRecibido()" [yaIncluidos]="clientesIncluidosRecibidos()">
+        </app-gestionar-clientes-incluidos>
+
+    </app-modal-generico>
+}

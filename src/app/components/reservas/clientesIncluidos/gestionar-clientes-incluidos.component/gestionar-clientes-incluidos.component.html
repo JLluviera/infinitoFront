@@ -1,0 +1,115 @@
+<div class="space-y-6">
+  
+  <!-- Campo de búsqueda / Autocompletado por cédula -->
+  <div class="relative">
+    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
+      Buscar y agregar cliente por Cédula
+    </label>
+    
+    <div class="relative">
+      <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </div>
+
+      <input 
+        type="text" 
+        [ngModel]="cedulaInput()"
+        (ngModelChange)="onCedulaInput($event)"
+        placeholder="Ingrese cédula..."
+        class="w-full pl-11 pr-10 py-2.5 bg-slate-50/70 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/80 rounded-xl text-slate-800 dark:text-white placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500 transition-all"
+      />
+
+      @if (cargandoBusqueda()) {
+        <div class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none">
+          <svg class="animate-spin w-4 h-4 text-sky-500" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </div>
+      }
+    </div>
+
+    <!-- Dropdown de Sugerencias con indicador de "Ya incluido" -->
+    @if (mostrarDropdown() && clientesSugeridos().length > 0) {
+      <div class="absolute z-30 left-0 right-0 mt-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl overflow-hidden">
+        <div class="max-h-56 overflow-y-auto divide-y divide-slate-100 dark:divide-slate-800/60">
+          @for (cliente of clientesSugeridos(); track cliente.id) {
+            <button 
+              type="button"
+              (click)="seleccionarCliente(cliente)"
+              [disabled]="cliente.yaIncluido"
+              [class.opacity-60]="cliente.yaIncluido"
+              [class.cursor-not-allowed]="cliente.yaIncluido"
+              [class.hover:bg-sky-50/60]="!cliente.yaIncluido"
+              [class.dark:hover:bg-slate-800/70]="!cliente.yaIncluido"
+              class="w-full text-left px-4 py-3 transition-colors flex items-center justify-between group cursor-pointer"
+            >
+              <div>
+                <p class="text-sm font-bold text-slate-800 dark:text-white" [class.line-through]="cliente.yaIncluido">
+                  {{ cliente.nombre }}
+                </p>
+                <p class="text-xs text-slate-500 dark:text-slate-400">
+                  Cédula: {{ cliente.ci }}
+                </p>
+              </div>
+
+              @if (cliente.yaIncluido) {
+                <span class="text-xs font-semibold px-2 py-1 rounded-md bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 border border-amber-200/60 dark:border-amber-800/50">
+                  Ya incluido
+                </span>
+              } @else {
+                <span class="text-xs font-semibold px-2 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/50">
+                  Agregar
+                </span>
+              }
+            </button>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Lista de Clientes Ya Incluidos -->
+  <div>
+    <h3 class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-3">
+      Clientes Incluidos en la Reserva ({{ clientesReserva().length }})
+    </h3>
+
+    @if (cargando()) {
+      <div class="text-center py-8 text-slate-400 text-sm">Cargando clientes...</div>
+    } @else if (clientesReserva().length === 0) {
+      <div class="text-center py-8 bg-slate-50/70 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-200 dark:border-slate-700 text-slate-400 text-sm">
+        No hay clientes adicionales en esta reserva.
+      </div>
+    } @else {
+      <div class="space-y-2.5 max-h-64 overflow-y-auto pr-1">
+        @for (cliente of clientesReserva(); track cliente.id) {
+          <div class="bg-slate-50/70 dark:bg-slate-800/50 rounded-xl border border-slate-200/60 dark:border-slate-700/60 p-3.5 flex items-center justify-between gap-3">
+            <div class="min-w-0">
+              <h4 class="text-sm font-bold text-slate-800 dark:text-white truncate">
+                {{ cliente.nombre }}
+              </h4>
+              <p class="text-xs text-slate-500 dark:text-slate-400">
+                Cédula: {{ cliente.ci }}
+              </p>
+            </div>
+
+            <button 
+              type="button"
+              (click)="removerCliente(cliente.id)"
+              class="p-1.5 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-lg transition-colors cursor-pointer shrink-0"
+              title="Quitar de la reserva"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+</div>
