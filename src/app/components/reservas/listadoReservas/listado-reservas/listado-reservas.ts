@@ -36,9 +36,9 @@ export class ListadoReservas implements OnInit {
 
   columnas: ColumnaTabla<ReservaList>[] = [
     { header: 'ID', field: 'id', tipo: 'id' },
-    { header: 'IDExcursion', field: 'idExcursion', tipo: 'link' },
-    { header: 'NombreCliente ', field: 'nombreCliente', tipo: 'texto' },
-    { header: 'ApellidoCliente ', field: 'apellidoCliente', tipo: 'texto' },
+    { header: 'Excursion', field: 'idExcursion', tipo: 'link' },
+    { header: 'Nombre ', field: 'nombreCliente', tipo: 'texto' },
+    { header: 'Apellido ', field: 'apellidoCliente', tipo: 'texto' },
     { header: 'Cedula', field: 'ciCliente', tipo: 'texto' },
     { header: 'Estado', field: 'estadoReserva', tipo: 'texto' },
   ]
