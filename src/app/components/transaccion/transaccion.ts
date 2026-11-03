@@ -9,6 +9,7 @@ import { single } from 'rxjs';
 import { TransaccionesParamsDTO } from '../../models/params/transaccionesParamsDTO';
 
 
+
 @Component({
   selector: 'app-transaccion',
   imports: [ListaGenericaComponent, BotonAgregarTransaccionComponent, BotonEditarTransaccionComponent],
