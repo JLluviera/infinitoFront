@@ -34,7 +34,7 @@ export class ExcursionComponent implements OnInit {
   columnas: ColumnaTabla<Excursion>[] = [
     { header: 'ID', field: 'id', tipo: 'id' },
     { header: 'Nombre', field: 'nombre', tipo: 'link' },
-    { header: 'Fecha Salida', field: 'fechaSalida', tipo: 'texto' },
+    { header: 'Fecha Salida', field: 'fechaSalida', tipo: 'date' },
     { header: 'Cantidad Días', field: 'cantDias', tipo: 'texto' },
     { header: 'Cantidad Lugares', field: 'cantLugares', tipo: 'texto' },
     { header: 'Destino', field: 'nombreDestino', tipo: 'texto' },

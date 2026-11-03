@@ -56,7 +56,7 @@ export class AuditoriaComponent implements OnInit {
     {
       header: 'Fecha',
       field: 'timestamp',
-      tipo: 'texto'
+      tipo: 'date'
     }
   ];
 

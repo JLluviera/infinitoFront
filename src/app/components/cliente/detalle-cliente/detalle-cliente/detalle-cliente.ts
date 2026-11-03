@@ -35,6 +35,7 @@ export class DetalleClienteComponent {
   mostrarModalSaldo = signal(false);
   montoSaldo = signal(0);
 
+  
 
   constructor() {
 
@@ -189,4 +190,13 @@ export class DetalleClienteComponent {
       }
     });
 }
+
+formatearFecha(valor: any): string {
+    if (!valor) return '';
+    const [anio, mes, dia] = String(valor).split('T')[0].split('-');
+    if (anio && mes && dia) {
+      return `${dia}/${mes}/${anio}`;
+    }
+    return valor; // Retorna el original si no coincide con el formato esperado
+  }
 }
