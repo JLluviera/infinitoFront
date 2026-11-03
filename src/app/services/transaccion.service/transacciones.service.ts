@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { API_URL } from '../../config/api-config.token';
 import { Transaccion } from '../../models/transaccion.model';
 import { TransaccionCrear } from '../../models/transaccion.model';
+import { TransaccionesParamsDTO } from '../../models/params/transaccionesParamsDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,32 @@ export class TransaccionesService {
   private readonly endpoint = `${this.apiUrl}/api/Transaccion`;
 
   // Obtener todas las transacciones
-  obtenerTransacciones(): Observable<Transaccion[]> {
-    return this.http.get<Transaccion[]>(this.endpoint);
+  obtenerTransacciones(filtros? : TransaccionesParamsDTO | null): Observable<Transaccion[]> {
+    let url = this.endpoint;
+    
+    const parametros: string[] = [];
+
+    if (filtros?.apellidoCliente){
+      parametros.push(`apellidoCliente=${encodeURIComponent(filtros.apellidoCliente)}`);
+    }
+
+    if (filtros?.nombreCliente){
+      parametros.push(`nombreCliente=${encodeURIComponent(filtros.nombreCliente)}`);
+    }
+
+    if (filtros?.idCliente){
+      parametros.push(`idCliente=${filtros.idCliente.toString()}`);
+    }
+
+    if (filtros?.idReserva){
+      parametros.push(`idReserva=${filtros.idReserva.toString()}`);
+    }
+
+    if (parametros.length > 0) {
+      url += `?${parametros.join('&')}`;
+    }
+
+    return this.http.get<Transaccion[]>(url);
   }
 
   // Obtener una transacción por ID

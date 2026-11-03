@@ -7,10 +7,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { EstadoReserva } from '../../../../models/reserva.model';
 import { BotonClientesIncluidosComponent } from '../../modalClientesIncluidos/boton-clientes-incluidos.component/boton-clientes-incluidos.component';
+import { TransaccionComponent } from '../../../transaccion/transaccion';
 
 @Component({
   selector: 'app-ver-reserva',
-  imports: [CommonModule,RouterLink, BotonClientesIncluidosComponent],
+  imports: [CommonModule,RouterLink, BotonClientesIncluidosComponent, TransaccionComponent],
   templateUrl: './ver-reserva.component.html',
   styleUrl: './ver-reserva.component.css',
 })

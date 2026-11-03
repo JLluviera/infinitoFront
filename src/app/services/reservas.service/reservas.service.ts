@@ -16,8 +16,24 @@ export class ReservasService {
   private apiUrl = inject(API_URL);
   private router = inject(Router);
 
-  getReservas(): Observable<ReservaModel[]> {
-    return this.http.get<ReservaModel[]>(`${this.apiUrl}/api/Reserva`);
+  getReservas(filtro? : ReservaParamsDTO): Observable<ReservaModel[]> {
+    let url = `${this.apiUrl}/api/Reserva`;
+
+    const params : string[] = []
+
+    if (filtro?.ciCliente) {
+      params.push(`ciCliente=${filtro.ciCliente}`);
+    }
+
+    if (filtro?.estadoReserva) {
+      params.push(`estadoReserva=${filtro.estadoReserva}`);
+    }
+
+    if (params.length > 0) {
+      url += `?${params.join('&')}`;
+    }
+     
+    return this.http.get<ReservaModel[]>(url);
   }
 
   getReservaPorId(id: number): Observable<ReservaModel> {
