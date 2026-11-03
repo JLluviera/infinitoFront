@@ -1,10 +1,12 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { TransaccionesService } from '../../services/transaccion.service/transacciones.service';
 import { Transaccion,EstadoTransaccion,FormaDePago } from '../../models/transaccion.model';
 import { ListaGenericaComponent, ColumnaTabla } from '../lista-generica.component/lista-generica.component';
 import { BotonAgregarTransaccionComponent } from './boton-agregar-transaccion/boton-agregar-transaccion';
 import { BotonEditarTransaccionComponent } from './boton-editar-transaccion/boton-editar-transaccion/boton-editar-transaccion';
 import { ClientesService } from '../../services/clientes.service/clientes.service';
+import { single } from 'rxjs';
+import { TransaccionesParamsDTO } from '../../models/params/transaccionesParamsDTO';
 
 
 @Component({
@@ -13,7 +15,9 @@ import { ClientesService } from '../../services/clientes.service/clientes.servic
   templateUrl: './transaccion.html',
   styleUrl: './transaccion.css',
 })
-export class TransaccionComponent {
+export class TransaccionComponent implements OnInit {
+  idReserva = input<number | null> (null);
+  idCliente = input<number | null> (null);
 
   private transaccionesService = inject(TransaccionesService);
   private clientesService= inject(ClientesService);
@@ -21,12 +25,13 @@ export class TransaccionComponent {
   transacciones = signal<Transaccion[]>([]);
   transaccionSeleccionada: Transaccion | null = null;
   mostrarEdicion = false;
-  
+  transaccionesParams = signal<TransaccionesParamsDTO>({});
+
 
   columnas: ColumnaTabla<Transaccion>[] = [
     { header: 'ID', field: 'id', tipo: 'id' },
     { header: 'Monto', field: 'monto', tipo: 'texto' },
-    { header: 'Fecha', field: 'fechaCreacion', tipo: 'texto' },
+    { header: 'Fecha', field: 'fechaCreacion', tipo: 'date' },
     { header: 'Forma de pago', field: 'nombreFormaPago', tipo: 'texto' },
     { header: 'Estado', field: 'nombreEstado', tipo: 'texto' },
     { header: 'Nro Reserva', field: 'idReserva', tipo: 'id' },
@@ -34,12 +39,27 @@ export class TransaccionComponent {
   ];
 
   constructor() {
+  }
+
+  ngOnInit(): void {
+    if (this.idReserva()){
+      this.transaccionesParams.set({
+        idReserva: this.idReserva()!
+      })
+    }
+
+    if (this.idCliente()){
+      this.transaccionesParams.set({
+        idCliente: this.idCliente()!
+      })
+    }
+
     this.obtenerTransacciones();
   }
 
   obtenerTransacciones(): void {
 
-  this.transaccionesService.obtenerTransacciones().subscribe({
+  this.transaccionesService.obtenerTransacciones(this.transaccionesParams()).subscribe({
 
     next: (transacciones) => {
 
