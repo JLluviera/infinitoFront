@@ -7,11 +7,12 @@ import { Cliente } from '../../../../models/cliente.model';
 import { ReservaModel, EstadoReserva } from '../../../../models/reserva.model';
 import { Router } from '@angular/router';
 import { ModalGenericoComponent } from '../../../modal-generico/modal-generico';
+import { TransaccionComponent } from '../../../transaccion/transaccion';
 
 @Component({
   selector: 'app-detalle-cliente',
   standalone: true,
-  imports: [CommonModule, FormsModule, ModalGenericoComponent],
+  imports: [CommonModule, FormsModule, ModalGenericoComponent, TransaccionComponent],
   templateUrl: './detalle-cliente.html',
   styleUrl: './detalle-cliente.css',
 })

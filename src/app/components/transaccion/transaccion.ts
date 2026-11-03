@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
+import { Component, inject, input, OnInit, output, signal } from '@angular/core';
 import { TransaccionesService } from '../../services/transaccion.service/transacciones.service';
 import { Transaccion,EstadoTransaccion,FormaDePago } from '../../models/transaccion.model';
 import { ListaGenericaComponent, ColumnaTabla } from '../lista-generica.component/lista-generica.component';
@@ -20,8 +20,15 @@ export class TransaccionComponent implements OnInit {
   idReserva = input<number | null> (null);
   idCliente = input<number | null> (null);
 
+  idResFiltro = input<number | null>(null);
+  idClienteFiltro = input<number | null>(null);
+  NombreClienteFiltro = input<string | null>(null);
+  ApellidoClienteFiltro = input<string | null>(null);
+
   private transaccionesService = inject(TransaccionesService);
   private clientesService= inject(ClientesService);
+
+  totalTransacciones = output<number>();
 
   transacciones = signal<Transaccion[]>([]);
   transaccionSeleccionada: Transaccion | null = null;
@@ -63,6 +70,17 @@ export class TransaccionComponent implements OnInit {
   this.transaccionesService.obtenerTransacciones(this.transaccionesParams()).subscribe({
 
     next: (transacciones) => {
+      if (this.idReserva() && transacciones){
+        let total: number = 0;
+
+        transacciones.forEach(trans => {
+          if(trans.estado == EstadoTransaccion.Pago || trans.estado == EstadoTransaccion.UsoDeSaldo || trans.estado == EstadoTransaccion.DevolucionPago){
+            total += trans.monto;
+          } else { total -= trans.monto}
+        })
+
+        this.totalTransacciones.emit(total);
+      }
 
       this.clientesService.obtenerClientes().subscribe({
 

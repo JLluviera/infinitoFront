@@ -1,24 +1,28 @@
-<app-boton-agregar-transaccion
-  (transaccionCreada)="recargarTransacciones()">
-</app-boton-agregar-transaccion>
+<div class="max-w-6xl mx-auto space-y-6">
+  <div class="px-5">
+    <app-boton-agregar-transaccion
+      (transaccionCreada)="recargarTransacciones()">
+    </app-boton-agregar-transaccion>
+</div>
 
-<app-lista-generica
-  titulo="Listado de Transacciones"
-  subtitulo="Transacciones registradas en la base de datos"
-  [data]="transacciones()"
-  [columnas]="columnas"
-  (onEdit)="editarTransaccion($event)"
-  (onDelete)="eliminarTransaccion($event)"
->
-</app-lista-generica>
-
-@if (mostrarEdicion && transaccionSeleccionada) {
-
-  <app-boton-editar-transaccion
-    [transaccion]="transaccionSeleccionada"
-    (transaccionEditada)="finalizarEdicion()"
-    (cerrar)="cerrarEdicion()"
+  <app-lista-generica
+    titulo="Listado de Transacciones"
+    subtitulo="Transacciones registradas en la base de datos"
+    [data]="transacciones()"
+    [columnas]="columnas"
+    (onEdit)="editarTransaccion($event)"
+    (onDelete)="eliminarTransaccion($event)"
   >
-  </app-boton-editar-transaccion>
+  </app-lista-generica>
+
+  @if (mostrarEdicion && transaccionSeleccionada) {
+
+    <app-boton-editar-transaccion
+      [transaccion]="transaccionSeleccionada"
+      (transaccionEditada)="finalizarEdicion()"
+      (cerrar)="cerrarEdicion()"
+    >
+    </app-boton-editar-transaccion>
 
 }
+</div>
