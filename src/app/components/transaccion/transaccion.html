@@ -1,6 +1,47 @@
-<app-boton-agregar-transaccion
-  (transaccionCreada)="recargarTransacciones()">
-</app-boton-agregar-transaccion>
+<div class="mb-6 px-5">
+  <app-boton-agregar-transaccion
+    (transaccionCreada)="recargarTransacciones()">
+  </app-boton-agregar-transaccion>
+</div>
+
+<div class="px-5 mb-4">
+  <div class="flex flex-col sm:flex-row gap-3 items-center">
+
+    <div class="relative flex-1 w-full">
+      <input
+        type="text"
+        class="w-full border border-gray-300 rounded-lg px-4 py-3
+               text-gray-700 bg-white shadow-sm
+               focus:outline-none focus:ring-2 focus:ring-blue-500
+               focus:border-blue-500"
+        placeholder="Buscar por nombre, apellido o CI..."
+        [value]="busquedaCliente()"
+        (input)="busquedaCliente.set($any($event.target).value)"
+        (keyup.enter)="buscarCliente()"
+      >
+    </div>
+
+    <div class="flex gap-2 w-full sm:w-auto">
+      <button
+        type="button"
+        class="px-5 py-3 rounded-lg bg-blue-600 text-white
+               hover:bg-blue-700 transition-colors"
+        (click)="buscarCliente()">
+        <i class="bi bi-search"></i>
+        Buscar
+      </button>
+
+      <button
+        type="button"
+        class="px-5 py-3 rounded-lg bg-gray-200 text-gray-700
+               hover:bg-gray-300 transition-colors"
+        (click)="busquedaCliente.set(''); buscarCliente()">
+        Limpiar
+      </button>
+    </div>
+
+  </div>
+</div>
 
 <app-lista-generica
   titulo="Listado de Transacciones"

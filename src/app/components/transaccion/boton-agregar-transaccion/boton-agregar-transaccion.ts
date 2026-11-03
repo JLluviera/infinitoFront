@@ -6,14 +6,15 @@ import { TransaccionesService } from '../../../services/transaccion.service/tran
 import { ReservasService } from '../../../services/reservas.service/reservas.service';
 import { ClientesService } from '../../../services/clientes.service/clientes.service';
 import { TransaccionCrear } from '../../../models/transaccion.model';
-import {FormaDePago,EstadoTransaccion} from '../../../models/transaccion.model';
-import { ReservaModel } from '../../../models/reserva.model';
+import { FormaDePago, EstadoTransaccion } from '../../../models/transaccion.model';
+import { ReservaModel,EstadoReserva } from '../../../models/reserva.model';
 import { Cliente } from '../../../models/cliente.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-boton-agregar-transaccion',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,ModalGenericoComponent],
+  imports: [CommonModule, ReactiveFormsModule, ModalGenericoComponent],
   templateUrl: './boton-agregar-transaccion.html',
   styleUrl: './boton-agregar-transaccion.css'
 })
@@ -23,6 +24,13 @@ export class BotonAgregarTransaccionComponent {
   private transaccionesService = inject(TransaccionesService);
   private reservasService = inject(ReservasService);
   private clientesService = inject(ClientesService);
+  private router = inject(Router);
+
+  reservasFiltradas = signal<ReservaModel[]>([]);
+
+  busquedaCi = signal('');
+  clientesFiltrados = signal<Cliente[]>([]);
+  mostrarResultados = signal(false);
 
   @Output() transaccionCreada = new EventEmitter<void>();
 
@@ -81,6 +89,9 @@ export class BotonAgregarTransaccionComponent {
 
     this.cargarReservas();
     this.cargarClientes();
+    this.busquedaCi.set('');
+    this.clientesFiltrados.set([]);
+    this.mostrarResultados.set(false);
 
     this.transaccionForm.reset({
       monto: 0,
@@ -141,14 +152,65 @@ export class BotonAgregarTransaccionComponent {
     };
 
     this.transaccionesService.crearTransaccion(transaccion).subscribe({
-      next: () => {
-        this.cerrarModal();
-        this.transaccionCreada.emit();
-      },
+  next: (respuesta) => {
+    this.cerrarModal();
+    this.transaccionCreada.emit();
 
-      error: (error) => {
-        console.error('Error al crear la transacción:', error);
-      }
-    });
+    if (respuesta.reservaConfirmada) {
+      this.router.navigate(['/reserva/detalle', respuesta.idReserva]);
+    }
+  },
+  error: (error) => {
+    console.error('Error al crear la transacción:', error);
   }
+});
+  }
+
+  buscarCliente(termino: string): void {
+  const ci = termino.trim();
+
+  this.busquedaCi.set(termino);
+
+  this.transaccionForm.controls.idCliente.setValue(0);
+  this.transaccionForm.controls.idReserva.setValue(0);
+
+  this.reservasFiltradas.set([]);
+
+  if (!ci) {
+    this.clientesFiltrados.set([]);
+    this.mostrarResultados.set(false);
+    return;
+  }
+
+  const resultados = this.clientes().filter(cliente =>
+    cliente.ci.toString().includes(ci)
+  );
+
+  this.clientesFiltrados.set(resultados);
+  this.mostrarResultados.set(true);
+}
+
+  seleccionarCliente(cliente: Cliente): void {
+  this.transaccionForm.controls.idCliente.setValue(cliente.id);
+
+  // Filtrar reservas del cliente que estén pendientes.
+  const reservasCliente = this.reservas().filter(reserva =>
+    reserva.idClientePagador === cliente.id &&
+    reserva.estadoReserva === EstadoReserva.Pendiente
+  );
+
+  this.reservasFiltradas.set(reservasCliente);
+
+  // Limpiar la reserva anterior.
+  this.transaccionForm.controls.idReserva.setValue(0);
+
+  this.busquedaCi.set(
+    `${cliente.nombre} ${cliente.apellido} - CI ${cliente.ci}`
+  );
+
+  this.mostrarResultados.set(false);
+  this.clientesFiltrados.set([]);
+
+  this.transaccionForm.controls.idCliente.markAsTouched();
+}
 }

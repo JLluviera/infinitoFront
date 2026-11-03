@@ -7,10 +7,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { EstadoReserva } from '../../../../models/reserva.model';
 import { BotonClientesIncluidosComponent } from '../../modalClientesIncluidos/boton-clientes-incluidos.component/boton-clientes-incluidos.component';
+import { TransaccionComponent } from '../../../transaccion/transaccion';
 
 @Component({
   selector: 'app-ver-reserva',
-  imports: [CommonModule,RouterLink, BotonClientesIncluidosComponent],
+  imports: [CommonModule,RouterLink, BotonClientesIncluidosComponent, TransaccionComponent],
   templateUrl: './ver-reserva.component.html',
   styleUrl: './ver-reserva.component.css',
 })
@@ -20,6 +21,7 @@ export class VerReservaComponent implements OnInit{
   cargando = signal<boolean>(false);
   idRes = signal<number>(0);
   idExcursion = signal<number>(0);
+  totalTransacciones = signal<number>(0);
 
   readonly EstadoReserva = EstadoReserva;
 
@@ -103,5 +105,13 @@ export class VerReservaComponent implements OnInit{
       } else {
         this.alertas.showAlert('Operación abortada, la reserva sigue intacta.', 'info', 'Acción cancelada', 3000);
       }
+  }
+
+  recibirTotalTransacciones(total?: number){
+    if(total !== undefined) {
+    this.totalTransacciones.set(total);
+    } else {
+      this.totalTransacciones.set(0);
+    }
   }
 }

@@ -41,3 +41,8 @@ export enum EstadoTransaccion {
     DevolucionPago=3,
     CreditoPorPagoExcedente = 4
 }
+export interface TransaccionRespuesta {
+  mensaje: string;
+  idReserva: number;
+  reservaConfirmada: boolean;
+}

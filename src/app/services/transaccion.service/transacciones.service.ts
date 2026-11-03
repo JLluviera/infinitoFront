@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 
 import { API_URL } from '../../config/api-config.token';
 import { Transaccion } from '../../models/transaccion.model';
-import { TransaccionCrear } from '../../models/transaccion.model';
+import { TransaccionCrear, TransaccionRespuesta} from '../../models/transaccion.model';
+import { TransaccionesParamsDTO } from '../../models/params/transaccionesParamsDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +18,38 @@ export class TransaccionesService {
   private readonly endpoint = `${this.apiUrl}/api/Transaccion`;
 
   // Obtener todas las transacciones
-  obtenerTransacciones(): Observable<Transaccion[]> {
-    return this.http.get<Transaccion[]>(this.endpoint);
+  obtenerTransacciones(filtros?: TransaccionesParamsDTO | null): Observable<Transaccion[]> {
+  let url = this.endpoint;
+
+  const parametros: string[] = [];
+
+  if (filtros?.apellidoCliente) {
+    parametros.push(`apellidoCliente=${encodeURIComponent(filtros.apellidoCliente)}`);
   }
+
+  if (filtros?.nombreCliente) {
+    parametros.push(`nombreCliente=${encodeURIComponent(filtros.nombreCliente)}`);
+  }
+
+  if (filtros?.idCliente) {
+    parametros.push(`idCliente=${filtros.idCliente.toString()}`);
+  }
+
+  if (filtros?.idReserva) {
+    parametros.push(`idReserva=${filtros.idReserva.toString()}`);
+  }
+
+  // Búsqueda por nombre, apellido o CI
+  if (filtros?.busquedaCliente) {
+    parametros.push(`busquedaCliente=${encodeURIComponent(filtros.busquedaCliente)}`);
+  }
+
+  if (parametros.length > 0) {
+    url += `?${parametros.join('&')}`;
+  }
+
+  return this.http.get<Transaccion[]>(url);
+}
 
   // Obtener una transacción por ID
   obtenerTransaccionPorId(id: number): Observable<Transaccion> {
@@ -27,9 +57,14 @@ export class TransaccionesService {
   }
 
   // Crear una transacción
-  crearTransaccion(transaccion: TransaccionCrear): Observable<String> {
-    return this.http.post(this.endpoint, transaccion, { responseType: 'text' });
-  }
+  crearTransaccion(
+  transaccion: TransaccionCrear
+): Observable<TransaccionRespuesta> {
+  return this.http.post<TransaccionRespuesta>(
+    this.endpoint,
+    transaccion
+  );
+}
 
   // Editar una transacción
   editarTransaccion(
