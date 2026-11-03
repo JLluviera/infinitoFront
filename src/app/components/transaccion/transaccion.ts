@@ -25,6 +25,8 @@ export class TransaccionComponent implements OnInit {
   NombreClienteFiltro = input<string | null>(null);
   ApellidoClienteFiltro = input<string | null>(null);
 
+  busquedaCliente = signal('');
+
   private transaccionesService = inject(TransaccionesService);
   private clientesService= inject(ClientesService);
 
@@ -161,6 +163,19 @@ cerrarEdicion(): void {
 
 finalizarEdicion(): void {
   this.cerrarEdicion();
+  this.obtenerTransacciones();
+}
+
+buscarCliente(): void {
+  const termino = this.busquedaCliente().trim();
+
+  const filtrosActuales = this.transaccionesParams();
+
+  this.transaccionesParams.set({
+    ...filtrosActuales,
+    busquedaCliente: termino || undefined
+  });
+
   this.obtenerTransacciones();
 }
 }

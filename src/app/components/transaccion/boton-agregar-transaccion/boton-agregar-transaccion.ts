@@ -9,7 +9,7 @@ import { TransaccionCrear } from '../../../models/transaccion.model';
 import { FormaDePago, EstadoTransaccion } from '../../../models/transaccion.model';
 import { ReservaModel,EstadoReserva } from '../../../models/reserva.model';
 import { Cliente } from '../../../models/cliente.model';
-
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-boton-agregar-transaccion',
@@ -24,6 +24,7 @@ export class BotonAgregarTransaccionComponent {
   private transaccionesService = inject(TransaccionesService);
   private reservasService = inject(ReservasService);
   private clientesService = inject(ClientesService);
+  private router = inject(Router);
 
   reservasFiltradas = signal<ReservaModel[]>([]);
 
@@ -151,15 +152,18 @@ export class BotonAgregarTransaccionComponent {
     };
 
     this.transaccionesService.crearTransaccion(transaccion).subscribe({
-      next: () => {
-        this.cerrarModal();
-        this.transaccionCreada.emit();
-      },
+  next: (respuesta) => {
+    this.cerrarModal();
+    this.transaccionCreada.emit();
 
-      error: (error) => {
-        console.error('Error al crear la transacción:', error);
-      }
-    });
+    if (respuesta.reservaConfirmada) {
+      this.router.navigate(['/reserva/detalle', respuesta.idReserva]);
+    }
+  },
+  error: (error) => {
+    console.error('Error al crear la transacción:', error);
+  }
+});
   }
 
   buscarCliente(termino: string): void {

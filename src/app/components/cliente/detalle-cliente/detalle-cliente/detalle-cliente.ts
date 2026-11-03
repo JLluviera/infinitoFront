@@ -199,4 +199,8 @@ formatearFecha(valor: any): string {
     }
     return valor; // Retorna el original si no coincide con el formato esperado
   }
+
+  verDetalleReserva(idReserva: number): void {
+  this.router.navigate(['/reserva/detalle', idReserva]);
+}
 }
