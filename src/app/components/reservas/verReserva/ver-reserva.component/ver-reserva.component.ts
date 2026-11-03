@@ -6,10 +6,11 @@ import { ReservaModel } from '../../../../models/reserva.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { EstadoReserva } from '../../../../models/reserva.model';
+import { BotonClientesIncluidosComponent } from '../../modalClientesIncluidos/boton-clientes-incluidos.component/boton-clientes-incluidos.component';
 
 @Component({
   selector: 'app-ver-reserva',
-  imports: [CommonModule,RouterLink],
+  imports: [CommonModule,RouterLink, BotonClientesIncluidosComponent],
   templateUrl: './ver-reserva.component.html',
   styleUrl: './ver-reserva.component.css',
 })
@@ -56,6 +57,10 @@ export class VerReservaComponent implements OnInit{
     })
   }
 
+  actualizarDatos(){
+    this.cargarReserva(this.idReserva())
+  }
+
   anularReserva(){
     setTimeout(async () => {
       const confirmado = await this.alertas.confirm(
@@ -79,14 +84,12 @@ export class VerReservaComponent implements OnInit{
     }, 1500);
   }
 
-  cancelarReserva(){
-    setTimeout(async () => {
-      const confirmado = await this.alertas.confirm(
-        `¿Estás seguro de que deseas cancelar la reserva #${this.idRes()}?
-        Si el cliente tiene pagos para esta reserva, se anularán en el sistema y no le generará ningún saldo a favor
-        Esta acción no se puede deshacer.`,
-        'Cancelar Reserva'
-      );
+  async cancelarReserva(){
+    const confirmado = await this.alertas.confirm(
+      `¿Estás seguro de que deseas cancelar la reserva #${this.idRes()}?
+      Si el cliente tiene pagos para esta reserva, se anularán en el sistema y no le generará ningún saldo a favor
+      Esta acción no se puede deshacer.`,
+      'Cancelar Reserva');
 
       // Evaluamos la respuesta del usuario
       if (confirmado) {
@@ -100,6 +103,5 @@ export class VerReservaComponent implements OnInit{
       } else {
         this.alertas.showAlert('Operación abortada, la reserva sigue intacta.', 'info', 'Acción cancelada', 3000);
       }
-    }, 1500);
   }
 }

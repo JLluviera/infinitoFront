@@ -1,9 +1,10 @@
 import { Component, inject, input, Input, OnInit, signal } from '@angular/core';
 import { ReservasService } from '../../../../services/reservas.service/reservas.service';
-import { ReservaList } from '../../../../models/reserva.model';
+import { EstadoReserva, ReservaList } from '../../../../models/reserva.model';
 import { AlertService } from '../../../../services/alert.service/alert-service';
 import { ColumnaTabla, ListaGenericaComponent } from '../../../lista-generica.component/lista-generica.component';
 import { RouterLink, Router } from '@angular/router';
+import { ReservaParamsDTO } from '../../../../models/params/reservasParamsDTO';
 
 
 @Component({
@@ -16,6 +17,7 @@ export class ListadoReservas implements OnInit {
   private servicioReservas = inject(ReservasService)
   private alertas = inject(AlertService);
   private router = inject(Router);
+  protected readonly EstadoReserva = EstadoReserva;
   
   rutaCrear = "'reserva/crear'";
   idExc = signal<number>(0);
@@ -27,11 +29,16 @@ export class ListadoReservas implements OnInit {
   hayMas = signal<boolean>(true);
   cargando = signal(false);
 
+  filtroCiCliente = signal<number | null>(null);
+  filtroEstadoReserva = signal<EstadoReserva | undefined>(undefined);
+
+  reservaParams = signal<ReservaParamsDTO>({});
+
   columnas: ColumnaTabla<ReservaList>[] = [
     { header: 'ID', field: 'id', tipo: 'id' },
-    { header: 'IDExcursion', field: 'idExcursion', tipo: 'link' },
-    { header: 'NombreCliente ', field: 'nombreCliente', tipo: 'texto' },
-    { header: 'ApellidoCliente ', field: 'apellidoCliente', tipo: 'texto' },
+    { header: 'Excursion', field: 'idExcursion', tipo: 'link' },
+    { header: 'Nombre ', field: 'nombreCliente', tipo: 'texto' },
+    { header: 'Apellido ', field: 'apellidoCliente', tipo: 'texto' },
     { header: 'Cedula', field: 'ciCliente', tipo: 'texto' },
     { header: 'Estado', field: 'estadoReserva', tipo: 'texto' },
   ]
@@ -44,7 +51,24 @@ export class ListadoReservas implements OnInit {
 
   verReserva(reserva: ReservaList): void {
   this.router.navigate(['/reserva/detalle', reserva.id]);
-}
+  }
+
+  aplicarFiltros(): void{
+    this.reservaParams.set({
+      ciCliente: this.filtroCiCliente() ?? undefined,
+      estadoReserva: this.filtroEstadoReserva()
+    })
+
+    this.cargarReservasInicial();
+  }
+
+  borrarFiltros(): void {
+    this.filtroCiCliente.set(null);
+    this.filtroEstadoReserva.set(undefined);
+    this.reservaParams.set({});
+
+    this.cargarReservasInicial();
+  }
 
   cargarReservas(): void {
 
@@ -59,7 +83,8 @@ export class ListadoReservas implements OnInit {
   this.servicioReservas
     .obtenerReservasPaginado(
       this.cursor(),
-      idExcursion
+      idExcursion,
+      this.reservaParams()
     )
     .subscribe({
 

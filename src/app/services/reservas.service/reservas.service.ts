@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { ReservaList, ReservaModel } from '../../models/reserva.model';
 import { ReservaCrearModel,ReservaCreadaResponse } from '../../models/reserva-crear.model';
 import { Pagina } from '../../models/pagina';
+import { ReservaParamsDTO } from '../../models/params/reservasParamsDTO';
 
 @Injectable({
   providedIn: 'root',
@@ -24,13 +25,13 @@ export class ReservasService {
   }
 
   postReserva(
-  reserva: ReservaCrearModel
-): Observable<ReservaCreadaResponse> {
-  return this.http.post<ReservaCreadaResponse>(
-    `${this.apiUrl}/api/Reserva`,
-    reserva
-  );
-}
+    reserva: ReservaCrearModel
+  ): Observable<ReservaCreadaResponse> {
+    return this.http.post<ReservaCreadaResponse>(
+      `${this.apiUrl}/api/Reserva`,
+      reserva
+    );
+  }
 
   deleteReserva(id: number): Observable<string>{
     return this.http.delete(`${this.apiUrl}/api/Reserva/${id}`, { responseType: 'text'});
@@ -57,29 +58,45 @@ export class ReservasService {
     return this.http.put(`${this.apiUrl}/api/Reserva/cancelar/${idReserva}`, idReserva, { responseType: 'text'})
   }
 
-  obtenerReservasPaginado( afterId: number | null,idExcursion: number | null): Observable<Pagina<ReservaList>> {
+  obtenerReservasPaginado( afterId: number | null, idExcursion: number | null, filtros?: ReservaParamsDTO | null): Observable<Pagina<ReservaList>> {
 
-  let url = `${this.apiUrl}/api/Reserva/list/paginado`;
+    let url = `${this.apiUrl}/api/Reserva/list/paginado`;
 
-  const parametros: string[] = [];
+    const parametros: string[] = [];
 
-  if (afterId !== null) {
-    parametros.push(`afterId=${afterId}`);
+    if (afterId !== null) {
+      parametros.push(`afterId=${afterId}`);
+    }
+
+    if (idExcursion !== null && idExcursion > 0) {
+      parametros.push(`idExcursion=${idExcursion}`);
+    }
+
+    if(filtros?.ciCliente){
+      parametros.push(`ciCliente=${filtros.ciCliente.toString()}`);
+    }
+
+    if(filtros?.estadoReserva){
+      parametros.push(`estadoReserva=${filtros.estadoReserva}`);
+    }
+
+    if (parametros.length > 0) {
+      url += `?${parametros.join('&')}`;}
+      return this.http.get<Pagina<ReservaList>>(url);
   }
 
-  if (idExcursion !== null && idExcursion > 0) {
-    parametros.push(`idExcursion=${idExcursion}`);
+  descargarPdf(idReserva: number): Observable<Blob> {
+    return this.http.get(
+      `${this.apiUrl}/api/Reserva/${idReserva}/pdf`,
+      { responseType: 'blob' }
+    );
   }
 
-  if (parametros.length > 0) {
-    url += `?${parametros.join('&')}`;}
-    return this.http.get<Pagina<ReservaList>>(url);
-}
+  agregarClienteAReserva(idReserva: number, ciCliente: number): Observable<string> {
+    return this.http.put(`${this.apiUrl}/api/Reserva/agregar/${idReserva}/${ciCliente}`, null, { responseType : 'text'})
+  }
 
-descargarPdf(idReserva: number): Observable<Blob> {
-  return this.http.get(
-    `${this.apiUrl}/api/Reserva/${idReserva}/pdf`,
-    { responseType: 'blob' }
-  );
-}
+  removerClienteDeReserva(idReserva: number, idCliente: number): Observable<String>{
+    return this.http.put(`${this.apiUrl}/api/Reserva/remover/${idReserva}/${idCliente}`, null, { responseType : 'text'}) ////////////////////////////////////////////////////////
+  }
 }

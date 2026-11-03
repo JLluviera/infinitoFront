@@ -7,6 +7,7 @@ import { AsignarAsientoRequestDTO } from '../../models/DTOs/asignarAsientoReques
 import { API_URL } from '../../config/api-config.token';
 import { MapaExcursionResponseDTO } from '../../models/DTOs/mapaExcursionResponseDTO';
 import { DesasignarAsientoDTO } from '../../models/DTOs/desasignarAsientoDTO';
+import { AsignacionActual } from '../../models/asiento.model';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,14 @@ export class AsientoService {
    * C# Endpoint: DELETE /api/excursiones/{excursionId}/desasignar-asiento/{asientoId}
    */
   desasignarAsiento(desasignarAsientoDTO: DesasignarAsientoDTO): Observable<string> {
-    return this.http.post(`${this.endpoint}/desasignar-asiento}`, desasignarAsientoDTO, { responseType : 'text'});
+    return this.http.post(`${this.endpoint}/desasignar-asiento`, desasignarAsientoDTO, { responseType : 'text'});
   }
+
+  obtenerAsignacionesActuales(
+  excursionId: number
+): Observable<AsignacionActual[]> {
+  return this.http.get<AsignacionActual[]>(
+    `${this.endpoint}/${excursionId}/asignaciones-actuales`
+  );
+}
 }

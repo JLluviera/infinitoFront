@@ -12,3 +12,12 @@ export enum TipoAsiento{
     Cama = "Cama",
     Vacio = "Vacio"
 }
+
+export interface AsignacionActual {
+  id: number;
+  reservaClienteId: number;
+  nombreCliente: string;
+  apellidoCliente: string;
+  numeroAsiento: string;
+  pisoAsiento: number;
+}

@@ -32,6 +32,9 @@ export class ClienteComponent {
   hayMas = signal(true);
   cargando = signal(false);
 
+  filtroBusqueda = signal('');
+  busquedaAplicada = signal('');
+
   constructor(private clienteService: ClientesService) {
   this.cargarClientesInicial();
 
@@ -79,7 +82,7 @@ export class ClienteComponent {
     this.mostrarEdicion = false;
     this.clienteSeleccionado = null;
 
-    this.obtenerClientes();
+    this.cargarClientesInicial();;
 
   }
   eliminarCliente(id: number): void {
@@ -98,7 +101,7 @@ export class ClienteComponent {
 
         console.log('✅ Cliente eliminado correctamente');
 
-        this.obtenerClientes();
+        this.cargarClientesInicial();;
 
       },
 
@@ -115,43 +118,53 @@ export class ClienteComponent {
   }
   cargarClientes(): void {
 
-  console.log('🚀 cargarClientes() ejecutado');
-  console.log('Cursor actual:', this.cursor());
-  console.log('Hay más actual:', this.hayMas());
-
   if (this.cargando() || !this.hayMas()) {
-    console.log('⛔ No se carga');
     return;
   }
 
   this.cargando.set(true);
 
   this.clienteService
-    .obtenerClientesPaginado(this.cursor())
+    .obtenerClientesPaginado(
+      this.cursor(),
+      this.busquedaAplicada()
+    )
     .subscribe({
-      next: (pagina) => {
+      next: pagina => {
 
-        this.clientes.update(clientesActuales => [
-          ...clientesActuales,
+        this.clientes.update(actuales => [
+          ...actuales,
           ...pagina.elementos
         ]);
 
         this.cursor.set(pagina.siguienteCursor);
         this.hayMas.set(pagina.hayMas);
-
         this.cargando.set(false);
       },
 
-      error: (error) => {
-        console.error('❌ Error:', error);
+      error: error => {
+        console.error('Error al obtener clientes:', error);
         this.cargando.set(false);
       }
     });
 }
+
   cargarClientesInicial(): void {
   this.clientes.set([]);
   this.cursor.set(null);
   this.hayMas.set(true);
   this.cargarClientes();
 }
+aplicarFiltro(): void {
+  this.busquedaAplicada.set(this.filtroBusqueda().trim());
+  this.cargarClientesInicial();
 }
+
+limpiarFiltro(): void {
+  this.filtroBusqueda.set('');
+  this.busquedaAplicada.set('');
+  this.cargarClientesInicial();
+}
+
+}
+

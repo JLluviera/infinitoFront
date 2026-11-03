@@ -21,7 +21,8 @@ export class ClientesService {
 
   obtenerClientePorId(id: number): Observable<Cliente> {
   return this.http.get<Cliente>(`${this.endpoint}/${id}`);
-}
+  }
+
   crearCliente(nuevoCliente: CrearCliente): Observable<string> {
     return this.http.post(this.endpoint, nuevoCliente, { responseType: 'text' });
   }
@@ -53,10 +54,28 @@ export class ClientesService {
       idReservaNueva,
       monto
     }
-  );
-}
-obtenerClientesPaginado(afterId: number | null): Observable<Pagina<Cliente>> {
-  let url = `${this.endpoint}/paginado`;if (afterId !== null) {url += `?afterId=${afterId}`;}
+    );
+  }
+  
+  obtenerClientesPaginado(
+  afterId: number | null,
+  busqueda: string = ''
+): Observable<Pagina<Cliente>> {
+
+  let url = `${this.endpoint}/paginado?`;
+
+  if (afterId !== null) {
+    url += `afterId=${afterId}&`;
+  }
+
+  if (busqueda.trim()) {
+    url += `busqueda=${encodeURIComponent(busqueda.trim())}`;
+  }
+
   return this.http.get<Pagina<Cliente>>(url);
 }
+
+  buscadorClientesCi(ciCliente: number): Observable<Cliente[]>{
+    return this.http.get<Cliente[]>(`${this.endpoint}/buscar/${ciCliente}`);
+  }
 }
