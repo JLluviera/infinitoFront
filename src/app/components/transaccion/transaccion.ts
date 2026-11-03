@@ -7,6 +7,7 @@ import { BotonEditarTransaccionComponent } from './boton-editar-transaccion/boto
 import { ClientesService } from '../../services/clientes.service/clientes.service';
 
 
+
 @Component({
   selector: 'app-transaccion',
   imports: [ListaGenericaComponent, BotonAgregarTransaccionComponent, BotonEditarTransaccionComponent],
